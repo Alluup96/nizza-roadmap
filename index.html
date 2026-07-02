@@ -41,6 +41,7 @@
   h1,h2,h3,h4{font-optical-sizing:auto;text-wrap:balance}
   p{text-wrap:pretty}
   section{scroll-margin-top:70px}
+  #saapumiset{padding-top:var(--s4)}
   :focus-visible{outline:none;box-shadow:var(--ring);border-radius:10px}
   .leaflet-container :focus-visible{box-shadow:none;outline:2px solid var(--azur)}
   @media(prefers-reduced-motion:reduce){
@@ -50,7 +51,7 @@
   }
   @supports (animation-timeline: view()){
     @media(prefers-reduced-motion:no-preference){
-      .day,.arow,.person,.tip{animation:rise-in linear both;animation-timeline:view();animation-range:entry 0% entry 38%}
+      .day,.arow,.tip{animation:rise-in linear both;animation-timeline:view();animation-range:entry 0% entry 38%}
     }
   }
   @keyframes rise-in{from{opacity:.3;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -92,7 +93,7 @@
   @keyframes fadein{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
 
   /* ===== hero ===== */
-  .hero{padding:clamp(42px,8vw,64px) 0 clamp(32px,6vw,44px);background:
+  .hero{padding:clamp(36px,6vw,56px) 0 clamp(18px,3vw,28px);background:
     radial-gradient(1200px 420px at 85% -140px, rgba(18,115,184,.14), transparent 60%),
     radial-gradient(900px 380px at -10% -120px, rgba(226,105,78,.12), transparent 55%)}
   .kicker{font-size:11.5px;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--coral-text)}
@@ -101,6 +102,11 @@
   h1 em{font-style:italic;color:var(--azur)}
   .hero-cta{display:flex;gap:var(--s3);margin-top:var(--s7);flex-wrap:wrap}
   .hero-inner{display:flex;gap:var(--s8);align-items:center}
+  .hero-toc{margin-top:var(--s6);display:grid;gap:3px;position:relative;padding-left:16px;max-width:340px}
+  .hero-toc::before{content:'';position:absolute;left:0;top:6px;bottom:6px;width:3px;border-radius:2px;background:linear-gradient(180deg,var(--azur),var(--sea) 38%,var(--sun) 70%,var(--coral))}
+  .hero-toc a{display:flex;align-items:baseline;gap:10px;padding:5px 8px;border-radius:8px;text-decoration:none;color:var(--ink);font-size:14.5px;font-weight:600;transition:background .15s,transform .15s}
+  .hero-toc a:hover{background:rgba(18,115,184,.06);transform:translateX(3px)}
+  .hero-toc .tn{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--coral-text);font-weight:600}
   .hero-copy{flex:1;min-width:0}
   .hero-art{flex:0 0 min(560px,48%);margin:0}
   .hero-art svg{width:100%;height:auto;display:block;border-radius:var(--r-md)}
@@ -145,12 +151,14 @@
   .pill.lilac{color:var(--lilac-text);border-color:rgba(139,111,192,.4);background:rgba(139,111,192,.07)}
 
   /* ===== arrivals ===== */
-  .crew{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s3)}
-  .person{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4);box-shadow:var(--shadow);display:flex;gap:12px;align-items:flex-start}
-  .avatar{width:42px;height:42px;border-radius:50%;flex:0 0 auto;display:flex;align-items:center;justify-content:center;font-family:'Fraunces',serif;font-weight:600;font-size:16px;color:#fff}
-  .person .nm{font-weight:700;font-size:15px}
-  .person .fl{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--azur-deep);margin-top:2px}
-  .person .note{font-size:13px;color:var(--muted);margin-top:3px;line-height:1.45}
+  .fcard h3{display:flex;align-items:center;gap:9px;margin-bottom:6px}
+  .fcard h3 svg{width:19px;height:19px;color:var(--azur);flex:0 0 auto}
+  .fcard .fsub{font-family:'Outfit',sans-serif;font-weight:500;color:var(--faint);font-size:12.5px}
+  .frow{padding:10px 0;border-top:1px dashed var(--rule2)}
+  .frow:first-of-type{border-top:0}
+  .fwho{font-weight:700;font-size:14.5px}
+  .fdet{font-size:12px;color:var(--azur-deep);margin-top:2px}
+  .fnote{font-size:12.5px;color:var(--muted);margin-top:2px}
 
   /* ===== info rows ===== */
   .kv{display:grid;grid-template-columns:130px 1fr;gap:4px 14px;font-size:14.5px}
@@ -158,11 +166,6 @@
   .kv dd{color:var(--ink)}
   .kv dd b{font-weight:600}
   @media(max-width:520px){.kv{grid-template-columns:1fr}.kv dt{margin-top:6px}}
-  @media(max-width:640px){
-    .crew{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:var(--s3);padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
-    .crew::-webkit-scrollbar{display:none}
-    .crew .person{flex:0 0 80%;scroll-snap-align:start}
-  }
 
   /* ===== map ===== */
   .gbar{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;margin:var(--s4) 0}
@@ -354,6 +357,12 @@
         <a class="gbtn" href="#paivat" data-tab="paivat">Katso päiväohjelma →</a>
         <a class="gbtn ghost" href="#kartta" data-tab="kartta">Avaa kartta</a>
       </div>
+      <nav class="hero-toc" aria-label="Sivun sisältö">
+        <a href="#saapumiset"><span class="tn">01</span>Saapumiset &amp; lähdöt</a>
+        <a href="#kamppa"><span class="tn">02</span>Kämppä — “Le Zen”</a>
+        <a href="#tapahtumat"><span class="tn">03</span>Reissuviikon tapahtumat</a>
+        <a href="#kaytannot"><span class="tn">04</span>Käytännön asiat</a>
+      </nav>
       </div>
       <figure class="hero-art" aria-hidden="true">
         <svg viewBox="0 -34 520 334" xmlns="http://www.w3.org/2000/svg" role="img">
@@ -420,8 +429,22 @@
   <section id="saapumiset">
     <div class="wrap">
       <div class="sec-head"><span class="n">01</span><h2>Saapumiset &amp; lähdöt</h2></div>
-      <p class="sec-sub"><b>Norre-tiimi ja Roni</b> laskeutuvat torstaina samaan aikaan klo 12:45, <b>Henu</b> saapuu illalla ja <b>Rappe</b> täydentää kokoonpanon perjantaina. Paluupäivänä Roni + norre-tiimi lähtevät aamusta — Henu ja Rappe saavat vielä täyden päivän. Kaikki kellonajat paikallista aikaa (Ranska on tunnin Suomea jäljessä).</p>
-      <div class="crew" id="crew"></div>
+      <p class="sec-sub">Kaikki kellonajat paikallista aikaa — Ranska on tunnin Suomea jäljessä.</p>
+      <div class="grid g2 flights">
+        <div class="card fcard">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19h18M7 16 3.5 8.5 6 8l3 3 6-2.5-5-6 2.5-.5L19 8.5l2.8-.7a1.6 1.6 0 0 1 1 3z" transform="scale(.86) translate(1.5,1.5)"/></svg>Saapumiset</h3>
+          <div class="frow"><div class="fwho">Norre-tiimi <span class="fsub">Allu · Ana · Panska · Heru</span></div><div class="fdet mono">Norwegian D82802 · to 9.7 · HEL 10:20 → NCE 12:45</div></div>
+          <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">Oma lento · to 9.7 · perillä NCE 12:45</div></div>
+          <div class="frow"><div class="fwho">Henu</div><div class="fdet mono">Finnair · to 9.7 · Vaasa → HEL 15:55 → NCE ~18:25</div><div class="fnote">Kämpällä ~19:45</div></div>
+          <div class="frow"><div class="fwho">Rappe</div><div class="fdet mono">Finnair · pe 10.7 · HEL 15:55 → NCE ~18:25</div><div class="fnote">Suoraan Mikkelistä — vuorokauden muita perässä</div></div>
+        </div>
+        <div class="card fcard">
+          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19h18M7 5l3.5 7.5L8 13l-3-3-6 2.5" transform="translate(1,0)" display="none"/><path d="M2.5 11l2.8.7 6-2.5-5-6L8.8 2.7 15 8l2.8.7a1.6 1.6 0 0 1-1 3L4 8.5z" transform="rotate(14 12 8)"/></svg>Lähdöt <span class="fsub">ke 15.7</span></h3>
+          <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">Oma lento · NCE 9:45</div></div>
+          <div class="frow"><div class="fwho">Norre-tiimi</div><div class="fdet mono">Norwegian D82803 · NCE 10:10 → HEL 14:25</div><div class="fnote">Kentälle ratikalla ~7:15</div></div>
+          <div class="frow"><div class="fwho">Henu &amp; Rappe</div><div class="fdet mono">Finnair · lähtö ~19:10 · Vaasassa 01:05</div><div class="fnote">Koko päivä käytössä — checkout silti klo 10, laukut säilöön asemalle</div></div>
+        </div>
+      </div>
       <div class="callout blue" style="margin-top:18px">
         ✈️ <b>Kentältä kämpälle:</b> Raitiovaunu <b>T2</b> (suunta Port Lympia) terminaalista → <b>Jean Médecin</b> ≈ 26 min, siitä 5 min kävely kämpälle. Huom: kentän automaatit myyvät vain <b>10 € meno-paluun (l’Aéro)</b> tai passeja — <b>7 € päivälippu</b> on paras diili, jos liikutte saapumispäivänä muutenkin (automaatit ottavat lähimaksun/Apple Payn). Vaihtoehdot: Uber/Bolt ~20–28 €, virallinen taksi ~32–37 €, tai hostin kuski Abdel (+33 6 59 54 90 07, WhatsApp).
       </div>
@@ -703,18 +726,6 @@ function gq(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeU
 function G(name,label){const p=PLACES.find(x=>x.n===name);const url=p?gq(p.q||p.n):gq(name);return '<a href="'+url+'" target="_blank" rel="noopener">'+(label||name)+'</a>';}
 function GL(q,label){return '<a href="'+gq(q)+'" target="_blank" rel="noopener">'+label+'</a>';}
 
-/* =================================================================
-   CREW — saapumiset
-   ================================================================= */
-const CREW = [
-  {nm:'Allu',c:'#1273B8',fl:'Norwegian D82802 · to 9.7 · HEL 10:20 → NCE 12:45',note:'Paluu ke 15.7 D82803 NCE 10:10 → HEL 14:25.',ret:'ke aamu'},
-  {nm:'Ana',c:'#2BA3A0',fl:'Norwegian D82802 · to 9.7 · HEL 10:20 → NCE 12:45',note:'Paluu ke aamu D82803:lla.',ret:'ke aamu'},
-  {nm:'Panska',c:'#E2694E',fl:'Norwegian D82802 · to 9.7 · HEL 10:20 → NCE 12:45',note:'Paluu ke aamu D82803:lla.',ret:'ke aamu'},
-  {nm:'Heru',c:'#8B6FC0',fl:'Norwegian D82802 · to 9.7 · HEL 10:20 → NCE 12:45',note:'Paluu ke aamu D82803:lla.',ret:'ke aamu'},
-  {nm:'Roni',c:'#DC9A2E',fl:'Oma lento · to 9.7 · perillä NCE 12:45',note:'Laskeutuu samaan aikaan norre-tiimin kanssa. Paluu ke 15.7 omalla lennolla klo 9:45 — kentälle yhdessä muiden kanssa.',ret:'ke aamu'},
-  {nm:'Henu',c:'#3E7C5B',fl:'Finnair · to 9.7 · Vaasa → HEL 15:55 → NCE ~18:25',note:'Kämpällä ~19:45. Paluu ke illalla (lähtö ~19:10, Vaasassa 01:05).',ret:'ke ilta'},
-  {nm:'Rappe',c:'#B0533A',fl:'Finnair · PE 10.7 · HEL 15:55 → NCE ~18:25',note:'Tulee suoraan Mikkelistä. Paluu ke illalla Henun kanssa (lähtö ~19:10).',ret:'ke ilta'}
-];
 
 /* =================================================================
    PÄIVÄT
@@ -839,16 +850,6 @@ const ACT_GROUPS = [
   {t:'Extra-pooli — jos jää aikaa',dot:'var(--faint)',cats:['trip'],zones:['nizza']}
 ];
 
-/* =================================================================
-   RENDER: CREW
-   ================================================================= */
-const crewEl=document.getElementById('crew');
-CREW.forEach(p=>{
-  const el=document.createElement('div');el.className='person';
-  el.innerHTML='<div class="avatar" style="background:'+p.c+'">'+p.nm.slice(0,2)+'</div>'+
-    '<div><div class="nm">'+p.nm+'</div><div class="fl">'+p.fl+'</div><div class="note">'+p.note+'</div></div>';
-  crewEl.appendChild(el);
-});
 
 /* =================================================================
    RENDER: DAYS
@@ -1113,6 +1114,7 @@ document.querySelector('.tabs').addEventListener('keydown',e=>{
   if(j!==null){e.preventDefault();ts[j].focus();showTab(ts[j].dataset.tab);}
 });
 if(matchMedia('(min-width:941px)').matches)document.querySelectorAll('.sec-acc').forEach(d=>d.open=true);
+document.querySelectorAll('.hero-toc a').forEach(t=>t.addEventListener('click',()=>{const sec=document.querySelector(t.getAttribute('href'));const det=sec&&sec.querySelector('.sec-acc');if(det)det.open=true;}));
 const initial=(location.hash||'#yleiskuva').slice(1);
 if(document.getElementById('p-'+initial))showTab(initial,false);
 </script>
