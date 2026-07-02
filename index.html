@@ -651,6 +651,9 @@ const PLACES = [
   {n:'La Rossettisserie',dd:['pe'],cat:'food',zone:'nizza',la:43.6976,lo:7.2777,star:1,d:'Vain paahdettua lihaa: broileri, karitsa, possu, nauta + muusi. Lihamiesten valinta.',pr:'~17–20 €',tip:'Varaa 1–2 pv etukäteen, pyydä holvikellaripöytä.',q:'La Rossettisserie Nice'},
   {n:'Acchiardo',cat:'food',zone:'nizza',la:43.6979,lo:7.2787,d:'Perheravintola vuodesta 1927 — aitoa nizzalaista huippumaineella.',pr:'~15–25 €',tip:'Huom: kiinni la–su. Varaa puhelimitse pari päivää etukäteen.',q:'Acchiardo Nice'},
   {n:'Chez Davia',dd:['su'],cat:'food',zone:'nizza',la:43.6999,lo:7.2621,d:'Nizzalaisklassikot vuodesta 1953 — Michelin Bib Gourmand 2026, 300 m kämpältä.',pr:'€€',tip:'Varaa. Tilatkaa daube niçoise ja sitruunatorttu.',q:'Chez Davia Nice'},
+  {n:'Le Chantecler',cat:'food',zone:'nizza',la:43.6946,lo:7.2585,star:1,d:'Negrescon kaksi Michelin-tähteä — Rivieran klassikko-fine-dining suoraan Promilla.',pr:'€€€€',tip:'Menut ~150–230 €. Varaa viikkoja etukäteen; smart casual ei riitä — pukeutukaa.',q:'Le Chantecler Nice Negresco'},
+  {n:'Marinette',cat:'food',zone:'nizza',la:43.7009,lo:7.2864,d:'Rakastettu brunssi–kahvila sataman kupeessa — munakokkelit, leivokset ja kunnon kahvi.',pr:'€€',tip:'Viikonloppuna jonoa — arkiaamu on rauhallisin.',q:'Marinette Nice'},
+  {n:'La Maison de Céline',cat:'food',zone:'nizza',la:43.7007,lo:7.2710,d:'Nizzan puhutuin croissant ja kermainen flan — nouto-aamiainen kämpän kulmilta.',pr:'€',tip:'400 m kämpältä. Flan mukaan rantaan.',q:'La Maison de Celine Nice patisserie'},
   {n:'Bistrot d’Antoine',dd:['ti'],cat:'food',zone:'nizza',la:43.6963,lo:7.2761,star:1,d:'Bib Gourmand -bistro — Nizzan paras hinta-laatu, “treat yourself” -ilta.',pr:'~30–45 €',tip:'Soita heti: 7 hengen pöytä vaatii 1–2 vk ennakon. Su–ma kiinni.',q:'Bistrot d\'Antoine Nice'},
   {n:'Peixes',dd:['pe'],cat:'food',zone:'nizza',la:43.6953,lo:7.2712,d:'Trendikäs kala- ja ceviche-tapas, nuorekas meno.',pr:'12–25 €',tip:'Ei varauksia — heti avaamisaikaan tai jonoon.',q:'Peixes Opera Nice'},
   {n:'Fenocchio',dd:['ke'],cat:'food',zone:'nizza',la:43.6973,lo:7.2770,star:1,d:'Jäätelöinstituutio 1966 — ~96 makua: laventeli, tomaatti-basilika, olut…',pr:'pallo ~3 €',tip:'Place Rossetti, auki ~9–24. Erikoismaut testiin.',q:'Fenocchio Place Rossetti Nice'},
@@ -684,6 +687,7 @@ const PLACES = [
   {n:'Port Hercule',dd:['la'],cat:'trip',zone:'monaco',la:43.7348,lo:7.4257,d:'Superjahtien satama — kävele laitureita ja ihmettele kymmenien miljoonien veneitä.',pr:'ilmainen',tip:'Yhdistä F1-radan kävelyyn.',q:'Port Hercule Monaco'},
   {n:'Marché de la Condamine',dd:['la'],cat:'trip',zone:'monaco',la:43.7327,lo:7.4192,star:1,d:'Ruokahalli paikallisten torilla — Monacon halvin kunnon lounas.',pr:'socca 3 €, annokset 8–15 €',tip:'Chez Rogerin socca on pakollinen.',q:'Marché de la Condamine Monaco'},
   {n:'Café de Paris',dd:['la'],cat:'trip',zone:'monaco',la:43.7389,lo:7.4272,d:'Legendaarinen terassi Casino Squarella — maksat näköalasta.',pr:'olut ~10–16 €',tip:'Budjetoi yksi “bling-bisse” ja katselkaa autoja tunti.',q:'Café de Paris Monte-Carlo'},
+  {n:'Tip Top',cat:'trip',zone:'monaco',la:43.7398,lo:7.4290,d:'Yöinstituutio kasinon takana — pizzat ja pastat myöhään, paikallisten ja F1-kuskien suosikki.',pr:'€€',tip:'Auki todella myöhään — kasinoillan päätteeksi.',q:'Tip Top Monaco'},
   {n:'Larvotto-ranta',dd:['la'],cat:'trip',zone:'monaco',la:43.7448,lo:7.4340,d:'Monacon julkinen ranta — suihkut ja meduusaverkko.',pr:'ilmainen',tip:'Kivipohja: uimatossut. Ennen klo 11 tai iltapäiväpulahdus.',q:'Plage du Larvotto Monaco'},
 
   /* ---- Cannes ---- */
@@ -725,25 +729,25 @@ const DAYS = [
   rows:[
    {t:'12:45',i:'move',x:'<b>Norre-tiimi</b> laskeutuu (Roni ZRH-koneella 13:45) → ratikka T2 → Jean Médecin → kävely kämpälle',dur:'~50 min'},
    {t:'14:00',i:'move',x:'<b>Check-in Le Zen</b> — '+GL("18 Rue d'Angleterre 06000 Nice France",'18 Rue d’Angleterre')+' · WhatsApp Amandinelle etukäteen'},
-   {t:'14:30',i:'food',x:'Ruokaostokset: '+G('Monoprix Jean Médecin','Monoprix')+' / Carrefour City (aamiaiset, vedet, bisset)',dur:'30 min'},
+   {t:'14:30',i:'food',x:'Ruokaostokset + kevyt kämppälounas: '+G('Monoprix Jean Médecin','Monoprix')+' / Carrefour City (aamiaiset, vedet, bisset)',dur:'30 min'},
    {t:'15:30',i:'beach',x:'Ensikosketus mereen: '+G('Plage du Centenaire','Promin julkinen ranta')+' — uimatossut testiin',dur:'1,5 h'},
    {t:'18:00',i:'sight',x:'Kävelykierros: '+G('Place Masséna')+' → '+G('Cours Saleya -tori','Cours Saleya')+' → '+G('Vieux Nice — vanha kaupunki','Vieux Nicen kujat'),dur:'1,5 h'},
    {t:'19:45',i:'move',x:'<b>Henu saapuu kämpälle</b> — avaimet ja nopea briiffi'},
-   {t:'20:30',i:'food',x:'Illallinen: '+G('Le Café de Turin','Café de Turin')+' (äyriäiset, walk-in) tai '+G('Lou Pilha Leva','Lou Pilha Leva')+' (rento & halpa)',dur:'1,5 h'},
-   {t:'22:00',i:'bar',x:'<b>MM-puolivälierä 1 klo 22:00</b> — jos Ranska voitti Paraguayn 4.7., se pelaa TÄNÄÄN → '+G('Ma Nolan’s','Ma Nolan’s')+' tai '+G('Les Distilleries Idéales','Distilleries')+' täyttyy',opt:1}
+   {t:'20:30',i:'food',x:'Illallinen: '+G('Le Café de Turin','Café de Turin')+' <i class="eur">€€€</i> (äyriäiset, walk-in) tai '+G('Lou Pilha Leva','Lou Pilha Leva')+' <i class="eur">€</i> (rento nizzalainen)',dur:'1,5 h'},
+   {t:'22:00',i:'bar',x:'<b>MM-puolivälierä 1 klo 22:00</b> — jos Ranska voitti Paraguayn 4.7., se pelaa TÄNÄÄN → '+G('Ma Nolan’s','Ma Nolan’s')+' tai '+G('Les Distilleries Idéales','Distilleries')+' <i class="eur">€</i> täyttyy',opt:1}
   ],
   night:'Kaikki paitsi Rappe Nizzassa. Rauhallinen eka ilta — huomenna kokoonpano täydentyy.'},
 
  {date:'Perjantai 10.7',c:'var(--sea)',title:'Ranta, kaupunki & Rappen saapuminen',who:'7/7 illasta alkaen',
   badges:[['blue','✈ Rappe ~18:25'],['gold','MM-puolivälierät']],
   rows:[
-   {t:'09:30',i:'food',x:'Aamiainen: '+G('Mama Baker','Mama Bakerin croissantit')+' + kahvit',dur:'45 min'},
+   {t:'09:30',i:'food',x:'Aamiainen: '+G('Mama Baker','Mama Bakerin croissantit')+' <i class="eur">€</i> tai '+G('La Maison de Céline','La Maison de Célinen flan')+' <i class="eur">€</i>',dur:'45 min'},
    {t:'10:30',i:'sight',x:G('Colline du Château — Linnavuori','Linnavuori')+' ennen pahinta hellettä — näköala + vesiputous (ilmainen hissi)',dur:'1,5 h'},
    {t:'12:00',i:'sight',x:'Ryhmäkuva: '+G('#ILoveNice & Rauba-Capeu','#ILoveNice-kyltti')+' + '+G('Port Lympia','sataman kierros'),dur:'1 h'},
-   {t:'13:00',i:'food',x:'Lounas vanhassa kaupungissa: '+G('René Socca')+' tai '+G('Peixes'),dur:'1 h'},
-   {t:'14:30',i:'beach',x:'Rantailtapäivä: '+G('Castel Plage','Castel Plage')+' (klubi) tai ilmainen kaistale vieressä',dur:'3 h'},
+   {t:'13:00',i:'food',x:'Lounas vanhassa kaupungissa: '+G('René Socca')+' <i class="eur">€</i> tai '+G('Peixes')+' <i class="eur">€€</i>',dur:'1 h'},
+   {t:'14:30',i:'beach',x:'Rantailtapäivä: '+G('Castel Plage','Castel Plage')+' (tuolit ~35 €) tai ilmainen kaistale vieressä',dur:'3 h'},
    {t:'18:25',i:'move',x:'<b>Rappe laskeutuu</b> → kämpällä ~19:45 → IV täysilukuinen 🎉'},
-   {t:'20:30',i:'food',x:'Koko porukan avausillallinen: '+G('La Rossettisserie','La Rossettisserie')+' (varaa!) — lihaa & muusia',dur:'1,5 h'},
+   {t:'20:30',i:'food',x:'Koko porukan avausillallinen: '+G('La Rossettisserie','La Rossettisserie')+' <i class="eur">€€</i> (varaa!) — lihaa & muusia',dur:'1,5 h'},
    {t:'21:00',i:'bar',x:'<b>MM-puolivälierä 2 klo 21:00</b> screeniltä: '+G('Ma Nolan’s','Ma Nolan’s')+' tai '+G('Wayne’s Bar','Wayne’s')+' — paikalle ajoissa',opt:1}
   ],
   night:'Täysi kokoonpano kasassa. Huomenna Monaco: kasinoillan varalta pitkät housut & siistit kengät mukaan, ja nostakaa käteistä sunnuntain vaellusmajaa varten.'},
@@ -757,8 +761,9 @@ const DAYS = [
    {t:'12:30',i:'food',x:'Lounas: '+G('Marché de la Condamine','Marché de la Condamine')+' — Chez Rogerin socca 3 €',dur:'1 h'},
    {t:'14:00',i:'sight',x:G('F1-radan kävely & hiuspinni','F1-radan kävely')+': lähtösuora → kasinomutka → hiuspinni → tunneli → '+G('Port Hercule','Port Herculen jahdit'),dur:'~2 h'},
    {t:'16:00',i:'sight',x:G('Jardin Exotique','Jardin Exotique')+' (avattu 2026!) tai '+G('Larvotto-ranta','Larvotto-rannalla')+' jäähdyttely',dur:'1,5 h',opt:1},
-   {t:'17:30',i:'bar',x:'Bling-bisse: '+G('Café de Paris','Café de Paris’n terassi')+' + autobongaus '+G('Casino Square — autobongaus','Casino Squarella'),dur:'1,5 h'},
-   {t:'19:00',i:'sight',x:'<b>Kasino-ilta:</b> '+G('Casino de Monte-Carlo','Casino de Monte-Carlo')+' (20 € sis. 10 € pelikrediitin) — pitkät housut & siistit kengät!',dur:'2,5 h'},
+   {t:'17:00',i:'bar',x:'Bling-bisse: '+G('Café de Paris','Café de Paris’n terassi')+' (olut ~12 €) + autobongaus '+G('Casino Square — autobongaus','Casino Squarella'),dur:'1 h'},
+   {t:'18:15',i:'food',x:'Illallinen: '+G('Café de Paris','Café de Paris -brasserie')+' <i class="eur">€€€</i> tai '+G('Tip Top','Tip Top')+' <i class="eur">€€</i> (pizzat, auki myöhään)',dur:'1 h'},
+   {t:'19:30',i:'sight',x:'<b>Kasino-ilta:</b> '+G('Casino de Monte-Carlo','Casino de Monte-Carlo')+' (20 € sis. 10 € pelikrediitin) — pitkät housut & siistit kengät!',dur:'2,5 h'},
    {t:'21:48',i:'move',x:'<b>Vaihtoehto A:</b> viimeinen suora juna Nizzaan — viisas valinta ennen vaelluspäivää'},
    {t:'23:00',i:'bar',x:'Kotiinpalaajille: MM-puolivälierä 3 pubissa — vain rautaisille, huomenna herätys 6:15',opt:1},
    {t:'23:40',i:'move',x:'<b>Vaihtoehto B:</b> jatketaan pelejä → yöbussi ZOU 601 tai kimppataksi (~13 €/hlö) — omalla vastuulla',opt:1}
@@ -773,10 +778,10 @@ const DAYS = [
    {t:'09:10',i:'move',x:'Vaihto: <b>navette</b> SMV → '+G('Vacherie du Boréon — lähtöpiste','Vacherie du Boréon')+' (1 670 m)',dur:'25 min'},
    {t:'09:45',i:'hike',x:'Vaellus alkaa: metsäpolkua puron vartta → Pont de Peïrastrèche → ylös graniittiportaita',dur:'~2 h'},
    {t:'11:45',i:'hike',x:G('Lac de Trécolpas','Lac de Trécolpas')+' (2 150 m) — rohkeimmat pulahtaa (~8 °C), murmelibongaus',dur:'45 min'},
-   {t:'12:30',i:'food',x:'Lounas + <b>voitonbisse & mustikkapiirakka</b>: '+G('Refuge de la Cougourde','Refuge de la Cougourde')+' — VAIN KÄTEINEN',dur:'1,5 h'},
+   {t:'12:30',i:'food',x:'Lounas + <b>voitonbisse & mustikkapiirakka</b>: '+G('Refuge de la Cougourde','Refuge de la Cougourde')+' — VAIN KÄTEINEN, ~15–20 €',dur:'1,5 h'},
    {t:'14:00',i:'hike',x:'Laskeutuminen Vacherielle — yht. ~10 km, +600 m. Iltapäiväukkoset mahdollisia → alhaalla viim. 16:30',dur:'~2 h'},
    {t:'16:55',i:'move',x:'Navette Boréonista → SMV → <b>Été Vésubie 17:45</b> → Nizzassa ~19:45'},
-   {t:'20:30',i:'food',x:'Yhteinen palautumisillallinen: '+G('Chez Davia','Chez Davia')+' (300 m kämpältä) tai pizzat',dur:'1,5 h'}
+   {t:'20:30',i:'food',x:'Yhteinen palautumisillallinen: '+G('Chez Davia','Chez Davia')+' <i class="eur">€€</i> (Bib Gourmand, 300 m kämpältä)',dur:'1,5 h'}
   ],
   night:'Vuoristossa vain ~12–24 °C — kerrospukeutuminen. Lenkkarit riittävät (DD tehty), aurinkorasva & päähine pakolliset. Koko päivä kulkee yhdellä 7 € päivälipulla. Illalla: ostakaa huomisen saarilautan liput netistä (Horizon 17,50 €).'},
 
@@ -786,12 +791,12 @@ const DAYS = [
    {t:'08:15',i:'move',x:'Juna '+GL('Gare de Nice-Ville','Nice-Ville')+' → Cannes (<b>ZOU Mini-Groupe</b> -ryhmälippu: jopa −50 %)',dur:'~35 min'},
    {t:'09:00',i:'food',x:G('Marché Forville','Marché Forville')+' — aamiainen + piknikostokset saarelle',dur:'45 min'},
    {t:'09:45',i:'sight',x:G('Le Suquet & näköalaterassi','Le Suquet -vanhakaupunki')+' — kiipeä näköalaterassille ennen hellettä',dur:'1 h'},
-   {t:'11:00',i:'move',x:'Lautta '+G('Quai Laubeuf — lauttalaituri','Quai Laubeufilta')+' → '+G('Île Sainte-Marguerite','Sainte-Marguerite')+' (liput ostettu netistä su-iltana)',dur:'15 min'},
+   {t:'11:00',i:'move',x:'Lautta '+G('Quai Laubeuf — lauttalaituri','Quai Laubeufilta')+' → '+G('Île Sainte-Marguerite','Sainte-Marguerite')+' (17,50 € m-p, liput ostettu su-iltana)',dur:'15 min'},
    {t:'11:30',i:'beach',x:'Saaripäivä: '+G('Île Sainte-Marguerite','Fort Royal (6,50 €), eukalyptusmetsät, piknik + snorklaus')+' — vedenalainen patsasmuseo',dur:'3,5 h'},
    {t:'15:30',i:'move',x:'Paluulautta mantereelle (<b>viimeinen ~18:00–18:30 — älkää myöhästykö</b>)'},
    {t:'16:00',i:'sight',x:G('Palais des Festivals & punaiset portaat','Punaiset portaat')+' + tähtien kädenjäljet + '+G('La Croisette & Carlton','Croisette-kävely'),dur:'1,5 h'},
    {t:'17:30',i:'beach',x:'Pulahdus: '+G('Plage Macé','Plage Macé')+' (ilmainen hiekkaranta!)',dur:'1 h',opt:1},
-   {t:'19:30',i:'food',x:'Illallinen Cannesissa: '+G('La Pizza Cresci','Pizza Cresci')+' — huom: Aux Bons Enfants on maanantaisin kiinni',dur:'1,5 h'},
+   {t:'19:30',i:'food',x:'Illallinen Cannesissa: '+G('La Pizza Cresci','Pizza Cresci')+' <i class="eur">€€</i> — huom: '+G('Aux Bons Enfants','Aux Bons Enfants')+' <i class="eur">€€€</i> on ma kiinni',dur:'1,5 h'},
    {t:'21:30',i:'move',x:'Juna Nizzaan — tai extraajille välipysähdys Antibesissa: '+G('Absinthe Bar','absinttibaari')+' 🥃',opt:1}
   ],
   night:'Viimeinen paluulautta saarilta lähtee ~18:00–18:30 — sen jälkeen saarelta ei pääse pois. Huominen on chillipäivä, joten Antibes-jatkot ovat sallittuja.'},
@@ -802,13 +807,13 @@ const DAYS = [
    {t:'09:00',i:'sight',x:'Sotilasparaati '+G('Place Masséna','Place Massénalla')+' — kansallispäivän avaus',dur:'1 h',opt:1},
    {t:'10:00',i:'beach',x:'<b>Valinta A:</b> e-bike-lenkki '+G('Promenade des Anglais','Prom')+' → '+G('Villefranche-sur-Mer','Villefranche')+' + uinti',dur:'3 h'},
    {t:'10:00',i:'beach',x:'<b>Valinta B:</b> junalla '+G('Plage Mala — Cap d’Ail','Plage Malalle')+' — Rivieran kaunein poukama',dur:'3 h',opt:1},
-   {t:'13:30',i:'food',x:'Lounas + siesta — eväät varjossa tai vanhan kaupungin terassit',dur:'2 h'},
+   {t:'13:30',i:'food',x:'Lounas: '+G('Marinette','Marinette')+' <i class="eur">€€</i> (brunssi sataman kulmalla) tai vanhan kaupungin terassit — sitten siesta',dur:'2 h'},
    {t:'16:00',i:'sight',x:'Souvenirit & vapaa kiertely: OGC Nice -paita Herulle, tuliaiset (huom: osa kaupoista kiinni pyhänä)',dur:'1,5 h',opt:1},
-   {t:'18:30',i:'food',x:'IV:n päätösillallinen: '+G('Bistrot d’Antoine','Bistrot d’Antoine')+' (jos 7 hengen varaus onnistui) tai '+G('Chez Pipo','Chez Pipon socca-ilta'),dur:'1,5 h'},
+   {t:'18:30',i:'food',x:'IV:n päätösillallinen: '+G('Bistrot d’Antoine','Bistrot d’Antoine')+' <i class="eur">€€€</i> (varaa!), fine dining -finaali '+G('Le Chantecler','Le Chantecler')+' <i class="eur">€€€€</i> (2 Michelin-tähteä — varaa heti) tai rento '+G('Chez Pipo','Chez Pipon socca')+' <i class="eur">€</i>',dur:'1,5 h'},
    {t:'20:30',i:'sight',x:'Filharmonikkojen <b>ilmaiskonsertti</b> '+G('Théâtre de Verdure','Théâtre de Verduressa'),dur:'1 h',opt:1},
    {t:'21:00',i:'bar',x:'<b>MM-välierä 1 klo 21:00</b> — jos Ranska pelaa, koko kaupunki katsoo. Pubiin tai terassille',opt:1},
    {t:'22:00',i:'sight',x:'<b>Droneshow Promin yllä</b> ja klo 22:34 — iskun tarkalla hetkellä — <b>86 valokeilaa</b> taivaalle. 10-vuotismuistopäivän arvokas päätös, ei ilotulituksia Nizzassa.',dur:'45 min'},
-   {t:'21:30',i:'bar',x:'Yökiertue halukkaille: '+G('Moon Bar — Aston La Scala','Moon Bar -katolta')+' näkee sekä auringonlaskun että valokeilat',dur:'2 h',opt:1}
+   {t:'21:30',i:'bar',x:'Yökiertue halukkaille: '+G('Moon Bar — Aston La Scala','Moon Bar -katolta')+' <i class="eur">€€€</i> näkee sekä auringonlaskun että valokeilat',dur:'2 h',opt:1}
   ],
   night:'Ilotulituksia ei Nizzassa muistopäivän takia — lähimmät: Villefranche klo 22 ja Cannes klo 23 (omistettu Nizzan uhreille). Ronin + norre-tiimin pakkaus illalla — aamulla lähtö ~7:15.'},
 
@@ -818,7 +823,7 @@ const DAYS = [
    {t:'07:15',i:'move',x:'<b>Norre-tiimi + Roni:</b> ratikka T2 kentälle — Norwegian D82803 10:10 (→ HEL 14:25), Ronin ZRH-kone 10:45',dur:'~40 min'},
    {t:'09:45',i:'move',x:'<b>Henu & Rappe:</b> checkout klo 10:00 mennessä → laukut säilöön: '+GL('Gare de Nice-Ville','Bagmobile asemalla')+' (8:15–21, ~5–10 €) tai Nannybag-piste (~2,50 €)'},
    {t:'10:30',i:'trip',x:'Bonuspäivä: junalla '+G('Villefranche-sur-Mer','Villefrancheen')+' — vanha kaupunki, Rue Obscure & rantapäivä',dur:'4 h'},
-   {t:'15:00',i:'food',x:'Myöhäinen lounas + viimeinen '+G('Fenocchio','Fenocchio-jäätelö'),dur:'1 h'},
+   {t:'15:00',i:'food',x:'Myöhäinen lounas Villefranchen satamaterassilla <i class="eur">€€</i> + viimeinen '+G('Fenocchio','Fenocchio-jäätelö')+' <i class="eur">€</i>',dur:'1 h'},
    {t:'16:30',i:'move',x:'Laukut noutoon → ratikka T2 kentälle',dur:'~45 min'},
    {t:'19:10',i:'move',x:'<b>Henu & Rappe:</b> Finnair-lento kotiin (Vaasassa ~01:05)'}
   ],
@@ -965,10 +970,10 @@ function mkIcon(p,full,num){
 const DAYROUTES={
  to:['Nizzan lentokenttä (NCE)','Kämppä — Le Zen','Monoprix Jean Médecin','Plage du Centenaire','Place Masséna','Cours Saleya -tori','Vieux Nice — vanha kaupunki','Le Café de Turin','Lou Pilha Leva','Les Distilleries Idéales','Ma Nolan’s'],
  pe:['Mama Baker','Colline du Château — Linnavuori','#ILoveNice & Rauba-Capeu','Port Lympia','René Socca','Peixes','Castel Plage','La Rossettisserie','Ma Nolan’s','Wayne’s Bar'],
- la:['Monacon katedraali','Ruhtinaan palatsi','Marché de la Condamine','F1-radan kävely & hiuspinni','Port Hercule','Jardin Exotique','Larvotto-ranta','Café de Paris','Casino Square — autobongaus','Casino de Monte-Carlo'],
+ la:['Monacon katedraali','Ruhtinaan palatsi','Marché de la Condamine','F1-radan kävely & hiuspinni','Port Hercule','Larvotto-ranta','Café de Paris','Casino Square — autobongaus','Casino de Monte-Carlo','Tip Top'],
  su:['Grand Arénas -vaihtopysäkki','Saint-Martin-Vésubie','Vacherie du Boréon — lähtöpiste','Lac de Trécolpas','Refuge de la Cougourde','Chez Davia'],
  ma:['Marché Forville','Le Suquet & näköalaterassi','Quai Laubeuf — lauttalaituri','Île Sainte-Marguerite','Palais des Festivals & punaiset portaat','La Croisette & Carlton','Plage Macé','La Pizza Cresci'],
- ti:['Place Masséna','Sähköpyörät / pyörävuokra','Promenade des Anglais','Villefranche-sur-Mer','Plage Mala — Cap d’Ail','Chez Pipo','Bistrot d’Antoine','Théâtre de Verdure','Moon Bar — Aston La Scala'],
+ ti:['Place Masséna','Sähköpyörät / pyörävuokra','Promenade des Anglais','Villefranche-sur-Mer','Plage Mala — Cap d’Ail','Marinette','Chez Pipo','Bistrot d’Antoine','Théâtre de Verdure','Moon Bar — Aston La Scala'],
  ke:['Kämppä — Le Zen','Gare de Nice-Ville','Villefranche-sur-Mer','Fenocchio','Nizzan lentokenttä (NCE)']
 };
 let routeLine=null;
