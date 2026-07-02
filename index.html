@@ -210,6 +210,8 @@
   .mk-home{border-color:var(--ink);background:var(--ink);color:#fff;font-size:13px}
   .mk2{width:100%;height:100%;border-radius:50%;background:#fff;border:3px solid var(--azur);box-shadow:0 1px 6px rgba(30,43,54,.3)}
   .mk2-dot{border-width:2.5px;box-shadow:0 1px 4px rgba(30,43,54,.26)}
+  .mk2-num{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;color:var(--ink)}
+  .c-homey{border-color:var(--ink)}
   .c-sight{border-color:var(--azur)}.c-food{border-color:var(--coral)}.c-bar{border-color:var(--lilac)}
   .c-beach{border-color:var(--sea)}.c-trip{border-color:var(--sun)}.c-hike{border-color:var(--palm)}.c-transit{border-color:var(--transit)}
   .fs-btn{font-size:17px;font-weight:700;text-align:center;line-height:34px!important;width:36px!important;height:36px!important;display:block;background:#fff;color:var(--ink);text-decoration:none}
@@ -432,14 +434,14 @@
       <p class="sec-sub">Kaikki kellonajat paikallista aikaa — Ranska on tunnin Suomea jäljessä.</p>
       <div class="grid g2 flights">
         <div class="card fcard">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19h18M7 16 3.5 8.5 6 8l3 3 6-2.5-5-6 2.5-.5L19 8.5l2.8-.7a1.6 1.6 0 0 1 1 3z" transform="scale(.86) translate(1.5,1.5)"/></svg>Saapumiset</h3>
+          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(150 12 12)"><path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5L21,16z" fill="currentColor"/></g></svg>Saapumiset</h3>
           <div class="frow"><div class="fwho">Norre-tiimi <span class="fsub">Allu · Ana · Panska · Heru</span></div><div class="fdet mono">Norwegian D82802 · to 9.7 · HEL 10:20 → NCE 12:45</div></div>
           <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">Oma lento · to 9.7 · perillä NCE 12:45</div></div>
           <div class="frow"><div class="fwho">Henu</div><div class="fdet mono">Finnair · to 9.7 · Vaasa → HEL 15:55 → NCE ~18:25</div><div class="fnote">Kämpällä ~19:45</div></div>
           <div class="frow"><div class="fwho">Rappe</div><div class="fdet mono">Finnair · pe 10.7 · HEL 15:55 → NCE ~18:25</div><div class="fnote">Suoraan Mikkelistä — vuorokauden muita perässä</div></div>
         </div>
         <div class="card fcard">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 19h18M7 5l3.5 7.5L8 13l-3-3-6 2.5" transform="translate(1,0)" display="none"/><path d="M2.5 11l2.8.7 6-2.5-5-6L8.8 2.7 15 8l2.8.7a1.6 1.6 0 0 1-1 3L4 8.5z" transform="rotate(14 12 8)"/></svg>Lähdöt <span class="fsub">ke 15.7</span></h3>
+          <h3><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(35 12 12)"><path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5L21,16z" fill="currentColor"/></g></svg>Lähdöt <span class="fsub">ke 15.7</span></h3>
           <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">Oma lento · NCE 9:45</div></div>
           <div class="frow"><div class="fwho">Norre-tiimi</div><div class="fdet mono">Norwegian D82803 · NCE 10:10 → HEL 14:25</div><div class="fnote">Kentälle ratikalla ~7:15</div></div>
           <div class="frow"><div class="fwho">Henu &amp; Rappe</div><div class="fdet mono">Finnair · lähtö ~19:10 · Vaasassa 01:05</div><div class="fnote">Koko päivä käytössä — checkout silti klo 10, laukut säilöön asemalle</div></div>
@@ -561,8 +563,6 @@
         <button class="chip-btn" data-df="ma">MA 13</button>
         <button class="chip-btn" data-df="ti">TI 14</button>
         <button class="chip-btn" data-df="ke">KE 15</button>
-        <span class="spacer"></span>
-        <a class="gbtn" href="https://www.google.com/maps/dir/?api=1&origin=Nice+Ville+station&destination=Monaco+Monte-Carlo+station&travelmode=transit" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3.5" width="14" height="13.5" rx="2.5"/><path d="M5 10h14M9.5 20.5 8 22.5M14.5 20.5l1.5 2"/><circle cx="9" cy="14" r="0.8"/><circle cx="15" cy="14" r="0.8"/></svg> Junareitit Mapsissa</a>
       </div>
       <div id="map" role="region" aria-label="Kartta reissun kohteista"></div>
       <div class="legend">
@@ -999,7 +999,7 @@ TIPS.forEach(([h,p])=>{const d=document.createElement('div');d.className='tip';d
    ================================================================= */
 const _map=L.map('map',{scrollWheelZoom:false,zoomControl:true});
 window._map=_map;
-L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=fi',{
+L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=fi&apistyle=s.t%3A2%7Cs.e%3Al%7Cp.v%3Aoff',{
   maxZoom:20,subdomains:['mt0','mt1','mt2','mt3'],attribution:'&copy; Google Maps'
 }).addTo(_map);
 
@@ -1015,11 +1015,22 @@ const FsCtl=L.Control.extend({options:{position:'topleft'},onAdd:function(){
 _map.addControl(new FsCtl());
 ['fullscreenchange','webkitfullscreenchange'].forEach(e=>document.addEventListener(e,()=>setTimeout(()=>_map.invalidateSize(),160)));
 
-function mkIcon(p,full){
-  if(p.cat==='home')return L.divIcon({className:'',html:'<div class="mk mk-home">⌂</div>',iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-14]});
+function mkIcon(p,full,num){
+  if(p.cat==='home'&&!num)return L.divIcon({className:'',html:'<div class="mk mk-home">⌂</div>',iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-14]});
+  if(num){return L.divIcon({className:'',html:'<div class="mk2 mk2-num c-'+(p.cat==='home'?'homey':p.cat)+'">'+num+'</div>',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});}
   const sz=full?22:12,a=sz/2;
   return L.divIcon({className:'',html:'<div class="mk2 c-'+p.cat+(full?'':' mk2-dot')+'"></div>',iconSize:[sz,sz],iconAnchor:[a,a],popupAnchor:[0,-a]});
 }
+const DAYROUTES={
+ to:['Nizzan lentokenttä (NCE)','Kämppä — Le Zen','Monoprix Jean Médecin','Plage du Centenaire','Place Masséna','Cours Saleya -tori','Vieux Nice — vanha kaupunki','Le Café de Turin','Lou Pilha Leva','Les Distilleries Idéales','Ma Nolan’s'],
+ pe:['Mama Baker','Colline du Château — Linnavuori','#ILoveNice & Rauba-Capeu','Port Lympia','René Socca','Peixes','Castel Plage','La Rossettisserie','Ma Nolan’s','Wayne’s Bar'],
+ la:['Gare de Nice-Ville','Monacon katedraali','Ruhtinaan palatsi','Marché de la Condamine','F1-radan kävely & hiuspinni','Port Hercule','Jardin Exotique','Larvotto-ranta','Café de Paris','Casino Square — autobongaus','Casino de Monte-Carlo'],
+ su:['Grand Arénas -vaihtopysäkki','Saint-Martin-Vésubie','Vacherie du Boréon — lähtöpiste','Lac de Trécolpas','Refuge de la Cougourde','Chez Davia'],
+ ma:['Gare de Nice-Ville','Marché Forville','Le Suquet & näköalaterassi','Quai Laubeuf — lauttalaituri','Île Sainte-Marguerite','Palais des Festivals & punaiset portaat','La Croisette & Carlton','Plage Macé','La Pizza Cresci','Absinthe Bar'],
+ ti:['Place Masséna','Sähköpyörät / pyörävuokra','Promenade des Anglais','Villefranche-sur-Mer','Plage Mala — Cap d’Ail','Chez Pipo','Bistrot d’Antoine','Théâtre de Verdure','Moon Bar — Aston La Scala'],
+ ke:['Kämppä — Le Zen','Gare de Nice-Ville','Villefranche-sur-Mer','Fenocchio','Nizzan lentokenttä (NCE)']
+};
+let routeLine=null;
 
 const markers=[];
 PLACES.forEach(p=>{
@@ -1042,7 +1053,7 @@ function matches(p){
   if(curMode.type==='top')return !!p.star;
   if(curMode.type==='all')return true;
   if(curMode.type==='cat')return p.cat===curMode.v;
-  if(curMode.type==='day')return (p.dd||[]).indexOf(curMode.v)>=0;
+  if(curMode.type==='day')return DAYROUTES[curMode.v].indexOf(p.n)>=0;
   return true;
 }
 function tierFull(p){
@@ -1052,17 +1063,25 @@ function tierFull(p){
   return _map.getZoom()>=15;
 }
 function refresh(fit){
+  const isDay=curMode.type==='day';
+  const route=isDay?DAYROUTES[curMode.v]:null;
   const pts=[];
   markers.forEach(mk=>{
     const p=mk._place;
     if(matches(p)){
-      mk.setIcon(mkIcon(p,tierFull(p)));
+      const num=isDay?route.indexOf(p.n)+1:0;
+      mk.setIcon(mkIcon(p,tierFull(p),num>0?num:null));
       if(!_map.hasLayer(mk))mk.addTo(_map);
       if(p.cat!=='transit'&&p.cat!=='home')pts.push(mk.getLatLng());
     }else if(_map.hasLayer(mk))_map.removeLayer(mk);
   });
-  if(fit){
-    if((curMode.type==='day'||curMode.type==='cat')&&pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:[46,46]});
+  if(routeLine){_map.removeLayer(routeLine);routeLine=null;}
+  if(isDay){
+    const ll=route.map(n=>{const mk=markers.find(m=>m._place.n===n);return mk&&mk.getLatLng();}).filter(Boolean);
+    if(ll.length>1)routeLine=L.polyline(ll,{color:'#1273B8',weight:2.5,opacity:.8,dashArray:'7 9',lineCap:'round',lineJoin:'round'}).addTo(_map);
+    if(fit&&ll.length)_map.fitBounds(L.latLngBounds(ll),{padding:[48,48],maxZoom:15});
+  }else if(fit){
+    if(curMode.type==='cat'&&pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:[46,46],maxZoom:15});
     else _map.fitBounds(ZOOMS.nizza,{padding:[30,30]});
   }
 }
