@@ -88,6 +88,9 @@
   h1{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,7vw,80px);line-height:1.02;letter-spacing:-.02em;margin:16px 0 0}
   h1 em{font-style:italic;color:var(--azur)}
   .lede{max-width:640px;margin-top:20px;color:var(--muted);font-size:clamp(15px,1.6vw,17.5px)}
+  .hero-cta{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
+  .gbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule2)}
+  .gbtn.ghost:hover{border-color:var(--azur);color:var(--azur);opacity:1}
   .lede b{color:var(--ink);font-weight:600}
   .stats{display:flex;flex-wrap:wrap;gap:14px;margin-top:36px}
   .stat{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:14px 20px;box-shadow:var(--shadow);min-width:130px}
@@ -285,6 +288,10 @@
         porukan mieltymysten mukaan. Klikkaa mitä tahansa kohdetta niin pääset suoraan
         Google Mapsiin arvosteluineen ja aukioloaikoineen.
       </p>
+      <div class="hero-cta">
+        <a class="gbtn" href="#paivat" data-tab="paivat">Katso päiväohjelma →</a>
+        <a class="gbtn ghost" href="#kartta" data-tab="kartta">Avaa kartta</a>
+      </div>
     </div>
   </header>
 
