@@ -31,7 +31,8 @@
     --ring:0 0 0 2px var(--paper), 0 0 0 4px rgba(18,115,184,.6);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;overflow-x:clip}
+  body{overflow-x:clip}
   body{font-family:'Outfit',system-ui,sans-serif;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
   .wrap{max-width:1120px;margin:0 auto;padding:0 var(--s6)}
   .mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
@@ -235,10 +236,17 @@
   @media(max-width:520px){.tl{padding:10px 14px}.day-h{padding:14px 16px}.tl-row{grid-template-columns:46px 16px 1fr}.day-badges{padding:10px 16px 0}}
 
   /* ===== activities ===== */
-  .act-grp{margin:26px 0 6px;display:flex;align-items:center;gap:10px}
-  .act-grp h3{font-family:'Fraunces',serif;font-weight:600;font-size:20px;line-height:1.25;display:flex;align-items:center}
-  .act-grp .gdot{width:13px;height:13px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:inline-block;margin-right:10px;flex:0 0 auto}
-  .act-grp .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)}
+  .gdot{width:13px;height:13px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:inline-block;flex:0 0 auto}
+  .act-acc{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);box-shadow:var(--shadow);margin-bottom:var(--s3);overflow:hidden}
+  .act-acc summary{display:flex;align-items:center;gap:var(--s3);padding:var(--s4) var(--s5);cursor:pointer;list-style:none;font-family:'Fraunces',serif;font-weight:600;font-size:18px;line-height:1.25;-webkit-tap-highlight-color:transparent}
+  .act-acc summary::-webkit-details-marker{display:none}
+  @media(hover:hover){.act-acc summary:hover{background:rgba(18,115,184,.04)}}
+  .act-acc summary:active{background:rgba(18,115,184,.06)}
+  .act-acc .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);margin-left:auto}
+  .act-acc .chev{width:19px;height:19px;flex:0 0 auto;transition:transform .2s;color:var(--faint)}
+  .act-acc[open] .chev{transform:rotate(180deg)}
+  .act-acc .grid{padding:var(--s1) var(--s4) var(--s4)}
+  .act-acc .act{box-shadow:none}
   .act{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4) var(--s5);box-shadow:var(--shadow);text-decoration:none;color:var(--ink);transition:transform .14s,border-color .14s,box-shadow .14s}
   .act:hover{transform:translateY(-2px);border-color:rgba(18,115,184,.5);box-shadow:var(--shadow-lg)}
   .act:hover .go{text-decoration:underline;text-underline-offset:3px}
@@ -517,7 +525,7 @@
   <section>
     <div class="wrap">
       <div class="sec-head"><span class="n">07</span><h2>Aktiviteetit &amp; mestat</h2></div>
-      <p class="sec-sub">Kaikki ehdotukset yhdessä paikassa — <b>klikkaa korttia niin pääset paikan Google Maps -sivulle</b> (arvostelut, kuvat, aukioloajat). Suunniteltujen päivien lisäksi lopussa on extra-pooli, josta voi napata lisää jos jää aikaa.</p>
+      <p class="sec-sub">Kohteet kategorioittain — <b>avaa kategoria napauttamalla</b>. Kortin klikkaus vie paikan Google Maps -sivulle (arvostelut, kuvat, aukioloajat). Lopussa extra-pooli, josta voi napata lisää jos jää aikaa.</p>
       <div id="acts"></div>
     </div>
   </section>
@@ -834,9 +842,10 @@ ACT_GROUPS.forEach(gp=>{
   }
   if(!items.length)return;
   items=[...items].sort((a,b)=>(b.star||0)-(a.star||0));
-  const head=document.createElement('div');head.className='act-grp';
-  head.innerHTML='<h3><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'</h3><span class="cnt">'+items.length+' kohdetta</span>';
-  actsEl.appendChild(head);
+  const det=document.createElement('details');det.className='act-acc';
+  if(ACT_GROUPS.indexOf(gp)===0)det.open=true;
+  det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+items.length+' kohdetta</span>'+
+    '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
   const grid=document.createElement('div');grid.className='grid g3';
   items.forEach(p=>{
     const a=document.createElement('a');a.className='act';a.href=gq(p.q||p.n);a.target='_blank';a.rel='noopener';
@@ -845,7 +854,8 @@ ACT_GROUPS.forEach(gp=>{
       '<div class="go">Avaa Google Mapsissa →</div>';
     grid.appendChild(a);
   });
-  actsEl.appendChild(grid);
+  det.appendChild(grid);
+  actsEl.appendChild(det);
 });
 
 /* =================================================================
