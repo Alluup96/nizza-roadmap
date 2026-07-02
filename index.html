@@ -98,19 +98,19 @@
   @media(max-width:640px){.kicker{font-size:10px;letter-spacing:.16em}}
   h1{font-variation-settings:'SOFT' 28,'WONK' 1;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,7vw,80px);line-height:1.02;letter-spacing:-.02em;margin:16px 0 0}
   h1 em{font-style:italic;color:var(--azur)}
-  .lede{max-width:640px;margin-top:20px;color:var(--muted);font-size:clamp(16px,1.7vw,18px)}
   .hero-cta{display:flex;gap:var(--s3);margin-top:var(--s7);flex-wrap:wrap}
   .hero-inner{display:flex;gap:var(--s7);align-items:flex-end}
   .hero-copy{flex:1;min-width:0}
-  .hero-art{flex:0 0 400px;margin:0}
+  .hero-art{flex:0 0 470px;margin:0}
   .hero-art svg{width:100%;height:auto;display:block;border-radius:var(--r-md)}
-  @media(max-width:940px){.hero-inner{flex-direction:column;align-items:stretch;gap:var(--s5)}.hero-art{flex:none;max-width:460px}}
+  @media(max-width:940px){.hero-inner{flex-direction:column;align-items:stretch;gap:var(--s5)}.hero-art{flex:none;max-width:none}}
   .hero-art .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:drawline 1.3s cubic-bezier(.4,0,.2,1) forwards}
   .hero-art .dash{stroke-dasharray:.5 6;stroke-linecap:round;stroke-dashoffset:0}
   @keyframes drawline{to{stroke-dashoffset:0}}
+  .hero-art .pulse{transform-origin:center;transform-box:fill-box;animation:npulse 2.8s ease-in-out infinite}
+  @keyframes npulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.22);opacity:.7}}
   .gbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule2)}
   .gbtn.ghost:hover{border-color:var(--azur);color:var(--azur);opacity:1}
-  .lede b{color:var(--ink);font-weight:600}
 
   /* ===== generic section ===== */
   section{padding:var(--s8) 0 var(--s2)}
@@ -311,13 +311,6 @@
       <div class="hero-copy">
       <div class="kicker">IV · Côte d’Azur · 9.–15.7.2026 · DD TEHTY ✓</div>
       <h1>Nizzan reissu<br/><em>spontaanisti suunniteltuna</em></h1>
-      <p class="lede">
-        Seitsemän jäbää, kuusi yötä, yksi ruhtinaskunta ja 2&nbsp;090 metriä korkea bissepaikka.
-        Tähän on koottu <b>lennot, kämppä, saapumiset, päiväsuunnitelmat, kartta ja kulut</b> —
-        parhaat mestat haettu ja ristiinvalidoitu tuoreista lähteistä, aktiviteetit valittu
-        porukan mieltymysten mukaan. Klikkaa mitä tahansa kohdetta niin pääset suoraan
-        Google Mapsiin arvosteluineen ja aukioloaikoineen.
-      </p>
       <div class="hero-cta">
         <a class="gbtn" href="#paivat" data-tab="paivat">Katso päiväohjelma →</a>
         <a class="gbtn ghost" href="#kartta" data-tab="kartta">Avaa kartta</a>
@@ -325,30 +318,60 @@
       </div>
       <figure class="hero-art" aria-hidden="true">
         <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" role="img">
-          <circle cx="416" cy="58" r="27" fill="var(--sun)" opacity=".9"/>
-          <circle cx="416" cy="58" r="34" fill="none" stroke="var(--sun)" stroke-width="1.5" opacity=".45"/>
-          <path d="M0 196 Q 65 188 130 196 T 260 196 T 390 196 T 520 196 V 300 H 0 Z" fill="var(--azur)" opacity=".08"/>
-          <path d="M0 216 Q 65 209 130 216 T 260 216 T 390 216 T 520 216 V 300 H 0 Z" fill="var(--azur)" opacity=".11"/>
-          <path d="M0 238 Q 65 231 130 238 T 260 238 T 390 238 T 520 238 V 300 H 0 Z" fill="var(--azur)" opacity=".14"/>
+          <defs>
+            <linearGradient id="gSea" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#1273B8" stop-opacity=".24"/>
+              <stop offset="1" stop-color="#1273B8" stop-opacity=".06"/>
+            </linearGradient>
+            <radialGradient id="gSun" cx=".5" cy=".42" r=".62">
+              <stop offset="0" stop-color="#EBB652"/>
+              <stop offset=".62" stop-color="#DC9A2E"/>
+              <stop offset="1" stop-color="#E2694E"/>
+            </radialGradient>
+            <linearGradient id="gLand" x1="0" y1="1" x2="0" y2="0">
+              <stop offset="0" stop-color="#F4ECDC" stop-opacity=".65"/>
+              <stop offset="1" stop-color="#F4ECDC" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <path d="M-6 178 C 60 154, 118 170, 168 152 C 214 136, 240 150, 284 142 C 330 134, 356 120, 396 113 C 436 106, 472 98, 526 88 L 526 -6 L -6 -6 Z" fill="url(#gLand)"/>
+          <circle cx="416" cy="56" r="40" fill="var(--sun)" opacity=".14"/>
+          <circle cx="416" cy="56" r="29" fill="url(#gSun)"/>
+          <circle cx="416" cy="56" r="37" fill="none" stroke="var(--sun)" stroke-width="1.4" opacity=".4"/>
+          <rect x="-6" y="196" width="532" height="104" fill="url(#gSea)"/>
+          <path d="M0 216 Q 65 209 130 216 T 260 216 T 390 216 T 520 216 V 300 H 0 Z" fill="var(--azur)" opacity=".10"/>
+          <path d="M0 240 Q 65 233 130 240 T 260 240 T 390 240 T 520 240 V 300 H 0 Z" fill="var(--azur)" opacity=".13"/>
+          <g stroke="var(--sun)" stroke-linecap="round">
+            <path d="M403 207 H 429" stroke-width="3.5" opacity=".5"/>
+            <path d="M407 218 H 425" stroke-width="3" opacity=".38"/>
+            <path d="M404 230 H 428" stroke-width="3" opacity=".28"/>
+            <path d="M410 243 H 422" stroke-width="2.5" opacity=".2"/>
+          </g>
+          <g transform="translate(148,206)"><path d="M0 0 L8 -19 L10.5 0 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="1"/><path d="M-3.5 1 H14 L10.5 5.5 H0 Z" fill="var(--ink)" opacity=".85"/></g>
+          <g transform="translate(322,226) scale(.78)"><path d="M0 0 L8 -19 L10.5 0 Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.2"/><path d="M-3.5 1 H14 L10.5 5.5 H0 Z" fill="var(--ink)" opacity=".85"/></g>
+          <g fill="var(--palm)">
+            <path transform="translate(64,150)" d="M0 0 C 3.2 -6, 3.2 -20, 0 -27 C -3.2 -20, -3.2 -6, 0 0 Z" opacity=".85"/>
+            <path transform="translate(77,152) scale(.62)" d="M0 0 C 3.2 -6, 3.2 -20, 0 -27 C -3.2 -20, -3.2 -6, 0 0 Z" opacity=".75"/>
+            <path transform="translate(370,114) scale(.55)" d="M0 0 C 3.2 -6, 3.2 -20, 0 -27 C -3.2 -20, -3.2 -6, 0 0 Z" opacity=".7"/>
+          </g>
           <path class="draw coast" pathLength="1" d="M-6 178 C 60 154, 118 170, 168 152 C 214 136, 240 150, 284 142 C 330 134, 356 120, 396 113 C 436 106, 472 98, 526 88" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
           <path d="M46 44 C 100 68, 170 108, 256 146" fill="none" stroke="var(--azur)" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 7"/>
           <path class="dash" d="M258 152 C 310 166, 400 138, 470 104" fill="none" stroke="var(--azur)" stroke-width="1.6" opacity=".75"/>
           <path class="dash" d="M254 152 C 190 168, 110 178, 52 176" fill="none" stroke="var(--azur)" stroke-width="1.6" opacity=".75"/>
           <g transform="translate(30,34) rotate(28)"><path d="M0 -7 L20 0 0 7 4 0 z" fill="var(--azur)"/></g>
-          <g font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1.2" fill="var(--muted)">
-            <circle cx="52" cy="166" r="4" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
-            <text x="30" y="185">CANNES</text>
-            <circle cx="150" cy="153" r="4" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
-            <text x="126" y="141">ANTIBES</text>
-            <circle cx="260" cy="145" r="7.5" fill="var(--paper)" stroke="var(--coral)" stroke-width="2.6"/>
-            <circle cx="260" cy="145" r="2.6" fill="var(--ink)"/>
-            <text x="272" y="138" font-size="9.5" font-weight="600" fill="var(--ink)">NIZZA</text>
-            <circle cx="352" cy="122" r="4" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
-            <text x="310" y="111">VILLEFRANCHE</text>
-            <circle cx="470" cy="99" r="4" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
-            <text x="446" y="120">MONACO</text>
+          <g font-family="'JetBrains Mono',monospace" font-size="9" letter-spacing="1.2" fill="var(--muted)">
+            <circle cx="52" cy="166" r="4.5" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
+            <text x="30" y="186">CANNES</text>
+            <circle cx="150" cy="153" r="4.5" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
+            <text x="124" y="140">ANTIBES</text>
+            <g class="pulse"><circle cx="260" cy="145" r="8" fill="var(--paper)" stroke="var(--coral)" stroke-width="2.6"/></g>
+            <circle cx="260" cy="145" r="2.7" fill="var(--ink)"/>
+            <text x="273" y="137" font-size="10" font-weight="600" fill="var(--ink)">NIZZA</text>
+            <circle cx="352" cy="122" r="4.5" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
+            <text x="308" y="110">VILLEFRANCHE</text>
+            <circle cx="470" cy="99" r="4.5" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
+            <text x="445" y="121">MONACO</text>
           </g>
-          <text x="6" y="294" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1.5" fill="var(--faint)">BAIE DES ANGES · 43.70°N 7.27°E</text>
+          <text x="8" y="292" font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1.5" fill="var(--faint)">BAIE DES ANGES · 43.70°N 7.27°E</text>
         </svg>
       </figure>
       </div>
