@@ -203,6 +203,18 @@
   .day-date{flex:0 0 auto;width:48px;height:48px;border-radius:var(--r-md);background:var(--ink);color:var(--on-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;box-shadow:var(--shadow)}
   .day-date .dw{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.65}
   .day-date .dn{font-family:'Fraunces',serif;font-size:16.5px;font-weight:600;letter-spacing:-.01em}
+  .day-picker{position:sticky;top:64px;z-index:900;display:flex;gap:6px;overflow-x:auto;padding:var(--s2) 0 var(--s3);background:linear-gradient(var(--paper) 82%,rgba(251,247,239,0));scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .day-picker::-webkit-scrollbar{display:none}
+  @media(max-width:640px){.day-picker{top:52px}}
+  .dp{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:54px;padding:7px 10px 6px;border:1px solid var(--rule2);border-bottom-width:3px;border-radius:var(--r-sm);background:var(--card);cursor:pointer;font-family:'JetBrains Mono',monospace;transition:background .15s,border-color .15s,transform .12s}
+  .dp:active{transform:scale(.96)}
+  .dp .w{font-size:9px;letter-spacing:.12em;color:var(--faint);text-transform:uppercase}
+  .dp .n{font-family:'Fraunces',serif;font-size:15.5px;font-weight:600;color:var(--ink);line-height:1.1}
+  .dp.on{background:var(--ink);border-color:var(--ink)}
+  .dp.on .w{color:rgba(253,251,246,.65)}
+  .dp.on .n{color:var(--on-ink)}
+  .dp.dp-all{justify-content:center;font-family:'Outfit',sans-serif;font-size:12.5px;font-weight:600;color:var(--muted);padding:0 14px}
+  .dp.dp-all.on{color:var(--on-ink)}
   .day-h .dt{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral-text);font-weight:600}
   .day-h .ti{font-family:'Fraunces',serif;font-size:20px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
   .day-h .who{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)}
@@ -514,7 +526,8 @@
   <section>
     <div class="wrap">
       <div class="sec-head"><span class="n">06</span><h2>Päiväkohtainen runko</h2></div>
-      <p class="sec-sub">Tämä on <b>loma, ei minuuttiaikataulu</b> — ajat ovat suuntaa-antavia ja päivän voi kääntää ympäri fiiliksen mukaan. Lukitut jutut on merkitty <span class="lock">✓ sovittu</span> ja kevyet ehdotukset <span class="opt">○ optio</span>. Jokainen kohde on klikattava → Google Maps.</p>
+      <p class="sec-sub">Valitse päivä alta — <b>reissun aikana oikea päivä aukeaa automaattisesti</b>. Lukitut jutut on merkitty <span class="lock">✓ sovittu</span> ja kevyet ehdotukset <span class="opt">○ optio</span>. Jokainen kohde on klikattava → Google Maps.</p>
+      <div class="day-picker" id="daypick" aria-label="Valitse päivä"></div>
       <div id="days"></div>
     </div>
   </section>
@@ -819,8 +832,31 @@ DAYS.forEach(D=>{
   el.innerHTML='<div class="day-h"><span class="day-date" aria-hidden="true"><span class="dw">'+dw.slice(0,2).toUpperCase()+'</span><span class="dn">'+dn+'</span></span>'+
     '<div><div class="dt">'+dw+'</div><h3 class="ti">'+D.title+'</h3></div><span class="who">'+(D.who||'')+'</span></div>'+
     (badges?'<div class="day-badges">'+badges+'</div>':'')+'<div class="tl">'+rows+'</div>'+foot;
+  el.dataset.idx=String(DAYS.indexOf(D));
   daysEl.appendChild(el);
 });
+/* päivävalitsin — yksi päivä kerrallaan */
+const dpEl=document.getElementById('daypick');
+const dayEls=[...daysEl.children];
+function showDay(sel){
+  dayEls.forEach((el,i)=>{el.style.display=(sel==='all'||sel===i)?'':'none';});
+  [...dpEl.children].forEach(c=>c.classList.toggle('on',c.dataset.d===String(sel)));
+}
+DAYS.forEach((D,i)=>{
+  const parts=D.date.split(' ');
+  const btn=document.createElement('button');btn.className='dp';btn.dataset.d=String(i);
+  if(D.c)btn.style.borderBottomColor=D.c;
+  btn.innerHTML='<span class="w">'+(parts[0]||'').slice(0,2).toUpperCase()+'</span><span class="n">'+(parts[1]||'')+'</span>';
+  btn.addEventListener('click',()=>showDay(i));
+  dpEl.appendChild(btn);
+});
+const dpAll=document.createElement('button');dpAll.className='dp dp-all';dpAll.dataset.d='all';dpAll.textContent='Koko viikko';
+dpAll.addEventListener('click',()=>showDay('all'));dpEl.appendChild(dpAll);
+(function(){
+  const now=new Date();let def=0;
+  if(now.getFullYear()===2026&&now.getMonth()===6){const dd=now.getDate();if(dd>=9&&dd<=15)def=dd-9;}
+  showDay(def);
+})();
 
 /* =================================================================
    RENDER: ACTIVITIES
