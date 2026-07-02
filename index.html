@@ -100,9 +100,9 @@
   h1{font-variation-settings:'SOFT' 28,'WONK' 1;font-family:'Fraunces',serif;font-weight:500;font-size:clamp(38px,7vw,80px);line-height:1.02;letter-spacing:-.02em;margin:16px 0 0}
   h1 em{font-style:italic;color:var(--azur)}
   .hero-cta{display:flex;gap:var(--s3);margin-top:var(--s7);flex-wrap:wrap}
-  .hero-inner{display:flex;gap:var(--s7);align-items:flex-end}
+  .hero-inner{display:flex;gap:var(--s8);align-items:center}
   .hero-copy{flex:1;min-width:0}
-  .hero-art{flex:0 0 470px;margin:0}
+  .hero-art{flex:0 0 min(560px,48%);margin:0}
   .hero-art svg{width:100%;height:auto;display:block;border-radius:var(--r-md)}
   @media(max-width:940px){.hero-inner{flex-direction:column;align-items:stretch;gap:var(--s5)}.hero-art{flex:none;max-width:none}}
   .hero-art .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:drawline 1.3s cubic-bezier(.4,0,.2,1) forwards}
