@@ -294,16 +294,16 @@
   .arow-b .gl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--azur);font-weight:600;text-decoration:none}
 
   /* ===== costs ===== */
-  .tbl{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow)}
-  .tbl th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:13px 16px 11px;border-bottom:1px solid var(--rule2);background:var(--sand)}
-  .tbl td{padding:12px 16px;border-bottom:1px solid var(--rule);color:var(--muted);vertical-align:top}
-  .tbl tr:last-child td{border-bottom:0}
-  .tbl tbody tr:nth-child(odd):not(.sum) td{background:rgba(244,236,220,.28)}
-  @media(hover:hover){.tbl tbody tr:not(.sum):hover td{background:rgba(18,115,184,.05)}}
-  .tbl .nm{color:var(--ink);font-weight:600}
-  .tbl .mono{font-size:13px;white-space:nowrap}
-  .tbl .sum td{background:rgba(18,115,184,.05);color:var(--ink);font-weight:600;border-top:2px solid var(--rule2)}
-  .tbl-wrap{overflow-x:auto;border-radius:var(--r-md)}
+  .cost-cols{display:grid;gap:var(--s5)}
+  @media(min-width:900px){.cost-cols{grid-template-columns:1fr 1fr;gap:var(--s5) var(--s6)}}
+  .crows{display:grid;gap:8px}
+  .crow{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-sm);padding:11px 14px;box-shadow:var(--shadow)}
+  .crow .ctop{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+  .crow .cn{font-weight:600;font-size:14.5px}
+  .crow .ca{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--azur-deep);white-space:nowrap}
+  .crow .cnote{font-size:12.5px;color:var(--muted);margin-top:3px}
+  .crow.sum{background:rgba(18,115,184,.06);border-color:rgba(18,115,184,.35)}
+  .crow.sum .cn{font-weight:700}
   .paid{color:var(--palm);font-weight:600}
   .cost-note{font-size:13px;color:var(--faint);margin-top:14px;line-height:1.6;border-left:2px solid var(--rule2);padding-left:12px}
   .cost-h{font-family:'Fraunces',serif;font-size:20px;line-height:1.25;margin:26px 0 12px}
@@ -933,30 +933,28 @@ ACT_GROUPS.forEach(gp=>{
    ================================================================= */
 const costsEl=document.getElementById('costs');
 costsEl.innerHTML=`
-  <h3 class="cost-h" style="margin-top:6px">Kiinteät kulut / hlö</h3>
-  <div class="tbl-wrap"><table class="tbl">
-    <thead><tr><th>Erä</th><th>€ / hlö</th><th>Status</th><th>Huomiot</th></tr></thead>
-    <tbody>
-      <tr><td class="nm">Lennot HEL–NCE–HEL</td><td class="mono">~250–350 €</td><td class="paid">✓ maksettu</td><td>Norwegian LowFare / Finnair — maksettu, hinta vaihtelee varaajittain</td></tr>
-      <tr><td class="nm">Kämppä 6 yötä — “Le Zen”</td><td class="mono">511 €</td><td class="paid">✓ maksettu</td><td>3 574 € / 7 hlö · 2 erää Allulle · sis. liinavaatteet & pyyhkeet</td></tr>
-      <tr><td class="nm">Vaellusbussi su 12.7</td><td class="mono">7 €</td><td class="paid">✓ varattu (Rappe)</td><td>Paikkavaraus tehty kaikille — koko päivä (ratikka + bussi + navette) kulkee yhdellä päivälipulla</td></tr>
-      <tr class="sum"><td>Ennen reissua yhteensä</td><td class="mono">~770–880 €</td><td></td><td></td></tr>
-    </tbody>
-  </table></div>
-
-  <h3 class="cost-h">Paikan päällä — arviot / hlö</h3>
-  <div class="tbl-wrap"><table class="tbl">
-    <thead><tr><th>Kategoria</th><th>€ / hlö</th><th>Laskuperuste</th></tr></thead>
-    <tbody>
-      <tr><td class="nm">Paikallisliikenne Nizzassa</td><td class="mono">~20–25 €</td><td>Kenttä-ratikka 7–10 € × 2 · ratikka 1,70 €/matka · vaelluspäivän lippu 7 €</td></tr>
-      <tr><td class="nm">Junat: Monaco + Cannes</td><td class="mono">~15–25 €</td><td>Monaco 4,40–5,90 €/suunta (Mini-Groupella ~3 €) · Cannes 7,90 €/suunta</td></tr>
-      <tr><td class="nm">Cannesin saarilautta</td><td class="mono">17,50 €</td><td>Horizon m-p netistä (luukulta 18,50 €)</td></tr>
-      <tr><td class="nm">Sisäänpääsyt</td><td class="mono">~30–55 €</td><td>Kasino 20 € (sis. 10 € krediitin) · Fort Royal 6,50 € · museot 8–12 €</td></tr>
-      <tr><td class="nm">Ruoka & juoma / päivä</td><td class="mono">~55–90 €</td><td>Aamiainen 5 € · lounas 12–18 € · illallinen 25–45 € · tuopit 7–9 €</td></tr>
-      <tr><td class="nm">Ruoka & juoma / viikko</td><td class="mono">~350–550 €</td><td>6,5 päivää — kotibisset marketista laskee, Michelin-ilta nostaa</td></tr>
-      <tr class="sum"><td>Paikan päällä yhteensä</td><td class="mono">~430–670 €</td><td>+ shoppailu, kasinopanokset & yökerhot omaan piikkiin</td></tr>
-    </tbody>
-  </table></div>
+  <div class="cost-cols">
+    <div>
+      <h3 class="cost-h" style="margin-top:6px">Kiinteät kulut / hlö</h3>
+      <div class="crows">
+        <div class="crow"><div class="ctop"><span class="cn">Lennot HEL–NCE–HEL</span><span class="ca">~250–350 €</span></div><div class="cnote"><span class="paid">✓ maksettu</span> · Norwegian LowFare / Finnair — hinta vaihtelee varaajittain</div></div>
+        <div class="crow"><div class="ctop"><span class="cn">Kämppä 6 yötä — “Le Zen”</span><span class="ca">511 €</span></div><div class="cnote"><span class="paid">✓ maksettu</span> · 3 574 € / 7 hlö · sis. liinavaatteet &amp; pyyhkeet</div></div>
+        <div class="crow"><div class="ctop"><span class="cn">Vaellusbussi su 12.7</span><span class="ca">7 €</span></div><div class="cnote"><span class="paid">✓ varattu</span> · päivälippu kattaa ratikan + bussin + navetten</div></div>
+        <div class="crow sum"><div class="ctop"><span class="cn">Ennen reissua yhteensä</span><span class="ca">~770–880 €</span></div></div>
+      </div>
+    </div>
+    <div>
+      <h3 class="cost-h" style="margin-top:6px">Paikan päällä — arviot / hlö</h3>
+      <div class="crows">
+        <div class="crow"><div class="ctop"><span class="cn">Paikallisliikenne</span><span class="ca">~20–25 €</span></div><div class="cnote">Kenttäratikka ×2 · kertaliput 1,70 € · vaelluspäivän lippu 7 €</div></div>
+        <div class="crow"><div class="ctop"><span class="cn">Junat: Monaco + Cannes</span><span class="ca">~15–25 €</span></div><div class="cnote">Mini-Groupe-ryhmälipulla Monaco ~3 €/suunta · Cannes 7,90 €/suunta</div></div>
+        <div class="crow"><div class="ctop"><span class="cn">Cannesin saarilautta</span><span class="ca">17,50 €</span></div><div class="cnote">Horizon meno-paluu netistä (luukulta 18,50 €)</div></div>
+        <div class="crow"><div class="ctop"><span class="cn">Sisäänpääsyt</span><span class="ca">~30–55 €</span></div><div class="cnote">Kasino 20 € (sis. 10 € pelikrediitin) · Fort Royal 6,50 € · museot 8–12 €</div></div>
+        <div class="crow"><div class="ctop"><span class="cn">Ruoka &amp; juoma</span><span class="ca">~350–550 €</span></div><div class="cnote">~55–90 €/pv: aamiainen 5 € · lounas 12–18 € · illallinen 25–45 € · tuopit 7–9 €</div></div>
+        <div class="crow sum"><div class="ctop"><span class="cn">Paikan päällä yhteensä</span><span class="ca">~430–670 €</span></div><div class="cnote">+ shoppailu, kasinopanokset &amp; yökerhot omaan piikkiin</div></div>
+      </div>
+    </div>
+  </div>
 
   <div class="budget-bar" aria-hidden="true">
     <div style="flex:32;background:#1273B8"></div>
@@ -973,8 +971,8 @@ costsEl.innerHTML=`
     <span><i style="background:#E2694E"></i>Ruoka & juoma ~450 €</span>
   </div>
   <p class="cost-note"><b>Kokonaisarvio: ~1 200 – 1 550 € / hlö</b> koko reissulta (sis. jo maksetut lennot & kämpän).
-  Vertailun vuoksi: 140 € ei ole raha eikä mikään IV:lle. Nostakaa käteistä ennen vaellusta (refuge) ja Aux Bons Enfants’ia varten —
-  muuten kortti käy käytännössä kaikkialla ja lippuautomaatit ottavat Apple Payn. Hinnat tarkistettu 7/2026 — eläkää hetkessä jos joku heittää eurolla.</p>
+  Vertailun vuoksi: 140 € ei ole raha eikä mikään IV:lle. Nostakaa käteistä ennen vaellusta (refuge) —
+  muuten kortti käy käytännössä kaikkialla ja lippuautomaatit ottavat Apple Payn. Hinnat tarkistettu 7/2026.</p>
 `;
 
 /* =================================================================
