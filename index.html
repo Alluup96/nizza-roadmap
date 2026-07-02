@@ -111,7 +111,7 @@
   @media(max-width:900px){.g3,.g4{grid-template-columns:1fr 1fr}}
   @media(max-width:620px){.g2,.g3,.g4{grid-template-columns:1fr}}
   .card{background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:18px 20px;box-shadow:var(--shadow)}
-  .card h4{font-family:'Fraunces',serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
+  .card h3{font-family:'Fraunces',serif;font-weight:600;font-size:17px;letter-spacing:-.01em}
   .card .ds{font-size:13.5px;color:var(--muted);margin-top:4px}
   .pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.06em;padding:2px 8px;border-radius:99px;border:1px solid var(--rule2);color:var(--muted);text-transform:uppercase;white-space:nowrap}
   .pill.blue{color:var(--azur);border-color:rgba(18,115,184,.35);background:rgba(18,115,184,.06)}
@@ -244,7 +244,7 @@
   .tips{columns:2;column-gap:28px}
   @media(max-width:720px){.tips{columns:1}}
   .tip{break-inside:avoid;margin-bottom:16px;background:var(--card);border:1px solid var(--rule);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
-  .tip h5{font-size:14px;font-weight:700;margin-bottom:3px}
+  .tip h3{font-size:14px;font-weight:700;margin-bottom:3px}
   .tip p{font-size:13px;color:var(--muted)}
   .callout{border:1px solid rgba(220,154,46,.5);background:rgba(220,154,46,.08);border-radius:14px;padding:16px 20px;font-size:14px;color:var(--ink);margin:16px 0}
   .callout b{font-weight:700}
@@ -304,7 +304,7 @@
       <div class="sec-head"><span class="n">02</span><h2>Kämppä — “Le Zen”</h2></div>
       <div class="grid g2">
         <div class="card">
-          <h4>Le Zen #4 · EnjoyNice.com</h4>
+          <h3>Le Zen #4 · EnjoyNice.com</h3>
           <p class="ds" style="margin-bottom:12px">3 makkaria · 3 kylppäriä · 7 nukkujaa · <b>ilmastointi ✓</b> (Herun prio 1 hoidettu; portaita yksi kerros, sori)</p>
           <dl class="kv">
             <dt>Osoite</dt><dd><b>18 Rue d’Angleterre, 06000 Nice</b> · summeri “Cosmo K” · 1. krs, ovi oikealla</dd>
@@ -316,7 +316,7 @@
           <a class="gbtn" style="margin-top:14px" href="https://www.google.com/maps/search/?api=1&query=18+Rue+d%27Angleterre%2C+06000+Nice%2C+France" target="_blank" rel="noopener">📍 Avaa Google Mapsissa</a>
         </div>
         <div class="card">
-          <h4>Viikon sää &amp; helle</h4>
+          <h3>Viikon sää &amp; helle</h3>
           <p class="ds" style="margin-bottom:12px">Heinäkuun puoliväli Nizzassa: päivällä <b>~28–31 °C</b>, yöllä ~21–23 °C, meri ~24–26 °C. Rannikkotuuli pehmentää — sisämaassa kuumempaa.</p>
           <dl class="kv">
             <dt>Rytmi</dt><dd>Aktiviteetit aamuun, ranta/siesta iltapäivään, illat terasseilla — kaupunki herää uudestaan klo 18 jälkeen</dd>
@@ -335,7 +335,7 @@
       <p class="sec-sub">Kaksi isoa juttua osuu viikolle: <b>MM-kisojen ratkaisupelit</b> (Ranska yhä mukana 2.7. tilanteessa!) ja <b>14.7. — Promenaden iskun 10-vuotismuistopäivä</b>, jota Nizza kunnioittaa poikkeuksellisin seremonioin.</p>
       <div class="grid g2">
         <div class="card">
-          <h4>⚽ MM-kisat 2026 — ottelut Ranskan aikaa</h4>
+          <h3>⚽ MM-kisat 2026 — ottelut Ranskan aikaa</h3>
           <p class="ds" style="margin:6px 0 10px">Pelit USA:ssa → myöhäisillan kickoffit. Jos Ranska etenee, se pelaa <b>to 9.7 klo 22</b> ja siitä voittajana <b>välierän ti 14.7 klo 21</b>.</p>
           <dl class="kv">
             <dt>To 9.7 · 22:00</dt><dd>Puolivälierä 1 — mahdollinen <b>Ranskan peli</b></dd>
@@ -348,7 +348,7 @@
           <p class="ds" style="margin-top:10px">Katsomot: <b>Ma Nolan’s</b> ja <b>Wayne’s</b> näyttävät kaiken. Jos Ranska pelaa, tulkaa tuntia ennen — ja jos Ranska voittaa, Vieux Nice räjähtää.</p>
         </div>
         <div class="card">
-          <h4>🕯️ Bastille-päivä 14.7 — 10-vuotismuistopäivä</h4>
+          <h3>🕯️ Bastille-päivä 14.7 — 10-vuotismuistopäivä</h3>
           <p class="ds" style="margin:6px 0 10px">Nizza muistaa vuoden 2016 iskun uhreja kolmipäiväisin seremonioin (12.–14.7). Ei ilotulituksia — tilalla arvokas ja vaikuttava ohjelma:</p>
           <dl class="kv">
             <dt>09:00</dt><dd>Sotilasparaati Place Massénalla</dd>
@@ -714,7 +714,7 @@ DAYS.forEach(D=>{
   const parts=D.date.split(' '), dw=parts[0]||'', dn=parts[1]||'';
   const el=document.createElement('article');el.className='day';
   el.innerHTML='<div class="day-h"><span class="day-date" aria-hidden="true"><span class="dw">'+dw.slice(0,2).toUpperCase()+'</span><span class="dn">'+dn+'</span></span>'+
-    '<div><div class="dt">'+dw+'</div><div class="ti">'+D.title+'</div></div><span class="who">'+(D.who||'')+'</span></div>'+
+    '<div><div class="dt">'+dw+'</div><h3 class="ti">'+D.title+'</h3></div><span class="who">'+(D.who||'')+'</span></div>'+
     (badges?'<div class="day-badges">'+badges+'</div>':'')+'<div class="tl">'+rows+'</div>'+foot;
   daysEl.appendChild(el);
 });
@@ -817,7 +817,7 @@ const TIPS=[
   ['MM-futis','Puolivälierät ja välierät osuvat reissuviikolle — pelit alkavat Ranskan aikaa tyypillisesti klo 21–02. Ma Nolan’s ja Wayne’s näyttävät kaiken; fan zone -tilanne kannattaa tsekata paikan päällä (nice.fr).']
 ];
 const tipsEl=document.getElementById('tips');
-TIPS.forEach(([h,p])=>{const d=document.createElement('div');d.className='tip';d.innerHTML='<h5>'+h+'</h5><p>'+p+'</p>';tipsEl.appendChild(d);});
+TIPS.forEach(([h,p])=>{const d=document.createElement('div');d.className='tip';d.innerHTML='<h3>'+h+'</h3><p>'+p+'</p>';tipsEl.appendChild(d);});
 
 /* =================================================================
    MAP — Google Maps -pohja (roadmap-tiilet, identtinen google.comin kanssa)
