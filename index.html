@@ -103,10 +103,9 @@
   .hero-inner{display:flex;gap:var(--s7);align-items:flex-end}
   .hero-copy{flex:1;min-width:0}
   .hero-art{flex:0 0 400px;margin:0}
-  .hero-art svg{width:100%;height:auto;display:block}
+  .hero-art svg{width:100%;height:auto;display:block;border-radius:var(--r-md)}
   @media(max-width:940px){.hero-inner{flex-direction:column;align-items:stretch;gap:var(--s5)}.hero-art{flex:none;max-width:460px}}
   .hero-art .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:drawline 1.3s cubic-bezier(.4,0,.2,1) forwards}
-  .hero-art .route{animation-delay:.9s;animation-duration:.9s}
   .hero-art .dash{stroke-dasharray:.5 6;stroke-linecap:round;stroke-dashoffset:0}
   @keyframes drawline{to{stroke-dashoffset:0}}
   .gbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule2)}
@@ -328,14 +327,14 @@
         <svg viewBox="0 0 520 300" xmlns="http://www.w3.org/2000/svg" role="img">
           <circle cx="416" cy="58" r="27" fill="var(--sun)" opacity=".9"/>
           <circle cx="416" cy="58" r="34" fill="none" stroke="var(--sun)" stroke-width="1.5" opacity=".45"/>
-          <path d="M0 196 Q 65 188 130 196 T 260 196 T 390 196 T 520 196 V 300 H 0 Z" fill="var(--azur)" opacity=".10"/>
-          <path d="M0 216 Q 65 209 130 216 T 260 216 T 390 216 T 520 216 V 300 H 0 Z" fill="var(--azur)" opacity=".14"/>
-          <path d="M0 238 Q 65 231 130 238 T 260 238 T 390 238 T 520 238 V 300 H 0 Z" fill="var(--azur)" opacity=".18"/>
+          <path d="M0 196 Q 65 188 130 196 T 260 196 T 390 196 T 520 196 V 300 H 0 Z" fill="var(--azur)" opacity=".08"/>
+          <path d="M0 216 Q 65 209 130 216 T 260 216 T 390 216 T 520 216 V 300 H 0 Z" fill="var(--azur)" opacity=".11"/>
+          <path d="M0 238 Q 65 231 130 238 T 260 238 T 390 238 T 520 238 V 300 H 0 Z" fill="var(--azur)" opacity=".14"/>
           <path class="draw coast" pathLength="1" d="M-6 178 C 60 154, 118 170, 168 152 C 214 136, 240 150, 284 142 C 330 134, 356 120, 396 113 C 436 106, 472 98, 526 88" fill="none" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/>
-          <path class="draw route" pathLength="1" d="M34 38 C 90 62, 160 104, 258 148" fill="none" stroke="var(--azur)" stroke-width="2" stroke-linecap="round" stroke-dasharray="none"/>
+          <path d="M46 44 C 100 68, 170 108, 256 146" fill="none" stroke="var(--azur)" stroke-width="2" stroke-linecap="round" stroke-dasharray="6 7"/>
           <path class="dash" d="M258 152 C 310 166, 400 138, 470 104" fill="none" stroke="var(--azur)" stroke-width="1.6" opacity=".75"/>
           <path class="dash" d="M254 152 C 190 168, 110 178, 52 176" fill="none" stroke="var(--azur)" stroke-width="1.6" opacity=".75"/>
-          <path d="M22 30 l30 9 -20 8 -4 11 -6 -12 z" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round"/>
+          <g transform="translate(30,34) rotate(28)"><path d="M0 -7 L20 0 0 7 4 0 z" fill="var(--azur)"/></g>
           <g font-family="'JetBrains Mono',monospace" font-size="8.5" letter-spacing="1.2" fill="var(--muted)">
             <circle cx="52" cy="166" r="4" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
             <text x="30" y="185">CANNES</text>
@@ -343,7 +342,7 @@
             <text x="126" y="141">ANTIBES</text>
             <circle cx="260" cy="145" r="7.5" fill="var(--paper)" stroke="var(--coral)" stroke-width="2.6"/>
             <circle cx="260" cy="145" r="2.6" fill="var(--ink)"/>
-            <text x="243" y="130" font-size="9.5" font-weight="600" fill="var(--ink)">NIZZA</text>
+            <text x="272" y="138" font-size="9.5" font-weight="600" fill="var(--ink)">NIZZA</text>
             <circle cx="352" cy="122" r="4" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
             <text x="310" y="111">VILLEFRANCHE</text>
             <circle cx="470" cy="99" r="4" fill="var(--coral)" stroke="var(--paper)" stroke-width="1.6"/>
