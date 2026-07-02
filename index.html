@@ -185,7 +185,10 @@
   .chip-btn:hover{border-color:var(--azur);color:var(--azur)}
   .chip-btn.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
   .gbar .spacer{flex:1}
-  .dblbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-right:2px}
+  .dblbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-right:2px;white-space:nowrap}
+  #filterbar .chip-btn{font-size:12px;padding:6px 12px;min-height:34px}
+  #daybar .chip-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:6px 10px;min-height:34px;letter-spacing:.04em}
+  @media(max-width:640px){#filterbar .chip-btn{min-height:36px}#daybar .chip-btn{min-height:36px}}
   .gbtn{display:inline-flex;align-items:center;gap:7px;background:var(--azur);color:#fff;font-weight:600;font-size:13.5px;padding:10px 16px;border-radius:99px;text-decoration:none;transition:opacity .15s;border:none;cursor:pointer}
   .gbtn:hover{background:#0E62A0}
   .gbtn:active{transform:translateY(1px)}
