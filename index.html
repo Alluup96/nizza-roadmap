@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<meta name="description" content="IV:n Nizzan reissu 9.–15.7.2026 — kartta, aikataulu, aktiviteetit ja kulut." />
+<meta name="description" content="IV:n Nizzan reissu 9.–15.7.2026 — kartta, päiväohjelma ja aktiviteetit." />
 <meta name="theme-color" content="#FBF7EF" />
 <meta property="og:title" content="Nizza ’26 · IV — reissusuunnitelma" />
-<meta property="og:description" content="7 jäbää · 6 yötä · Nizza, Monaco, Cannes & vuoristovaellus. Kartta, päiväohjelma ja kulut — 9.–15.7.2026." />
+<meta property="og:description" content="7 jäbää · 6 yötä · Nizza, Monaco, Cannes & vuoristovaellus. Kartta, päiväohjelma ja aktiviteetit — 9.–15.7.2026." />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="fi_FI" />
 <title>Nizza ’26 · IV Riviera-suunnitelma</title>
@@ -259,6 +259,7 @@
   .tl-row .tx a:visited{color:var(--lilac-text);border-bottom-color:rgba(139,111,192,.55)}
   .tl-row .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);margin-left:8px;white-space:nowrap}
   .opt{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold-text);border:1px solid rgba(220,154,46,.5);border-radius:var(--r-xs);padding:0 5px;white-space:nowrap}
+  .eur{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--gold-text);border:1px solid rgba(220,154,46,.45);border-radius:var(--r-xs);padding:0 4px;margin-left:6px;white-space:nowrap;font-style:normal}
   .lock{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--palm);border:1px solid rgba(62,124,91,.5);border-radius:var(--r-xs);padding:0 5px;white-space:nowrap}
   .tl-row .opt,.tl-row .lock{margin-left:8px}
   .day-f{display:flex;gap:var(--s3);align-items:baseline;padding:var(--s4) var(--s6);border-top:1px solid var(--rule);background:rgba(18,115,184,.045);font-size:14px;color:var(--muted)}
@@ -293,25 +294,6 @@
   .arow-b .tp{border-left:2px solid var(--rule2);padding-left:9px;font-size:12.5px}
   .arow-b .gl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--azur);font-weight:600;text-decoration:none}
 
-  /* ===== costs ===== */
-  .cost-cols{display:grid;gap:var(--s5)}
-  @media(min-width:900px){.cost-cols{grid-template-columns:1fr 1fr;gap:var(--s5) var(--s6)}}
-  .crows{display:grid;gap:8px}
-  .crow{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-sm);padding:11px 14px;box-shadow:var(--shadow)}
-  .crow .ctop{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
-  .crow .cn{font-weight:600;font-size:14.5px}
-  .crow .ca{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--azur-deep);white-space:nowrap}
-  .crow .cnote{font-size:12.5px;color:var(--muted);margin-top:3px}
-  .crow.sum{background:rgba(18,115,184,.06);border-color:rgba(18,115,184,.35)}
-  .crow.sum .cn{font-weight:700}
-  .paid{color:var(--palm);font-weight:600}
-  .cost-note{font-size:13px;color:var(--faint);margin-top:14px;line-height:1.6;border-left:2px solid var(--rule2);padding-left:12px}
-  .cost-h{font-family:'Fraunces',serif;font-size:20px;line-height:1.25;margin:26px 0 12px}
-  .budget-bar{display:flex;height:34px;border-radius:var(--r-sm);overflow:hidden;margin:18px 0 8px;box-shadow:var(--shadow)}
-  .budget-bar div{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:10px;color:#fff;white-space:nowrap;overflow:hidden}
-  .budget-leg{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--muted)}
-  .budget-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px}
-
   /* ===== tips / misc ===== */
   .tips{columns:2;column-gap:28px}
   @media(max-width:720px){.tips{columns:1}}
@@ -342,7 +324,6 @@
       <a class="tab" role="tab" aria-selected="false" id="tab-kartta" aria-controls="p-kartta" href="#kartta" data-tab="kartta"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21.2s-6.8-5.6-6.8-11a6.8 6.8 0 1 1 13.6 0c0 5.4-6.8 11-6.8 11z"/><circle cx="12" cy="10" r="2.4"/></svg>Kartta</a>
       <a class="tab" role="tab" aria-selected="false" id="tab-paivat" aria-controls="p-paivat" href="#paivat" data-tab="paivat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 9.8h17M8 3v3.6M16 3v3.6"/></svg>Päivät</a>
       <a class="tab" role="tab" aria-selected="false" id="tab-aktiviteetit" aria-controls="p-aktiviteetit" href="#aktiviteetit" data-tab="aktiviteetit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.6l2.5 5.1 5.6.8-4 4 .9 5.6-5-2.7-5 2.7.9-5.6-4-4 5.6-.8z"/></svg>Aktiviteetit</a>
-      <a class="tab" role="tab" aria-selected="false" id="tab-kulut" aria-controls="p-kulut" href="#kulut" data-tab="kulut"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="13.5" rx="2.5"/><path d="M3 10.4h18M7 15.5h4"/></svg>Kulut</a>
     </div>
   </div>
 </nav>
@@ -601,16 +582,6 @@
   </section>
 </div>
 
-<!-- ============ KULUT ============ -->
-<div class="panel" id="p-kulut" role="tabpanel" aria-labelledby="tab-kulut">
-  <section>
-    <div class="wrap">
-      <div class="sec-head"><span class="n">08</span><h2>Kustannukset</h2></div>
-      <p class="sec-sub">Kiinteät kulut ovat faktaa, loput realistisia arvioita hintatasosta heinäkuussa 2026. Ranskan Riviera ei ole halpa, mutta junat ovat — ja paras socca maksaa vähemmän kuin tuoppi.</p>
-      <div id="costs"></div>
-    </div>
-  </section>
-</div>
 
 <footer class="site-end" role="contentinfo">
   <div class="wrap">IV · Côte d’Azur · 43.70°N 7.27°E · 9.–15.7.2026</div>
@@ -928,52 +899,6 @@ ACT_GROUPS.forEach(gp=>{
   actsEl.appendChild(det);
 });
 
-/* =================================================================
-   RENDER: COSTS
-   ================================================================= */
-const costsEl=document.getElementById('costs');
-costsEl.innerHTML=`
-  <div class="cost-cols">
-    <div>
-      <h3 class="cost-h" style="margin-top:6px">Kiinteät kulut / hlö</h3>
-      <div class="crows">
-        <div class="crow"><div class="ctop"><span class="cn">Lennot HEL–NCE–HEL</span><span class="ca">~250–350 €</span></div><div class="cnote"><span class="paid">✓ maksettu</span> · Norwegian LowFare / Finnair — hinta vaihtelee varaajittain</div></div>
-        <div class="crow"><div class="ctop"><span class="cn">Kämppä 6 yötä — “Le Zen”</span><span class="ca">511 €</span></div><div class="cnote"><span class="paid">✓ maksettu</span> · 3 574 € / 7 hlö · sis. liinavaatteet &amp; pyyhkeet</div></div>
-        <div class="crow"><div class="ctop"><span class="cn">Vaellusbussi su 12.7</span><span class="ca">7 €</span></div><div class="cnote"><span class="paid">✓ varattu</span> · päivälippu kattaa ratikan + bussin + navetten</div></div>
-        <div class="crow sum"><div class="ctop"><span class="cn">Ennen reissua yhteensä</span><span class="ca">~770–880 €</span></div></div>
-      </div>
-    </div>
-    <div>
-      <h3 class="cost-h" style="margin-top:6px">Paikan päällä — arviot / hlö</h3>
-      <div class="crows">
-        <div class="crow"><div class="ctop"><span class="cn">Paikallisliikenne</span><span class="ca">~20–25 €</span></div><div class="cnote">Kenttäratikka ×2 · kertaliput 1,70 € · vaelluspäivän lippu 7 €</div></div>
-        <div class="crow"><div class="ctop"><span class="cn">Junat: Monaco + Cannes</span><span class="ca">~15–25 €</span></div><div class="cnote">Mini-Groupe-ryhmälipulla Monaco ~3 €/suunta · Cannes 7,90 €/suunta</div></div>
-        <div class="crow"><div class="ctop"><span class="cn">Cannesin saarilautta</span><span class="ca">17,50 €</span></div><div class="cnote">Horizon meno-paluu netistä (luukulta 18,50 €)</div></div>
-        <div class="crow"><div class="ctop"><span class="cn">Sisäänpääsyt</span><span class="ca">~30–55 €</span></div><div class="cnote">Kasino 20 € (sis. 10 € pelikrediitin) · Fort Royal 6,50 € · museot 8–12 €</div></div>
-        <div class="crow"><div class="ctop"><span class="cn">Ruoka &amp; juoma</span><span class="ca">~350–550 €</span></div><div class="cnote">~55–90 €/pv: aamiainen 5 € · lounas 12–18 € · illallinen 25–45 € · tuopit 7–9 €</div></div>
-        <div class="crow sum"><div class="ctop"><span class="cn">Paikan päällä yhteensä</span><span class="ca">~430–670 €</span></div><div class="cnote">+ shoppailu, kasinopanokset &amp; yökerhot omaan piikkiin</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="budget-bar" aria-hidden="true">
-    <div style="flex:32;background:#1273B8"></div>
-    <div style="flex:44;background:#0B4E7E"></div>
-    <div style="flex:6;background:#3E7C5B"></div>
-    <div style="flex:8;background:#DC9A2E"></div>
-    <div style="flex:38;background:#E2694E"></div>
-  </div>
-  <div class="budget-leg">
-    <span><i style="background:#1273B8"></i>Lennot ~300 €</span>
-    <span><i style="background:#0B4E7E"></i>Kämppä 511 €</span>
-    <span><i style="background:#3E7C5B"></i>Liikkuminen ~50 €</span>
-    <span><i style="background:#DC9A2E"></i>Aktiviteetit ~70 €</span>
-    <span><i style="background:#E2694E"></i>Ruoka & juoma ~450 €</span>
-  </div>
-  <p class="cost-note"><b>Kokonaisarvio: ~1 200 – 1 550 € / hlö</b> koko reissulta (sis. jo maksetut lennot & kämpän).
-  Vertailun vuoksi: 140 € ei ole raha eikä mikään IV:lle. Nostakaa käteistä ennen vaellusta (refuge) —
-  muuten kortti käy käytännössä kaikkialla ja lippuautomaatit ottavat Apple Payn. Hinnat tarkistettu 7/2026.</p>
-`;
 
 /* =================================================================
    RENDER: TIPS (Käytännön asiat)
