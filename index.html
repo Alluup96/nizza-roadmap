@@ -159,6 +159,7 @@
   .chip-btn:hover{border-color:var(--azur);color:var(--azur)}
   .chip-btn.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
   .gbar .spacer{flex:1}
+  .dblbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-right:2px}
   .gbtn{display:inline-flex;align-items:center;gap:7px;background:var(--azur);color:#fff;font-weight:600;font-size:13.5px;padding:10px 16px;border-radius:99px;text-decoration:none;transition:opacity .15s;border:none;cursor:pointer}
   .gbtn:hover{background:#0E62A0}
   .gbtn:active{transform:translateY(1px)}
@@ -186,14 +187,11 @@
   .map-tip{background:rgba(255,255,255,.95);border:1px solid var(--rule2);color:var(--ink);font-weight:600;font-size:11px;padding:1px 7px;border-radius:5px;box-shadow:0 2px 8px rgba(30,43,54,.12)}
   .map-tip::before{display:none}
   .mk{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12.5px;background:#fff;border:2.5px solid var(--azur);box-shadow:0 2px 8px rgba(30,43,54,.28);position:relative}
-  .mk-sight{border-color:var(--azur)}
-  .mk-food{border-color:var(--coral)}
-  .mk-bar{border-color:var(--lilac)}
-  .mk-beach{border-color:var(--sea)}
-  .mk-trip{border-color:var(--sun)}
-  .mk-hike{border-color:var(--palm)}
   .mk-home{border-color:var(--ink);background:var(--ink);color:#fff;font-size:13px}
-  .mk-transit{border-color:var(--transit);width:18px;height:18px;font-size:9px}
+  .mk2{width:100%;height:100%;border-radius:50%;background:#fff;border:3px solid var(--azur);box-shadow:0 1px 6px rgba(30,43,54,.3)}
+  .mk2-dot{border-width:2.5px;box-shadow:0 1px 4px rgba(30,43,54,.26)}
+  .c-sight{border-color:var(--azur)}.c-food{border-color:var(--coral)}.c-bar{border-color:var(--lilac)}
+  .c-beach{border-color:var(--sea)}.c-trip{border-color:var(--sun)}.c-hike{border-color:var(--palm)}.c-transit{border-color:var(--transit)}
   .fs-btn{font-size:17px;font-weight:700;text-align:center;line-height:34px!important;width:36px!important;height:36px!important;display:block;background:#fff;color:var(--ink);text-decoration:none}
   .fs-btn:hover{background:#f2eee4}
 
@@ -487,9 +485,10 @@
   <section>
     <div class="wrap">
       <div class="sec-head"><span class="n">05</span><h2>Kartta — kaikki kohteet</h2></div>
-      <p class="sec-sub">Google Maps -pohja. Klikkaa merkkiä → kortti aukeaa → <b>“Avaa Google Mapsissa”</b> vie paikan omalle sivulle arvosteluineen, kuvineen ja aukioloaikoineen. Suodata kategorioittain tai hyppää alueelle.</p>
+      <p class="sec-sub">Kartta aukeaa <b>tähtipoimintoihin</b> — lisää kerroksia kategorioista tai valitse <b>päivän reitti</b>, jolloin näet vain sen päivän kohteet. Merkin klikkaus avaa kortin → “Avaa Google Mapsissa” vie arvosteluihin ja aukioloaikoihin.</p>
       <div class="gbar" id="filterbar">
-        <button class="chip-btn on" data-f="all">Kaikki</button>
+        <button class="chip-btn on" data-f="top">★ Tähtipoiminnat</button>
+        <button class="chip-btn" data-f="all">Kaikki</button>
         <button class="chip-btn" data-f="sight">Nähtävyydet</button>
         <button class="chip-btn" data-f="food">Ruoka</button>
         <button class="chip-btn" data-f="bar">Baarit &amp; illat</button>
@@ -497,12 +496,15 @@
         <button class="chip-btn" data-f="trip">Päiväretket</button>
         <button class="chip-btn" data-f="hike">Vaellus</button>
       </div>
-      <div class="gbar">
-        <button class="chip-btn" data-z="nizza">↘ Nizza</button>
-        <button class="chip-btn" data-z="monaco">↘ Monaco</button>
-        <button class="chip-btn" data-z="cannes">↘ Cannes</button>
-        <button class="chip-btn" data-z="hike">↘ Vaellus</button>
-        <button class="chip-btn" data-z="all">↘ Koko Riviera</button>
+      <div class="gbar" id="daybar">
+        <span class="dblbl">Päivän reitti</span>
+        <button class="chip-btn" data-df="to">TO 9</button>
+        <button class="chip-btn" data-df="pe">PE 10</button>
+        <button class="chip-btn" data-df="la">LA 11</button>
+        <button class="chip-btn" data-df="su">SU 12</button>
+        <button class="chip-btn" data-df="ma">MA 13</button>
+        <button class="chip-btn" data-df="ti">TI 14</button>
+        <button class="chip-btn" data-df="ke">KE 15</button>
         <span class="spacer"></span>
         <a class="gbtn" href="https://www.google.com/maps/dir/?api=1&origin=Nice+Ville+station&destination=Monaco+Monte-Carlo+station&travelmode=transit" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="3.5" width="14" height="13.5" rx="2.5"/><path d="M5 10h14M9.5 20.5 8 22.5M14.5 20.5l1.5 2"/><circle cx="9" cy="14" r="0.8"/><circle cx="15" cy="14" r="0.8"/></svg> Junareitit Mapsissa</a>
       </div>
@@ -516,7 +518,7 @@
         <span class="leg"><i style="border-color:var(--sun)"></i> Päiväretki</span>
         <span class="leg"><i style="border-color:var(--palm)"></i> Vaellus</span>
       </div>
-      <p class="map-hint"><span class="mono">43.70°N 7.27°E</span> · ⛶ koko näyttö kartan vasemmasta yläkulmasta · zoomi aktivoituu klikkaamalla karttaa · toimii sormella mobiilissa.</p>
+      <p class="map-hint"><span class="mono">43.70°N 7.27°E</span> · pienet pisteet kasvavat merkeiksi lähizoomilla · ⛶ koko näyttö vasemmasta yläkulmasta · zoomi aktivoituu klikkaamalla.</p>
     </div>
   </section>
 </div>
@@ -568,100 +570,100 @@
    ================================================================= */
 const PLACES = [
   /* ---- koti & liikenne ---- */
-  {n:'Kämppä — Le Zen',cat:'home',zone:'nizza',la:43.7031,lo:7.2637,lbl:1,d:'18 Rue d’Angleterre · summeri “Cosmo K” · 1. krs. 200 m asemalle, 900 m vanhaan kaupunkiin ja rannalle.',tip:'Check-in to 9.7 klo 14 → ilmoita Amandinelle (WhatsApp +33 6 19 72 72 59).',q:'18 Rue d\'Angleterre 06000 Nice France'},
-  {n:'Gare de Nice-Ville',cat:'transit',zone:'nizza',la:43.7046,lo:7.2618,d:'Päärautatieasema — junat Monacoon, Cannesiin, Villefrancheen. 200 m kämpältä.',tip:'Heinäkuussa junat klo 10–19 täysiä — menkää ajoissa. Laukkusäilytys Bagmobile asemalla 8.15–21.',q:'Gare de Nice-Ville'},
-  {n:'Nizzan lentokenttä (NCE)',cat:'transit',zone:'nizza',la:43.6653,lo:7.2150,d:'Norwegian = terminaali 1, Finnair = terminaali 2. Ratikka T2 kulkee terminaaleilta keskustaan.',tip:'Schengen-lento heinäkuussa: kentälle ~2 h ennen.',q:'Nice Côte d\'Azur Airport'},
-  {n:'Grand Arénas -vaihtopysäkki',cat:'transit',zone:'nizza',la:43.6717,lo:7.2126,d:'Été Vésubie -vaellusbussin lähtöpaikka su 12.7 klo 7:30. Ratikka T2:lla ~20 min keskustasta.',tip:'Sunnuntaina liikkeelle kämpältä viim. 6:40.',q:'Grand Arénas Nice tram'},
-  {n:'Théâtre de Verdure',cat:'sight',zone:'nizza',la:43.6946,lo:7.2665,d:'Ulkoilmalava Promin kupeessa — 14.7. klo 20:30 filharmonikkojen ilmaiskonsertti muistopäivänä.',pr:'ilmainen',tip:'Sen jälkeen klo 22 droneshow ja 22:34 valokeilat Promilla.',q:'Théâtre de Verdure Nice'},
+  {n:'Kämppä — Le Zen',d:['to','pe','la','su','ma','ti','ke'],cat:'home',zone:'nizza',la:43.7031,lo:7.2637,lbl:1,d:'18 Rue d’Angleterre · summeri “Cosmo K” · 1. krs. 200 m asemalle, 900 m vanhaan kaupunkiin ja rannalle.',tip:'Check-in to 9.7 klo 14 → ilmoita Amandinelle (WhatsApp +33 6 19 72 72 59).',q:'18 Rue d\'Angleterre 06000 Nice France'},
+  {n:'Gare de Nice-Ville',d:['to','la','ma','ke'],cat:'transit',zone:'nizza',la:43.7046,lo:7.2618,d:'Päärautatieasema — junat Monacoon, Cannesiin, Villefrancheen. 200 m kämpältä.',tip:'Heinäkuussa junat klo 10–19 täysiä — menkää ajoissa. Laukkusäilytys Bagmobile asemalla 8.15–21.',q:'Gare de Nice-Ville'},
+  {n:'Nizzan lentokenttä (NCE)',d:['to','ke'],cat:'transit',zone:'nizza',la:43.6653,lo:7.2150,d:'Norwegian = terminaali 1, Finnair = terminaali 2. Ratikka T2 kulkee terminaaleilta keskustaan.',tip:'Schengen-lento heinäkuussa: kentälle ~2 h ennen.',q:'Nice Côte d\'Azur Airport'},
+  {n:'Grand Arénas -vaihtopysäkki',d:['su'],cat:'transit',zone:'nizza',la:43.6717,lo:7.2126,d:'Été Vésubie -vaellusbussin lähtöpaikka su 12.7 klo 7:30. Ratikka T2:lla ~20 min keskustasta.',tip:'Sunnuntaina liikkeelle kämpältä viim. 6:40.',q:'Grand Arénas Nice tram'},
+  {n:'Théâtre de Verdure',d:['ti'],cat:'sight',zone:'nizza',la:43.6946,lo:7.2665,d:'Ulkoilmalava Promin kupeessa — 14.7. klo 20:30 filharmonikkojen ilmaiskonsertti muistopäivänä.',pr:'ilmainen',tip:'Sen jälkeen klo 22 droneshow ja 22:34 valokeilat Promilla.',q:'Théâtre de Verdure Nice'},
 
   /* ---- Nizza: nähtävyydet ---- */
-  {n:'Vieux Nice — vanha kaupunki',cat:'sight',zone:'nizza',la:43.6971,lo:7.2760,lbl:1,star:1,d:'Kapeat kujat, Place Rossetti, barokkikirkot, socca-kojut ja baarit — Nizzan sydän.',tip:'Illalla vilkkain baarialue; päivällä varjoisat kujat pelastavat helteeltä.',q:'Vieux Nice Place Rossetti'},
-  {n:'Colline du Château — Linnavuori',cat:'sight',zone:'nizza',la:43.6950,lo:7.2797,star:1,d:'Paras näköala Baie des Angesiin: puisto, rauniot ja tekovesiputous. Ilmainen.',pr:'ilmainen',tip:'Ilmainen hissi Hotel Suissen vierestä (~9–19). Auringonlasku ~21.15.',q:'Castle Hill Nice viewpoint'},
-  {n:'Promenade des Anglais',cat:'sight',zone:'nizza',la:43.6946,lo:7.2559,star:1,d:'7 km ikoninen rantabulevardi — kävely, pyöräily, auringonlaskut.',pr:'ilmainen',tip:'Pyörällä päästä päähän aamulla ennen hellettä.',q:'Promenade des Anglais Nice'},
-  {n:'Cours Saleya -tori',cat:'sight',zone:'nizza',la:43.6953,lo:7.2751,star:1,d:'Kuuluisa kukka- ja ruokatori. Ti–su ~6–13.30, maanantaisin antiikkitori.',pr:'ilmainen',tip:'Mene ennen puoltapäivää. Aamiais-socca Chez Thérésalta.',q:'Cours Saleya market Nice'},
-  {n:'Place Masséna',cat:'sight',zone:'nizza',la:43.6972,lo:7.2700,d:'Punainen pääaukio ja Promenade du Paillon -puisto suihkulähteineen.',pr:'ilmainen',tip:'Illalla valaistut “istuvat miehet” -patsaat.',q:'Place Massena Nice'},
-  {n:'#ILoveNice & Rauba-Capeu',cat:'sight',zone:'nizza',la:43.6934,lo:7.2833,d:'Niemenkärjen näköalakaide sataman ja Promin välissä — klassinen ryhmäkuvapaikka.',pr:'ilmainen',tip:'Kyltillä jonoa päivällä — aamulla tyhjempää. IG-stoori ✓.',q:'I Love Nice sign Rauba Capeu'},
-  {n:'Port Lympia',cat:'sight',zone:'nizza',la:43.6961,lo:7.2859,d:'Värikäs vanha satama, veneitä ja aperitiivibaareja itärannalla.',pr:'ilmainen',tip:'Ilmainen sähkövene Lou Passagin ylittää sataman klo 10–19.',q:'Port Lympia Nice'},
+  {n:'Vieux Nice — vanha kaupunki',d:['to'],cat:'sight',zone:'nizza',la:43.6971,lo:7.2760,star:1,d:'Kapeat kujat, Place Rossetti, barokkikirkot, socca-kojut ja baarit — Nizzan sydän.',tip:'Illalla vilkkain baarialue; päivällä varjoisat kujat pelastavat helteeltä.',q:'Vieux Nice Place Rossetti'},
+  {n:'Colline du Château — Linnavuori',d:['pe'],cat:'sight',zone:'nizza',la:43.6950,lo:7.2797,star:1,d:'Paras näköala Baie des Angesiin: puisto, rauniot ja tekovesiputous. Ilmainen.',pr:'ilmainen',tip:'Ilmainen hissi Hotel Suissen vierestä (~9–19). Auringonlasku ~21.15.',q:'Castle Hill Nice viewpoint'},
+  {n:'Promenade des Anglais',d:['ti'],cat:'sight',zone:'nizza',la:43.6946,lo:7.2559,star:1,d:'7 km ikoninen rantabulevardi — kävely, pyöräily, auringonlaskut.',pr:'ilmainen',tip:'Pyörällä päästä päähän aamulla ennen hellettä.',q:'Promenade des Anglais Nice'},
+  {n:'Cours Saleya -tori',d:['to'],cat:'sight',zone:'nizza',la:43.6953,lo:7.2751,star:1,d:'Kuuluisa kukka- ja ruokatori. Ti–su ~6–13.30, maanantaisin antiikkitori.',pr:'ilmainen',tip:'Mene ennen puoltapäivää. Aamiais-socca Chez Thérésalta.',q:'Cours Saleya market Nice'},
+  {n:'Place Masséna',d:['to','ti'],cat:'sight',zone:'nizza',la:43.6972,lo:7.2700,d:'Punainen pääaukio ja Promenade du Paillon -puisto suihkulähteineen.',pr:'ilmainen',tip:'Illalla valaistut “istuvat miehet” -patsaat.',q:'Place Massena Nice'},
+  {n:'#ILoveNice & Rauba-Capeu',d:['pe'],cat:'sight',zone:'nizza',la:43.6934,lo:7.2833,d:'Niemenkärjen näköalakaide sataman ja Promin välissä — klassinen ryhmäkuvapaikka.',pr:'ilmainen',tip:'Kyltillä jonoa päivällä — aamulla tyhjempää. IG-stoori ✓.',q:'I Love Nice sign Rauba Capeu'},
+  {n:'Port Lympia',d:['pe'],cat:'sight',zone:'nizza',la:43.6961,lo:7.2859,d:'Värikäs vanha satama, veneitä ja aperitiivibaareja itärannalla.',pr:'ilmainen',tip:'Ilmainen sähkövene Lou Passagin ylittää sataman klo 10–19.',q:'Port Lympia Nice'},
   {n:'Fort du Mont Alban',cat:'sight',zone:'nizza',la:43.6996,lo:7.3003,d:'1500-luvun linnake 220 m korkeudella — näkymät Villefranchen lahdelle ja Cap Ferrat’lle.',pr:'ilmainen',tip:'Bussi 15 ylös tai ~40 min kävely satamasta. Aamulenkiksi.',q:'Fort du Mont Alban Nice'},
   {n:'Musée Masséna',cat:'sight',zone:'nizza',la:43.6944,lo:7.2578,d:'Belle Époque -huvila Promilla: Rivieran historia ja hieno puutarha.',pr:'10 €',tip:'Ke–ma 10–18 (ti kiinni). Paras “kevyt” museo porukalle.',q:'Musee Massena Nice'},
   {n:'Musée Marc Chagall',cat:'sight',zone:'nizza',la:43.7116,lo:7.2703,d:'Chagallin raamattusarja — tunnelmallisin taidepysäkki, Cimiez’n kukkulalla.',pr:'8–10 €',tip:'Ti kiinni; heinäkuussa 2026 keskipäivän sulkuja — tarkista aukiolo.',q:'Musee Marc Chagall Nice'},
 
   /* ---- Nizza: rannat ---- */
-  {n:'Plage du Centenaire',cat:'beach',zone:'nizza',la:43.6943,lo:7.2664,d:'Keskeinen julkinen ranta Promilla, suihkut ja valvonta kesällä.',pr:'ilmainen',tip:'Kivikko kuumenee — uimatossut (~10 € Decathlon) on pro-move.',q:'Plage du Centenaire Nice'},
-  {n:'Castel Plage',cat:'beach',zone:'nizza',la:43.6939,lo:7.2792,star:1,d:'Suosituin rantaklubi Linnavuoren alla, kirkas vesi. Julkinen kaistale vieressä ilmaiseksi.',pr:'tuoli ~30–45 €',tip:'Klubipäivänä varaa netistä etukäteen; sunset-drinkit ilman varausta.',q:'Castel Plage Nice'},
-  {n:'Coco Beach / La Réserve',cat:'beach',zone:'nizza',la:43.6905,lo:7.2960,d:'Paikallisten kallioranta: kirkkain vesi, snorklausta, vähemmän turisteja.',pr:'ilmainen',tip:'Ei palveluita — kengät, maski ja vesipullo mukaan.',q:'Coco Beach Nice'},
+  {n:'Plage du Centenaire',d:['to'],cat:'beach',zone:'nizza',la:43.6943,lo:7.2664,d:'Keskeinen julkinen ranta Promilla, suihkut ja valvonta kesällä.',pr:'ilmainen',tip:'Kivikko kuumenee — uimatossut (~10 € Decathlon) on pro-move.',q:'Plage du Centenaire Nice'},
+  {n:'Castel Plage',d:['pe'],cat:'beach',zone:'nizza',la:43.6939,lo:7.2792,star:1,d:'Suosituin rantaklubi Linnavuoren alla, kirkas vesi. Julkinen kaistale vieressä ilmaiseksi.',pr:'tuoli ~30–45 €',tip:'Klubipäivänä varaa netistä etukäteen; sunset-drinkit ilman varausta.',q:'Castel Plage Nice'},
+  {n:'Coco Beach / La Réserve',d:['su'],cat:'beach',zone:'nizza',la:43.6905,lo:7.2960,d:'Paikallisten kallioranta: kirkkain vesi, snorklausta, vähemmän turisteja.',pr:'ilmainen',tip:'Ei palveluita — kengät, maski ja vesipullo mukaan.',q:'Coco Beach Nice'},
   {n:'Sentier du littoral — Cap de Nice',cat:'beach',zone:'nizza',la:43.6913,lo:7.2938,d:'Rantakalliopolku Cap de Nicen ympäri — uimapaikkoja ja upeat näkymät.',pr:'ilmainen',tip:'Aamulla; kalliot liukkaita, uimakengät mukaan.',q:'Sentier du littoral Cap de Nice'},
 
   /* ---- Nizza: aktiviteetit ---- */
-  {n:'Sähköpyörät / pyörävuokra',cat:'sight',zone:'nizza',la:43.7010,lo:7.2650,d:'E-bike ~39 €/pv, tavallinen ~15–19 €/pv. Lime/Pony-potkulaudat ja kaupunkipyörät apilla.',pr:'15–39 €/pv',tip:'Prom → Villefranche → Cap Ferrat on loistava e-bike-lenkki.',q:'Holland Bikes Nice'},
+  {n:'Sähköpyörät / pyörävuokra',d:['ti'],cat:'sight',zone:'nizza',la:43.7010,lo:7.2650,d:'E-bike ~39 €/pv, tavallinen ~15–19 €/pv. Lime/Pony-potkulaudat ja kaupunkipyörät apilla.',pr:'15–39 €/pv',tip:'Prom → Villefranche → Cap Ferrat on loistava e-bike-lenkki.',q:'Holland Bikes Nice'},
   {n:'SUP & kajakki — Nikaia Glisse',cat:'beach',zone:'nizza',la:43.6918,lo:7.2929,d:'SUP/kajakkivuokraus satamanlahdella — meloen kohti Villefranchea.',pr:'~15 €/h',tip:'Aamumeri tyynin. Kysy ryhmähintaa.',q:'Nikaia Glisse Nice'},
   {n:'Trans Côte d’Azur -risteily',cat:'sight',zone:'nizza',la:43.6952,lo:7.2851,d:'1 h rannikkoristeily: Baie des Anges, Cap de Nice ja Villefranchen lahti mereltä.',pr:'23,50 €',tip:'Lähdöt ti–su klo 11 & 15 Quai Lunelilta — “vene-fix” halvalla.',q:'Trans Cote d\'Azur Nice quai Lunel'},
 
   /* ---- Nizza: ruoka ---- */
-  {n:'Chez Pipo',cat:'food',zone:'nizza',la:43.7007,lo:7.2837,star:1,d:'Nizzan paras socca vuodesta 1923 — puu-uuni, terassipöydät sataman kulmilla.',pr:'socca ~3–6 €',tip:'Auki ilt. ~17.30–22 (+lounas). Tilatkaa monta soccaa + rosee.',q:'Chez Pipo Nice'},
-  {n:'Lou Pilha Leva',cat:'food',zone:'nizza',la:43.6982,lo:7.2782,d:'Tiskiltä tarjotin täyteen nizzalaisherkkuja — rento ulkopöytämeininki porukalle.',pr:'~10–15 €',tip:'Nopea lounas isolle porukalle, ei varauksia.',q:'Lou Pilha Leva Nice'},
-  {n:'René Socca',cat:'food',zone:'nizza',la:43.6987,lo:7.2802,d:'Katuruokainstituutio: socca, petits farcis, pissaladière.',pr:'3–8 €',tip:'Ti–su 9–21. Juomat baaritiskiltä, ulkopöytiin.',q:'Rene Socca Nice'},
-  {n:'Le Café de Turin',cat:'food',zone:'nizza',la:43.7013,lo:7.2809,star:1,d:'Yli 100-vuotias äyriäisinstituutio Place Garibaldilla — jaettavat plateau’t.',pr:'€€–€€€',tip:'Iso paikka — walk-in onnistuu 7 hengelläkin.',q:'Cafe de Turin Nice'},
-  {n:'La Rossettisserie',cat:'food',zone:'nizza',la:43.6976,lo:7.2777,star:1,d:'Vain paahdettua lihaa: broileri, karitsa, possu, nauta + muusi. Lihamiesten valinta.',pr:'~17–20 €',tip:'Varaa 1–2 pv etukäteen, pyydä holvikellaripöytä.',q:'La Rossettisserie Nice'},
+  {n:'Chez Pipo',d:['ti'],cat:'food',zone:'nizza',la:43.7007,lo:7.2837,star:1,d:'Nizzan paras socca vuodesta 1923 — puu-uuni, terassipöydät sataman kulmilla.',pr:'socca ~3–6 €',tip:'Auki ilt. ~17.30–22 (+lounas). Tilatkaa monta soccaa + rosee.',q:'Chez Pipo Nice'},
+  {n:'Lou Pilha Leva',d:['to'],cat:'food',zone:'nizza',la:43.6982,lo:7.2782,d:'Tiskiltä tarjotin täyteen nizzalaisherkkuja — rento ulkopöytämeininki porukalle.',pr:'~10–15 €',tip:'Nopea lounas isolle porukalle, ei varauksia.',q:'Lou Pilha Leva Nice'},
+  {n:'René Socca',d:['pe'],cat:'food',zone:'nizza',la:43.6987,lo:7.2802,d:'Katuruokainstituutio: socca, petits farcis, pissaladière.',pr:'3–8 €',tip:'Ti–su 9–21. Juomat baaritiskiltä, ulkopöytiin.',q:'Rene Socca Nice'},
+  {n:'Le Café de Turin',d:['to'],cat:'food',zone:'nizza',la:43.7013,lo:7.2809,star:1,d:'Yli 100-vuotias äyriäisinstituutio Place Garibaldilla — jaettavat plateau’t.',pr:'€€–€€€',tip:'Iso paikka — walk-in onnistuu 7 hengelläkin.',q:'Cafe de Turin Nice'},
+  {n:'La Rossettisserie',d:['pe'],cat:'food',zone:'nizza',la:43.6976,lo:7.2777,star:1,d:'Vain paahdettua lihaa: broileri, karitsa, possu, nauta + muusi. Lihamiesten valinta.',pr:'~17–20 €',tip:'Varaa 1–2 pv etukäteen, pyydä holvikellaripöytä.',q:'La Rossettisserie Nice'},
   {n:'Acchiardo',cat:'food',zone:'nizza',la:43.6979,lo:7.2787,d:'Perheravintola vuodesta 1927 — aitoa nizzalaista huippumaineella.',pr:'~15–25 €',tip:'Huom: kiinni la–su. Varaa puhelimitse pari päivää etukäteen.',q:'Acchiardo Nice'},
-  {n:'Chez Davia',cat:'food',zone:'nizza',la:43.6999,lo:7.2621,d:'Nizzalaisklassikot vuodesta 1953 — Michelin Bib Gourmand 2026, 300 m kämpältä.',pr:'€€',tip:'Varaa. Tilatkaa daube niçoise ja sitruunatorttu.',q:'Chez Davia Nice'},
-  {n:'Bistrot d’Antoine',cat:'food',zone:'nizza',la:43.6963,lo:7.2761,star:1,d:'Bib Gourmand -bistro — Nizzan paras hinta-laatu, “treat yourself” -ilta.',pr:'~30–45 €',tip:'Soita heti: 7 hengen pöytä vaatii 1–2 vk ennakon. Su–ma kiinni.',q:'Bistrot d\'Antoine Nice'},
-  {n:'Peixes',cat:'food',zone:'nizza',la:43.6953,lo:7.2712,d:'Trendikäs kala- ja ceviche-tapas, nuorekas meno.',pr:'12–25 €',tip:'Ei varauksia — heti avaamisaikaan tai jonoon.',q:'Peixes Opera Nice'},
-  {n:'Fenocchio',cat:'food',zone:'nizza',la:43.6973,lo:7.2770,star:1,d:'Jäätelöinstituutio 1966 — ~96 makua: laventeli, tomaatti-basilika, olut…',pr:'pallo ~3 €',tip:'Place Rossetti, auki ~9–24. Erikoismaut testiin.',q:'Fenocchio Place Rossetti Nice'},
-  {n:'Mama Baker',cat:'food',zone:'nizza',la:43.7043,lo:7.2707,d:'Trendileipomo 400 m kämpältä — huippucroissantit aamuihin.',pr:'€',tip:'Ennen klo 10. Hapanjuurileipä rantaeväiksi.',q:'Mama Baker Nice'},
-  {n:'Monoprix Jean Médecin',cat:'food',zone:'nizza',la:43.7022,lo:7.2674,d:'Iso market kämpän ja keskustan välissä: aamiaiset, bisset, snacksit.',pr:'€',tip:'Ma–la ~8.30–21. Carrefour City (Av. Thiers) 200 m kämpältä, auki myöhempään + su.',q:'Monoprix Avenue Jean Medecin Nice'},
+  {n:'Chez Davia',d:['su'],cat:'food',zone:'nizza',la:43.6999,lo:7.2621,d:'Nizzalaisklassikot vuodesta 1953 — Michelin Bib Gourmand 2026, 300 m kämpältä.',pr:'€€',tip:'Varaa. Tilatkaa daube niçoise ja sitruunatorttu.',q:'Chez Davia Nice'},
+  {n:'Bistrot d’Antoine',d:['ti'],cat:'food',zone:'nizza',la:43.6963,lo:7.2761,star:1,d:'Bib Gourmand -bistro — Nizzan paras hinta-laatu, “treat yourself” -ilta.',pr:'~30–45 €',tip:'Soita heti: 7 hengen pöytä vaatii 1–2 vk ennakon. Su–ma kiinni.',q:'Bistrot d\'Antoine Nice'},
+  {n:'Peixes',d:['pe'],cat:'food',zone:'nizza',la:43.6953,lo:7.2712,d:'Trendikäs kala- ja ceviche-tapas, nuorekas meno.',pr:'12–25 €',tip:'Ei varauksia — heti avaamisaikaan tai jonoon.',q:'Peixes Opera Nice'},
+  {n:'Fenocchio',d:['ke'],cat:'food',zone:'nizza',la:43.6973,lo:7.2770,star:1,d:'Jäätelöinstituutio 1966 — ~96 makua: laventeli, tomaatti-basilika, olut…',pr:'pallo ~3 €',tip:'Place Rossetti, auki ~9–24. Erikoismaut testiin.',q:'Fenocchio Place Rossetti Nice'},
+  {n:'Mama Baker',d:['pe'],cat:'food',zone:'nizza',la:43.7043,lo:7.2707,d:'Trendileipomo 400 m kämpältä — huippucroissantit aamuihin.',pr:'€',tip:'Ennen klo 10. Hapanjuurileipä rantaeväiksi.',q:'Mama Baker Nice'},
+  {n:'Monoprix Jean Médecin',d:['to'],cat:'food',zone:'nizza',la:43.7022,lo:7.2674,d:'Iso market kämpän ja keskustan välissä: aamiaiset, bisset, snacksit.',pr:'€',tip:'Ma–la ~8.30–21. Carrefour City (Av. Thiers) 200 m kämpältä, auki myöhempään + su.',q:'Monoprix Avenue Jean Medecin Nice'},
 
   /* ---- Nizza: baarit & illat ---- */
-  {n:'Moon Bar — Aston La Scala',cat:'bar',zone:'nizza',la:43.6997,lo:7.2737,star:1,d:'Allun toivepaikka ✓ — kattoterassi merinäkymin, vahvistettu auki 2026.',pr:'cocktail ~15–18 €',tip:'Auki päivittäin 10–00.30. Tulkaa sunsetiksi (~21).',q:'Moon Bar Hotel Aston La Scala Nice'},
-  {n:'Les Distilleries Idéales',cat:'bar',zone:'nizza',la:43.6966,lo:7.2766,star:1,d:'Vanhan kaupungin baari-instituutio — 18 hanaa, aina täynnä, aito meininki.',pr:'tuoppi ~4–7 €',tip:'Happy hour 18–20 — tänne ekana iltana.',q:'Les Distilleries Ideales Nice'},
-  {n:'Ma Nolan’s',cat:'bar',zone:'nizza',la:43.6952,lo:7.2719,star:1,d:'Irkkupubi — kaikki urheilu isoilta screeneiltä. MM-pelien ykköspaikka.',pr:'tuoppi ~7,5–8 €',tip:'Peleihin paikalle 45–60 min ennen. Toinen pubi satamassa.',q:'Ma Nolan\'s Irish Pub Vieux Nice'},
-  {n:'Wayne’s Bar',cat:'bar',zone:'nizza',la:43.6962,lo:7.2753,d:'Legendaarinen bilepubi: sportti, livebändit ja pöydillä tanssiminen.',pr:'tuoppi ~8 €',tip:'Happy hour 16–20, illalla täysi show. Auki 12–02.',q:'Wayne\'s Bar Nice'},
+  {n:'Moon Bar — Aston La Scala',d:['ti'],cat:'bar',zone:'nizza',la:43.6997,lo:7.2737,star:1,d:'Allun toivepaikka ✓ — kattoterassi merinäkymin, vahvistettu auki 2026.',pr:'cocktail ~15–18 €',tip:'Auki päivittäin 10–00.30. Tulkaa sunsetiksi (~21).',q:'Moon Bar Hotel Aston La Scala Nice'},
+  {n:'Les Distilleries Idéales',d:['to'],cat:'bar',zone:'nizza',la:43.6966,lo:7.2766,star:1,d:'Vanhan kaupungin baari-instituutio — 18 hanaa, aina täynnä, aito meininki.',pr:'tuoppi ~4–7 €',tip:'Happy hour 18–20 — tänne ekana iltana.',q:'Les Distilleries Ideales Nice'},
+  {n:'Ma Nolan’s',d:['to','pe'],cat:'bar',zone:'nizza',la:43.6952,lo:7.2719,star:1,d:'Irkkupubi — kaikki urheilu isoilta screeneiltä. MM-pelien ykköspaikka.',pr:'tuoppi ~7,5–8 €',tip:'Peleihin paikalle 45–60 min ennen. Toinen pubi satamassa.',q:'Ma Nolan\'s Irish Pub Vieux Nice'},
+  {n:'Wayne’s Bar',d:['pe'],cat:'bar',zone:'nizza',la:43.6962,lo:7.2753,d:'Legendaarinen bilepubi: sportti, livebändit ja pöydillä tanssiminen.',pr:'tuoppi ~8 €',tip:'Happy hour 16–20, illalla täysi show. Auki 12–02.',q:'Wayne\'s Bar Nice'},
   {n:'Beer District',cat:'bar',zone:'nizza',la:43.7071,lo:7.2643,d:'Nizzan paras craft-baari — 16 hanaa, 50 pulloa, Libérationin kulmilla.',pr:'craft ~7–8 €',tip:'Auki ~18–01, su kiinni. Saa maistaa ennen tilausta.',q:'Beer District Liberation Nice'},
   {n:'Shapko',cat:'bar',zone:'nizza',la:43.6973,lo:7.2779,d:'Livemusiikkia joka ilta (jazz/funk/blues) — ei sisäänpääsymaksua.',pr:'drinkit ~10–12 €',tip:'Bändi lavalle ~22.30, auki 04.30 asti.',q:'Shapko Bar Nice'},
   {n:'High Club',cat:'bar',zone:'nizza',la:43.6946,lo:7.2622,d:'Nizzan pääklubi Promenadella — jos yökerhofiilis iskee.',pr:'entry ~10–20 €',tip:'Vain to–la 00–05. Menkää ~01.',q:'High Club Nice'},
   {n:'Babel Babel',cat:'bar',zone:'nizza',la:43.6944,lo:7.2745,d:'Välimeri-baari suoraan rantaa vastapäätä — sunset-aperitiivit.',pr:'drinkit ~12–14 €',tip:'Auki 7/7, ei varausta.',q:'Babel Babel Nice'},
 
   /* ---- Päiväretket: lähikohteet ---- */
-  {n:'Villefranche-sur-Mer',cat:'trip',zone:'nizza',la:43.7036,lo:7.3118,star:1,d:'Värikäs satamakylä ja Nizzaa hiekkaisempi Plage des Marinières heti asemalla.',pr:'juna ~2,10 € · 6 min',tip:'Vanha kaupunki + Rue Obscure + uinti = täydellinen puolikas päivä.',q:'Villefranche-sur-Mer old town'},
+  {n:'Villefranche-sur-Mer',d:['ti','ke'],cat:'trip',zone:'nizza',la:43.7036,lo:7.3118,star:1,d:'Värikäs satamakylä ja Nizzaa hiekkaisempi Plage des Marinières heti asemalla.',pr:'juna ~2,10 € · 6 min',tip:'Vanha kaupunki + Rue Obscure + uinti = täydellinen puolikas päivä.',q:'Villefranche-sur-Mer old town'},
   {n:'Èze + Nietzschen polku',cat:'trip',zone:'nizza',la:43.7275,lo:7.3618,d:'Keskiaikainen kotkanpesäkylä 400 m merenpinnasta, näköalapuutarha (10 €).',pr:'bussi 1,70 €',tip:'Bussi 82 ylös, Nietzschen polku ALAS asemalle (45–60 min) — ei nousua helteessä.',q:'Eze village'},
-  {n:'Plage Mala — Cap d’Ail',cat:'trip',zone:'nizza',la:43.7188,lo:7.4044,d:'Dramaattinen kallioiden reunustama poukama — Rivieran kaunein lähiranta.',pr:'juna ~3 €',tip:'~100 porrasta alas. Aamulla, täyttyy nopeasti.',q:'Plage Mala Cap d\'Ail'},
+  {n:'Plage Mala — Cap d’Ail',d:['ti'],cat:'trip',zone:'nizza',la:43.7188,lo:7.4044,d:'Dramaattinen kallioiden reunustama poukama — Rivieran kaunein lähiranta.',pr:'juna ~3 €',tip:'~100 porrasta alas. Aamulla, täyttyy nopeasti.',q:'Plage Mala Cap d\'Ail'},
   {n:'Villa Ephrussi de Rothschild',cat:'trip',zone:'nizza',la:43.6940,lo:7.3306,d:'Vaaleanpunainen palatsi ja 9 teemapuutarhaa suihkulähdeshow’lla Cap Ferrat’lla.',pr:'18 €',tip:'Bussi 15. Yhdistä Paloma Beachiin ja rantapolkuun.',q:'Villa Ephrussi de Rothschild'},
 
   /* ---- Monaco ---- */
-  {n:'Casino de Monte-Carlo',cat:'trip',zone:'monaco',la:43.7391,lo:7.4281,lbl:1,star:1,d:'Maailman kuuluisin kasino — Bond-fiilis. Pelisalit avautuvat klo 14.',pr:'20 € (sis. 10 € pelikrediitin)',tip:'Klo 14+ ei shortseja/lenkkareita, klo 19+ siistimmin. Passi mukaan, 18+.',q:'Casino de Monte-Carlo'},
-  {n:'Casino Square — autobongaus',cat:'trip',zone:'monaco',la:43.7392,lo:7.4276,d:'Ferrarit ja Lamborghinit parkkeeraavat kasinon eteen — paras ilmainen show.',pr:'ilmainen',tip:'Paras autosaalis klo 17–21 Café de Paris’n terassilta.',q:'Place du Casino Monaco'},
-  {n:'F1-radan kävely & hiuspinni',cat:'trip',zone:'monaco',la:43.7404,lo:7.4291,star:1,d:'Kävele koko 3,3 km rata: lähtösuora, kasinomutka, Fairmont-hiuspinni, tunneli, allasosuus.',pr:'ilmainen',tip:'Tunnelissa on jalkakäytävä. Aloita Blvd Albert 1er:ltä, ~1,5 h.',q:'Fairmont Hairpin Monaco'},
-  {n:'Ruhtinaan palatsi',cat:'trip',zone:'monaco',la:43.7312,lo:7.4197,d:'Grimaldien palatsi Le Rocher -kalliolla. Vahdinvaihto joka päivä klo 11.55.',pr:'aukio ilmainen',tip:'Paikalle 11.30 hyvän katselupaikan takia.',q:'Palais Princier Monaco'},
-  {n:'Monacon katedraali',cat:'trip',zone:'monaco',la:43.7305,lo:7.4230,d:'Grace Kellyn ja Rainier III:n haudat — 15 min pysähdys Rocher-kierroksella.',pr:'ilmainen',tip:'Ei paljaita olkapäitä sisällä.',q:'Cathédrale de Monaco'},
-  {n:'Musée Océanographique',cat:'trip',zone:'monaco',la:43.7307,lo:7.4255,d:'Näyttävä meritiedemuseo kallion reunalla — hait ja kattoterassi.',pr:'22,50 €',tip:'Hintava: valitkaa tämä TAI kasino.',q:'Musée Océanographique Monaco'},
-  {n:'Jardin Exotique',cat:'trip',zone:'monaco',la:43.7323,lo:7.4114,d:'Avattu uudelleen 3/2026 kuuden vuoden remontin jälkeen — kaktukset ja huikein näköala.',pr:'12 €',tip:'Bussi 2 ylös, kävely alas. Uutuus 2026!',q:'Jardin Exotique Monaco'},
-  {n:'Port Hercule',cat:'trip',zone:'monaco',la:43.7348,lo:7.4257,d:'Superjahtien satama — kävele laitureita ja ihmettele kymmenien miljoonien veneitä.',pr:'ilmainen',tip:'Yhdistä F1-radan kävelyyn.',q:'Port Hercule Monaco'},
-  {n:'Marché de la Condamine',cat:'trip',zone:'monaco',la:43.7327,lo:7.4192,star:1,d:'Ruokahalli paikallisten torilla — Monacon halvin kunnon lounas.',pr:'socca 3 €, annokset 8–15 €',tip:'Chez Rogerin socca on pakollinen.',q:'Marché de la Condamine Monaco'},
-  {n:'Café de Paris',cat:'trip',zone:'monaco',la:43.7389,lo:7.4272,d:'Legendaarinen terassi Casino Squarella — maksat näköalasta.',pr:'olut ~10–16 €',tip:'Budjetoi yksi “bling-bisse” ja katselkaa autoja tunti.',q:'Café de Paris Monte-Carlo'},
-  {n:'Larvotto-ranta',cat:'trip',zone:'monaco',la:43.7448,lo:7.4340,d:'Monacon julkinen ranta — suihkut ja meduusaverkko.',pr:'ilmainen',tip:'Kivipohja: uimatossut. Ennen klo 11 tai iltapäiväpulahdus.',q:'Plage du Larvotto Monaco'},
+  {n:'Casino de Monte-Carlo',d:['la'],cat:'trip',zone:'monaco',la:43.7391,lo:7.4281,star:1,d:'Maailman kuuluisin kasino — Bond-fiilis. Pelisalit avautuvat klo 14.',pr:'20 € (sis. 10 € pelikrediitin)',tip:'Klo 14+ ei shortseja/lenkkareita, klo 19+ siistimmin. Passi mukaan, 18+.',q:'Casino de Monte-Carlo'},
+  {n:'Casino Square — autobongaus',d:['la'],cat:'trip',zone:'monaco',la:43.7392,lo:7.4276,d:'Ferrarit ja Lamborghinit parkkeeraavat kasinon eteen — paras ilmainen show.',pr:'ilmainen',tip:'Paras autosaalis klo 17–21 Café de Paris’n terassilta.',q:'Place du Casino Monaco'},
+  {n:'F1-radan kävely & hiuspinni',d:['la'],cat:'trip',zone:'monaco',la:43.7404,lo:7.4291,star:1,d:'Kävele koko 3,3 km rata: lähtösuora, kasinomutka, Fairmont-hiuspinni, tunneli, allasosuus.',pr:'ilmainen',tip:'Tunnelissa on jalkakäytävä. Aloita Blvd Albert 1er:ltä, ~1,5 h.',q:'Fairmont Hairpin Monaco'},
+  {n:'Ruhtinaan palatsi',d:['la'],cat:'trip',zone:'monaco',la:43.7312,lo:7.4197,d:'Grimaldien palatsi Le Rocher -kalliolla. Vahdinvaihto joka päivä klo 11.55.',pr:'aukio ilmainen',tip:'Paikalle 11.30 hyvän katselupaikan takia.',q:'Palais Princier Monaco'},
+  {n:'Monacon katedraali',d:['la'],cat:'trip',zone:'monaco',la:43.7305,lo:7.4230,d:'Grace Kellyn ja Rainier III:n haudat — 15 min pysähdys Rocher-kierroksella.',pr:'ilmainen',tip:'Ei paljaita olkapäitä sisällä.',q:'Cathédrale de Monaco'},
+  {n:'Musée Océanographique',d:['la'],cat:'trip',zone:'monaco',la:43.7307,lo:7.4255,d:'Näyttävä meritiedemuseo kallion reunalla — hait ja kattoterassi.',pr:'22,50 €',tip:'Hintava: valitkaa tämä TAI kasino.',q:'Musée Océanographique Monaco'},
+  {n:'Jardin Exotique',d:['la'],cat:'trip',zone:'monaco',la:43.7323,lo:7.4114,d:'Avattu uudelleen 3/2026 kuuden vuoden remontin jälkeen — kaktukset ja huikein näköala.',pr:'12 €',tip:'Bussi 2 ylös, kävely alas. Uutuus 2026!',q:'Jardin Exotique Monaco'},
+  {n:'Port Hercule',d:['la'],cat:'trip',zone:'monaco',la:43.7348,lo:7.4257,d:'Superjahtien satama — kävele laitureita ja ihmettele kymmenien miljoonien veneitä.',pr:'ilmainen',tip:'Yhdistä F1-radan kävelyyn.',q:'Port Hercule Monaco'},
+  {n:'Marché de la Condamine',d:['la'],cat:'trip',zone:'monaco',la:43.7327,lo:7.4192,star:1,d:'Ruokahalli paikallisten torilla — Monacon halvin kunnon lounas.',pr:'socca 3 €, annokset 8–15 €',tip:'Chez Rogerin socca on pakollinen.',q:'Marché de la Condamine Monaco'},
+  {n:'Café de Paris',d:['la'],cat:'trip',zone:'monaco',la:43.7389,lo:7.4272,d:'Legendaarinen terassi Casino Squarella — maksat näköalasta.',pr:'olut ~10–16 €',tip:'Budjetoi yksi “bling-bisse” ja katselkaa autoja tunti.',q:'Café de Paris Monte-Carlo'},
+  {n:'Larvotto-ranta',d:['la'],cat:'trip',zone:'monaco',la:43.7448,lo:7.4340,d:'Monacon julkinen ranta — suihkut ja meduusaverkko.',pr:'ilmainen',tip:'Kivipohja: uimatossut. Ennen klo 11 tai iltapäiväpulahdus.',q:'Plage du Larvotto Monaco'},
 
   /* ---- Cannes ---- */
-  {n:'Palais des Festivals & punaiset portaat',cat:'trip',zone:'cannes',la:43.5507,lo:7.0174,lbl:1,star:1,d:'Elokuvajuhlien kuuluisat 24 porrasta ja tähtien kädenjäljet (Allée des Étoiles).',pr:'ilmainen',tip:'Portailla saa poseerata vapaasti — aamulla vähiten väkeä.',q:'Palais des Festivals Cannes'},
-  {n:'La Croisette & Carlton',cat:'trip',zone:'cannes',la:43.5494,lo:7.0296,d:'Legendaarinen rantabulevardi, luksushotellit ja -kaupat.',pr:'ilmainen',tip:'Carltonin aulaan voi kurkata siististi pukeutuneena.',q:'Carlton Cannes La Croisette'},
-  {n:'Le Suquet & näköalaterassi',cat:'trip',zone:'cannes',la:43.5516,lo:7.0121,star:1,d:'Vanhankaupungin mäki — paras ilmaisnäköala lahdelle ja Lérins-saarille.',pr:'ilmainen',tip:'Kiipeä aamulla ennen hellettä. Museon torni (6 €) kruunaa näkymän.',q:'Notre-Dame d\'Esperance Cannes'},
-  {n:'Marché Forville',cat:'trip',zone:'cannes',la:43.5524,lo:7.0125,d:'Katettu provencelainen aamutori — heinäkuussa joka päivä 7–13.',pr:'ilmainen',tip:'Kerää piknik saarelle täältä — säästät kympit.',q:'Marche Forville Cannes'},
-  {n:'Île Sainte-Marguerite',cat:'trip',zone:'cannes',la:43.5192,lo:7.0445,star:1,d:'Eukalyptusmetsää, kirkasvetisiä poukamia ja Rautanaamiomiehen linnoitus (Fort Royal 6,50 €).',pr:'lautta 17,50 € m-p',tip:'Snorkkeli mukaan: etelärannalla vedenalainen patsasmuseo. VIIMEINEN paluulautta ~18–18.30!',q:'Ile Sainte-Marguerite Cannes'},
-  {n:'Quai Laubeuf — lauttalaituri',cat:'trip',zone:'cannes',la:43.5480,lo:7.0152,d:'Lauttojen lähtöpaikka Lérins-saarille, 10 min asemalta.',pr:'Horizon 17,50 € netistä',tip:'Osta liput etukäteen — heinäkuun aamuvuorot täyttyvät.',q:'Quai Laubeuf Cannes'},
-  {n:'Plage Macé',cat:'trip',zone:'cannes',la:43.5500,lo:7.0235,d:'Ilmainen yleinen hiekkaranta keskellä Croisettea.',pr:'ilmainen',tip:'Pyyhe hiekalle riittää — klubituolit 25–45 € voi skipata.',q:'Plage Mace Cannes'},
+  {n:'Palais des Festivals & punaiset portaat',d:['ma'],cat:'trip',zone:'cannes',la:43.5507,lo:7.0174,star:1,d:'Elokuvajuhlien kuuluisat 24 porrasta ja tähtien kädenjäljet (Allée des Étoiles).',pr:'ilmainen',tip:'Portailla saa poseerata vapaasti — aamulla vähiten väkeä.',q:'Palais des Festivals Cannes'},
+  {n:'La Croisette & Carlton',d:['ma'],cat:'trip',zone:'cannes',la:43.5494,lo:7.0296,d:'Legendaarinen rantabulevardi, luksushotellit ja -kaupat.',pr:'ilmainen',tip:'Carltonin aulaan voi kurkata siististi pukeutuneena.',q:'Carlton Cannes La Croisette'},
+  {n:'Le Suquet & näköalaterassi',d:['ma'],cat:'trip',zone:'cannes',la:43.5516,lo:7.0121,star:1,d:'Vanhankaupungin mäki — paras ilmaisnäköala lahdelle ja Lérins-saarille.',pr:'ilmainen',tip:'Kiipeä aamulla ennen hellettä. Museon torni (6 €) kruunaa näkymän.',q:'Notre-Dame d\'Esperance Cannes'},
+  {n:'Marché Forville',d:['ma'],cat:'trip',zone:'cannes',la:43.5524,lo:7.0125,d:'Katettu provencelainen aamutori — heinäkuussa joka päivä 7–13.',pr:'ilmainen',tip:'Kerää piknik saarelle täältä — säästät kympit.',q:'Marche Forville Cannes'},
+  {n:'Île Sainte-Marguerite',d:['ma'],cat:'trip',zone:'cannes',la:43.5192,lo:7.0445,star:1,d:'Eukalyptusmetsää, kirkasvetisiä poukamia ja Rautanaamiomiehen linnoitus (Fort Royal 6,50 €).',pr:'lautta 17,50 € m-p',tip:'Snorkkeli mukaan: etelärannalla vedenalainen patsasmuseo. VIIMEINEN paluulautta ~18–18.30!',q:'Ile Sainte-Marguerite Cannes'},
+  {n:'Quai Laubeuf — lauttalaituri',d:['ma'],cat:'trip',zone:'cannes',la:43.5480,lo:7.0152,d:'Lauttojen lähtöpaikka Lérins-saarille, 10 min asemalta.',pr:'Horizon 17,50 € netistä',tip:'Osta liput etukäteen — heinäkuun aamuvuorot täyttyvät.',q:'Quai Laubeuf Cannes'},
+  {n:'Plage Macé',d:['ma'],cat:'trip',zone:'cannes',la:43.5500,lo:7.0235,d:'Ilmainen yleinen hiekkaranta keskellä Croisettea.',pr:'ilmainen',tip:'Pyyhe hiekalle riittää — klubituolit 25–45 € voi skipata.',q:'Plage Mace Cannes'},
   {n:'Aux Bons Enfants',cat:'trip',zone:'cannes',la:43.5521,lo:7.0133,d:'Neljännen polven provencelaisbistro — Michelin Bib Gourmand 2026.',pr:'menu 41 €',tip:'Ei nettivarauksia eikä kortteja — käteistä mukaan.',q:'Aux Bons Enfants Cannes'},
-  {n:'La Pizza Cresci',cat:'trip',zone:'cannes',la:43.5504,lo:7.0143,d:'Vanhan sataman pizzainstituutio vuodesta 1960, puu-uuni.',pr:'pizzat 15–17 €',tip:'Auki 11–00.30 joka päivä — sopii isolle porukalle.',q:'La Pizza Cresci Cannes'},
+  {n:'La Pizza Cresci',d:['ma'],cat:'trip',zone:'cannes',la:43.5504,lo:7.0143,d:'Vanhan sataman pizzainstituutio vuodesta 1960, puu-uuni.',pr:'pizzat 15–17 €',tip:'Auki 11–00.30 joka päivä — sopii isolle porukalle.',q:'La Pizza Cresci Cannes'},
 
   /* ---- Antibes (extra) ---- */
   {n:'Vieux Antibes & vallit',cat:'trip',zone:'cannes',la:43.5808,lo:7.1250,d:'Muurien ympäröimä vanhakaupunki — aitoa Rivieraa ilman glamouria. Junalla Nizzan ja Cannesin välissä.',pr:'ilmainen',tip:'Paluumatkalla Cannesista voi hypätä pois — 10 min asemalta.',q:'Vieil Antibes'},
   {n:'Quai des Milliardaires',cat:'trip',zone:'cannes',la:43.5860,lo:7.1290,d:'Euroopan suurin huvivenesatama — miljardöörien superjahdit rivissä.',pr:'ilmainen',tip:'Paras ilmaisviihde: kävele aallonmurtajalle.',q:'Quai des Milliardaires Antibes'},
   {n:'Plage de la Gravette',cat:'trip',zone:'cannes',la:43.5822,lo:7.1276,d:'Ilmainen HIEKKApoukama Antibesin muurien kupeessa — harvinaisuus Rivieralla.',pr:'ilmainen',tip:'Suojaisa ja matala — pulahdus kesken kierroksen.',q:'Plage de la Gravette Antibes'},
-  {n:'Absinthe Bar',cat:'trip',zone:'cannes',la:43.5803,lo:7.1253,d:'Holvikellari, jossa absinttia perinteisin vesilähtein — hattuja saa lainaksi.',pr:'absintti ~10 €',tip:'Sopivan hölmö päätösetappi ennen paluujunaa.',q:'Absinthe Bar Antibes'},
+  {n:'Absinthe Bar',d:['ma'],cat:'trip',zone:'cannes',la:43.5803,lo:7.1253,d:'Holvikellari, jossa absinttia perinteisin vesilähtein — hattuja saa lainaksi.',pr:'absintti ~10 €',tip:'Sopivan hölmö päätösetappi ennen paluujunaa.',q:'Absinthe Bar Antibes'},
 
   /* ---- Vaellus (su 12.7 — varattu) ---- */
-  {n:'Vacherie du Boréon — lähtöpiste',cat:'hike',zone:'hike',la:44.1084,lo:7.3090,lbl:1,d:'Vaelluksen lähtö (~1 670 m) — navette tuo tänne. Leveä metsäpolku puron vartta ylös.',tip:'Été Vésubie -bussi + navette varattu ✓. Reitti: GR52 puna-valkoiset + keltaiset merkit.',q:'Vacherie du Boréon Saint-Martin-Vésubie'},
-  {n:'Lac de Trécolpas',cat:'hike',zone:'hike',la:44.1158,lo:7.3404,star:1,d:'Kirkasvetinen vuoristojärvi 2 150 m — jäätikön hiomaa graniittia, murmeleita rinteillä.',pr:'ilmainen',tip:'Uskaliaimmille pulahdus: vesi ~8-asteista.',q:'Lac de Trécolpas'},
-  {n:'Refuge de la Cougourde',cat:'hike',zone:'hike',la:44.1263,lo:7.3308,star:1,d:'Vuoristomaja ~2 100 m — lounas (12–14), mustikkapiirakkaa ja voitonbisse huikeilla näkymillä.',pr:'VAIN KÄTEINEN',tip:'Ottakaa ~15–20 €/hlö käteistä. Juomia myynnissä koko päivän.',q:'Refuge de la Cougourde'},
-  {n:'Saint-Martin-Vésubie',cat:'hike',zone:'hike',la:44.0701,lo:7.2565,d:'Vuoristokylä — Été Vésubie -bussin vaihtopysäkki, “Alppien Sveitsi”.',tip:'Paluu: navette Boréonista 16:55 → bussi kylästä 17:45 → Nizza ~19:45.',q:'Saint-Martin-Vésubie'}
+  {n:'Vacherie du Boréon — lähtöpiste',d:['su'],cat:'hike',zone:'hike',la:44.1084,lo:7.3090,d:'Vaelluksen lähtö (~1 670 m) — navette tuo tänne. Leveä metsäpolku puron vartta ylös.',tip:'Été Vésubie -bussi + navette varattu ✓. Reitti: GR52 puna-valkoiset + keltaiset merkit.',q:'Vacherie du Boréon Saint-Martin-Vésubie'},
+  {n:'Lac de Trécolpas',d:['su'],cat:'hike',zone:'hike',la:44.1158,lo:7.3404,star:1,d:'Kirkasvetinen vuoristojärvi 2 150 m — jäätikön hiomaa graniittia, murmeleita rinteillä.',pr:'ilmainen',tip:'Uskaliaimmille pulahdus: vesi ~8-asteista.',q:'Lac de Trécolpas'},
+  {n:'Refuge de la Cougourde',d:['su'],cat:'hike',zone:'hike',la:44.1263,lo:7.3308,star:1,d:'Vuoristomaja ~2 100 m — lounas (12–14), mustikkapiirakkaa ja voitonbisse huikeilla näkymillä.',pr:'VAIN KÄTEINEN',tip:'Ottakaa ~15–20 €/hlö käteistä. Juomia myynnissä koko päivän.',q:'Refuge de la Cougourde'},
+  {n:'Saint-Martin-Vésubie',d:['su'],cat:'hike',zone:'hike',la:44.0701,lo:7.2565,d:'Vuoristokylä — Été Vésubie -bussin vaihtopysäkki, “Alppien Sveitsi”.',tip:'Paluu: navette Boréonista 16:55 → bussi kylästä 17:45 → Nizza ~19:45.',q:'Saint-Martin-Vésubie'}
 ];
 
 /* ===== helpers ===== */
@@ -981,64 +983,70 @@ const FsCtl=L.Control.extend({options:{position:'topleft'},onAdd:function(){
 _map.addControl(new FsCtl());
 ['fullscreenchange','webkitfullscreenchange'].forEach(e=>document.addEventListener(e,()=>setTimeout(()=>_map.invalidateSize(),160)));
 
-function mkIcon(p){
-  let cls='mk',g='★';
-  if(p.cat==='sight'){cls+=' mk-sight';g='★';}
-  else if(p.cat==='food'){cls+=' mk-food';g='🍴';}
-  else if(p.cat==='bar'){cls+=' mk-bar';g='🍸';}
-  else if(p.cat==='beach'){cls+=' mk-beach';g='〜';}
-  else if(p.cat==='trip'){cls+=' mk-trip';g='◆';}
-  else if(p.cat==='hike'){cls+=' mk-hike';g='⛰';}
-  else if(p.cat==='home'){cls+=' mk-home';g='⌂';}
-  else if(p.cat==='transit'){cls+=' mk-transit';g='●';}
-  const sz=p.cat==='transit'?18:26,a=sz/2;
-  return L.divIcon({className:'',html:'<div class="'+cls+'">'+g+'</div>',iconSize:[sz,sz],iconAnchor:[a,a],popupAnchor:[0,-a]});
+function mkIcon(p,full){
+  if(p.cat==='home')return L.divIcon({className:'',html:'<div class="mk mk-home">⌂</div>',iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-14]});
+  const sz=full?22:12,a=sz/2;
+  return L.divIcon({className:'',html:'<div class="mk2 c-'+p.cat+(full?'':' mk2-dot')+'"></div>',iconSize:[sz,sz],iconAnchor:[a,a],popupAnchor:[0,-a]});
 }
 
 const markers=[];
 PLACES.forEach(p=>{
   if(typeof p.la!=='number'||typeof p.lo!=='number')return;
-  const m=L.marker([p.la,p.lo],{icon:mkIcon(p)});
+  const m=L.marker([p.la,p.lo],{icon:mkIcon(p,true)});
   m._place=p;
   m.bindPopup('<b class="t">'+(p.star?'★ ':'')+p.n+'</b><div class="m">'+p.d+'</div>'+
     (p.pr?'<div class="pr">'+p.pr+'</div>':'')+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
     '<a class="go" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a>');
   m.bindTooltip(p.n,p.lbl?{permanent:true,direction:'right',className:'map-tip',offset:[12,0]}:{direction:'top',className:'map-tip',offset:[0,-13]});
-  m.addTo(_map);
   markers.push(m);
 });
 
-/* zoom presets */
-const ZOOMS={
-  nizza:[[43.685,7.245],[43.712,7.300]],
-  monaco:[[43.725,7.405],[43.752,7.440]],
-  cannes:[[43.515,6.995],[43.560,7.055]],
-  hike:[[44.050,7.230],[44.145,7.365]],
-  all:[[43.50,6.98],[44.15,7.45]]
-};
+/* nakymat: tahtipoiminnat / kategoria / paivan reitti + tier-merkit */
+const ZOOMS={nizza:[[43.685,7.245],[43.712,7.300]]};
 _map.fitBounds(ZOOMS.nizza,{padding:[30,30]});
-
-/* filters */
-let curFilter='all';
-function applyFilter(f){
-  curFilter=f;
-  const vis=[];
-  markers.forEach(m=>{
-    const p=m._place;
-    const show=(f==='all')||p.cat===f||(f==='trip'&&(p.zone==='monaco'||p.zone==='cannes'))||p.cat==='home';
-    if(show){m.addTo(_map);if(p.cat!=='home'||f==='all')vis.push(m.getLatLng());}
-    else _map.removeLayer(m);
+let curMode={type:'top'};
+function matches(p){
+  if(p.cat==='home')return true;
+  if(curMode.type==='top')return !!p.star;
+  if(curMode.type==='all')return true;
+  if(curMode.type==='cat')return p.cat===curMode.v;
+  if(curMode.type==='day')return (p.d||[]).indexOf(curMode.v)>=0;
+  return true;
+}
+function tierFull(p){
+  if(p.cat==='home'||p.star)return true;
+  if(curMode.type==='day'||curMode.type==='top')return true;
+  if(p.cat==='transit')return false;
+  return _map.getZoom()>=15;
+}
+function refresh(fit){
+  const pts=[];
+  markers.forEach(mk=>{
+    const p=mk._place;
+    if(matches(p)){
+      mk.setIcon(mkIcon(p,tierFull(p)));
+      if(!_map.hasLayer(mk))mk.addTo(_map);
+      if(p.cat!=='transit'&&p.cat!=='home')pts.push(mk.getLatLng());
+    }else if(_map.hasLayer(mk))_map.removeLayer(mk);
   });
-  if(f!=='all'&&vis.length){_map.fitBounds(L.latLngBounds(vis),{padding:[45,45]});}
-  else if(f==='all'){_map.fitBounds(ZOOMS.nizza,{padding:[30,30]});}
+  if(fit){
+    if((curMode.type==='day'||curMode.type==='cat')&&pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:[46,46]});
+    else _map.fitBounds(ZOOMS.nizza,{padding:[30,30]});
+  }
+}
+function setChip(el){
+  document.querySelectorAll('#filterbar .chip-btn,#daybar .chip-btn').forEach(x=>x.classList.toggle('on',x===el));
 }
 document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{
-  document.querySelectorAll('[data-f]').forEach(x=>x.classList.remove('on'));
-  b.classList.add('on');applyFilter(b.dataset.f);
+  const f=b.dataset.f;
+  curMode=f==='top'?{type:'top'}:f==='all'?{type:'all'}:{type:'cat',v:f};
+  setChip(b);refresh(true);
 }));
-document.querySelectorAll('[data-z]').forEach(b=>b.addEventListener('click',()=>{
-  _map.fitBounds(ZOOMS[b.dataset.z],{padding:[30,30]});
+document.querySelectorAll('[data-df]').forEach(b=>b.addEventListener('click',()=>{
+  curMode={type:'day',v:b.dataset.df};setChip(b);refresh(true);
 }));
+_map.on('zoomend',()=>refresh(false));
+refresh(false);
 
 _map.on('click',()=>_map.scrollWheelZoom.enable());
 _map.on('mouseout',()=>_map.scrollWheelZoom.disable());
