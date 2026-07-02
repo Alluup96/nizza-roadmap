@@ -239,6 +239,8 @@
   .tbl th{text-align:left;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:13px 16px 11px;border-bottom:1px solid var(--rule2);background:var(--sand)}
   .tbl td{padding:12px 16px;border-bottom:1px solid var(--rule);color:var(--muted);vertical-align:top}
   .tbl tr:last-child td{border-bottom:0}
+  .tbl tbody tr:nth-child(odd):not(.sum) td{background:rgba(244,236,220,.28)}
+  @media(hover:hover){.tbl tbody tr:not(.sum):hover td{background:rgba(18,115,184,.05)}}
   .tbl .nm{color:var(--ink);font-weight:600}
   .tbl .mono{font-size:13px;white-space:nowrap}
   .tbl .sum td{background:rgba(18,115,184,.05);color:var(--ink);font-weight:600;border-top:2px solid var(--rule2)}
@@ -260,6 +262,10 @@
   .callout{border:1px solid rgba(220,154,46,.5);background:rgba(220,154,46,.08);border-radius:var(--r-md);padding:var(--s4) var(--s5);font-size:14px;color:var(--ink);margin:var(--s4) 0}
   .callout b{font-weight:700}
   .callout.blue{border-color:rgba(18,115,184,.4);background:rgba(18,115,184,.06)}
+  .band{background:rgba(244,236,220,.42);border-top:1px solid var(--rule);border-bottom:1px solid var(--rule)}
+  .site-end{position:relative;margin-top:var(--s8);padding:var(--s6) 0 var(--s7)}
+  .site-end::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--azur) 0%,var(--sea) 32%,var(--sun) 66%,var(--coral) 100%);opacity:.9}
+  .site-end .wrap{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);text-align:center}
 
   footer{padding:44px 0 72px;border-top:1px solid var(--rule);margin-top:56px}
   footer .src{font-size:12px;color:var(--faint);line-height:1.9}
@@ -313,7 +319,7 @@
     </div>
   </section>
 
-  <section id="kamppa">
+  <section id="kamppa" class="band">
     <div class="wrap">
       <div class="sec-head"><span class="n">02</span><h2>Kämppä — “Le Zen”</h2></div>
       <div class="grid g2">
@@ -378,7 +384,7 @@
     </div>
   </section>
 
-  <section id="kaytannot">
+  <section id="kaytannot" class="band">
     <div class="wrap">
       <div class="sec-head"><span class="n">04</span><h2>Käytännön asiat</h2></div>
       <div class="tips" id="tips"></div>
@@ -457,6 +463,10 @@
     </div>
   </section>
 </div>
+
+<footer class="site-end" role="contentinfo">
+  <div class="wrap">IV · Côte d’Azur · 9.–15.7.2026</div>
+</footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
@@ -585,7 +595,7 @@ const CREW = [
    PÄIVÄT
    ================================================================= */
 const DAYS = [
- {date:'Torstai 9.7',title:'Saapuminen & Vieux Nice',who:'6/7 paikalla · Henu illalla',
+ {date:'Torstai 9.7',c:'var(--azur)',title:'Saapuminen & Vieux Nice',who:'6/7 paikalla · Henu illalla',
   badges:[['blue','✈ 3 saapumisaaltoa'],['coral','ilta: vanha kaupunki']],
   rows:[
    {t:'12:45',i:'move',x:'<b>Norre-tiimi + Roni</b> laskeutuu → ratikka T2 → Jean Médecin → kävely kämpälle',dur:'~50 min'},
@@ -599,7 +609,7 @@ const DAYS = [
   ],
   night:'Kaikki paitsi Rappe Nizzassa. Rauhallinen eka ilta — huomenna kokoonpano täydentyy.'},
 
- {date:'Perjantai 10.7',title:'Ranta, kaupunki & Rappen saapuminen',who:'7/7 illasta alkaen',
+ {date:'Perjantai 10.7',c:'var(--sea)',title:'Ranta, kaupunki & Rappen saapuminen',who:'7/7 illasta alkaen',
   badges:[['blue','✈ Rappe ~18:25'],['gold','MM-puolivälierät']],
   rows:[
    {t:'09:30',i:'food',x:'Aamiainen: '+G('Mama Baker','Mama Bakerin croissantit')+' + kahvit',dur:'45 min'},
@@ -613,7 +623,7 @@ const DAYS = [
   ],
   night:'Täysi kokoonpano kasassa. Huomenna Monaco: kasinoillan varalta pitkät housut & siistit kengät mukaan, ja nostakaa käteistä sunnuntain vaellusmajaa varten.'},
 
- {date:'Lauantai 11.7',title:'Monaco — bling bling',who:'7/7 · junapäivä',
+ {date:'Lauantai 11.7',c:'var(--sun)',title:'Monaco — bling bling',who:'7/7 · junapäivä',
   badges:[['palm','✓ sovittu: Monaco'],['gold','kasinoilta — passi mukaan']],
   rows:[
    {t:'08:45',i:'move',x:'Juna Nice-Ville → Monaco-Monte-Carlo (Mini-Groupe-lippu ~3 €/hlö/suunta)',dur:'~25 min'},
@@ -630,7 +640,7 @@ const DAYS = [
   ],
   night:'Casinolle passi mukaan (18+). Klo 14 jälkeen ei shortseja/lenkkareita — pukeutukaa fiksusti tai pakatkaa vaihtovaatteet. Nostakaa Monacossa käteistä huomisen refugea varten. Vaellusherätys ~6:15!'},
 
- {date:'Sunnuntai 12.7',title:'Vaellus — Le Boréon & Cougourde',who:'vaellustiimi + kaupunkitiimi',
+ {date:'Sunnuntai 12.7',c:'var(--palm)',title:'Vaellus — Le Boréon & Cougourde',who:'vaellustiimi + kaupunkitiimi',
   badges:[['palm','✓ sovittu & bussit varattu (Rappe MVP)'],['gold','käteinen mukaan']],
   rows:[
    {t:'06:40',i:'move',x:'<b>Lähtö kämpältä</b> → ratikka T2 '+GL('Grand Arénas Nice tram','Grand Arénasiin')+' — eväät ja vedet (1,5–2 l/hlö) edellisiltana valmiiksi',dur:'~25 min'},
@@ -646,7 +656,7 @@ const DAYS = [
   ],
   night:'Vuoristossa vain ~12–24 °C — kerrospukeutuminen. Lenkkarit riittävät (DD tehty), aurinkorasva & päähine pakolliset. Koko päivä kulkee yhdellä 7 € päivälipulla. Illalla: ostakaa huomisen saarilautan liput netistä (Horizon 17,50 €).'},
 
- {date:'Maanantai 13.7',title:'Cannes & Île Sainte-Marguerite',who:'7/7 · junapäivä',
+ {date:'Maanantai 13.7',c:'var(--coral)',title:'Cannes & Île Sainte-Marguerite',who:'7/7 · junapäivä',
   badges:[['palm','✓ sovittu: Cannes'],['blue','juna ~7,90 €/suunta']],
   rows:[
    {t:'08:15',i:'move',x:'Juna '+GL('Gare de Nice-Ville','Nice-Ville')+' → Cannes (<b>ZOU Mini-Groupe</b> -ryhmälippu: jopa −50 %)',dur:'~35 min'},
@@ -662,7 +672,7 @@ const DAYS = [
   ],
   night:'Viimeinen paluulautta saarilta lähtee ~18:00–18:30 — sen jälkeen saarelta ei pääse pois. Huominen on chillipäivä, joten Antibes-jatkot ovat sallittuja.'},
 
- {date:'Tiistai 14.7',title:'Chillipäivä & Bastille-muistopäivä',who:'7/7 · viimeinen täysi päivä',
+ {date:'Tiistai 14.7',c:'var(--lilac)',title:'Chillipäivä & Bastille-muistopäivä',who:'7/7 · viimeinen täysi päivä',
   badges:[['blue','Ranskan kansallispäivä'],['coral','muistotilaisuudet Promilla']],
   rows:[
    {t:'09:00',i:'sight',x:'Sotilasparaati '+G('Place Masséna','Place Massénalla')+' — kansallispäivän avaus',dur:'1 h',opt:1},
@@ -678,7 +688,7 @@ const DAYS = [
   ],
   night:'Ilotulituksia ei Nizzassa muistopäivän takia — lähimmät: Villefranche klo 22 ja Cannes klo 23 (omistettu Nizzan uhreille). Ronin + norre-tiimin pakkaus illalla — aamulla lähtö ~7:15.'},
 
- {date:'Keskiviikko 15.7',title:'Kotiinlähtö kahdessa erässä',who:'checkout 10:00 — kaikki',
+ {date:'Keskiviikko 15.7',c:'var(--transit)',title:'Kotiinlähtö kahdessa erässä',who:'checkout 10:00 — kaikki',
   badges:[['blue','✈ 2 lähtöaaltoa']],
   rows:[
    {t:'07:15',i:'move',x:'<b>Norre-tiimi + Roni:</b> ratikka T2 kentälle — Ronin lento lähtee 9:45, Norwegian D82803 10:10 (→ HEL 14:25)',dur:'~40 min'},
@@ -727,6 +737,7 @@ DAYS.forEach(D=>{
   const foot=D.night?'<div class="day-f"><span class="lb">Huom</span><div>'+D.night+'</div></div>':'';
   const parts=D.date.split(' '), dw=parts[0]||'', dn=parts[1]||'';
   const el=document.createElement('article');el.className='day';
+  if(D.c)el.style.borderTop='3px solid '+D.c;
   el.innerHTML='<div class="day-h"><span class="day-date" aria-hidden="true"><span class="dw">'+dw.slice(0,2).toUpperCase()+'</span><span class="dn">'+dn+'</span></span>'+
     '<div><div class="dt">'+dw+'</div><h3 class="ti">'+D.title+'</h3></div><span class="who">'+(D.who||'')+'</span></div>'+
     (badges?'<div class="day-badges">'+badges+'</div>':'')+'<div class="tl">'+rows+'</div>'+foot;
