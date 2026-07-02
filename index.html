@@ -417,13 +417,13 @@
         <div class="card fcard">
           <h3><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(150 12 12)"><path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5L21,16z" fill="currentColor"/></g></svg>Saapumiset</h3>
           <div class="frow"><div class="fwho">Norre-tiimi <span class="fsub">Allu · Ana · Panska · Heru</span></div><div class="fdet mono">Norwegian D82802 · to 9.7 · HEL 10:20 → NCE 12:45</div></div>
-          <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">Oma lento · to 9.7 · perillä NCE 12:45</div></div>
+          <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">ZRH 12:30 → NCE 13:45 · to 9.7 · nonstop</div><div class="fnote">Zürichistä, NCE T1</div></div>
           <div class="frow"><div class="fwho">Henu</div><div class="fdet mono">Finnair · to 9.7 · Vaasa → HEL 15:55 → NCE ~18:25</div><div class="fnote">Kämpällä ~19:45</div></div>
           <div class="frow"><div class="fwho">Rappe</div><div class="fdet mono">Finnair · pe 10.7 · HEL 15:55 → NCE ~18:25</div><div class="fnote">Suoraan Mikkelistä — vuorokauden muita perässä</div></div>
         </div>
         <div class="card fcard">
           <h3><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(35 12 12)"><path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5L21,16z" fill="currentColor"/></g></svg>Lähdöt <span class="fsub">ke 15.7</span></h3>
-          <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">Oma lento · NCE 9:45</div></div>
+          <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">NCE 10:45 → ZRH 12:05 · nonstop</div></div>
           <div class="frow"><div class="fwho">Norre-tiimi</div><div class="fdet mono">Norwegian D82803 · NCE 10:10 → HEL 14:25</div><div class="fnote">Kentälle ratikalla ~7:15</div></div>
           <div class="frow"><div class="fwho">Henu &amp; Rappe</div><div class="fdet mono">Finnair · lähtö ~19:10 · Vaasassa 01:05</div><div class="fnote">Koko päivä käytössä — checkout silti klo 10, laukut säilöön asemalle</div></div>
         </div>
@@ -705,7 +705,7 @@ const DAYS = [
  {date:'Torstai 9.7',c:'var(--azur)',title:'Saapuminen & Vieux Nice',who:'6/7 paikalla · Henu illalla',
   badges:[['blue','✈ 3 saapumisaaltoa'],['coral','ilta: vanha kaupunki']],
   rows:[
-   {t:'12:45',i:'move',x:'<b>Norre-tiimi + Roni</b> laskeutuu → ratikka T2 → Jean Médecin → kävely kämpälle',dur:'~50 min'},
+   {t:'12:45',i:'move',x:'<b>Norre-tiimi</b> laskeutuu (Roni ZRH-koneella 13:45) → ratikka T2 → Jean Médecin → kävely kämpälle',dur:'~50 min'},
    {t:'14:00',i:'move',x:'<b>Check-in Le Zen</b> — '+GL("18 Rue d'Angleterre 06000 Nice France",'18 Rue d’Angleterre')+' · WhatsApp Amandinelle etukäteen'},
    {t:'14:30',i:'food',x:'Ruokaostokset: '+G('Monoprix Jean Médecin','Monoprix')+' / Carrefour City (aamiaiset, vedet, bisset)',dur:'30 min'},
    {t:'15:30',i:'beach',x:'Ensikosketus mereen: '+G('Plage du Centenaire','Promin julkinen ranta')+' — uimatossut testiin',dur:'1,5 h'},
@@ -797,7 +797,7 @@ const DAYS = [
  {date:'Keskiviikko 15.7',c:'var(--transit)',title:'Kotiinlähtö kahdessa erässä',who:'checkout 10:00 — kaikki',
   badges:[['blue','✈ 2 lähtöaaltoa']],
   rows:[
-   {t:'07:15',i:'move',x:'<b>Norre-tiimi + Roni:</b> ratikka T2 kentälle — Ronin lento lähtee 9:45, Norwegian D82803 10:10 (→ HEL 14:25)',dur:'~40 min'},
+   {t:'07:15',i:'move',x:'<b>Norre-tiimi + Roni:</b> ratikka T2 kentälle — Norwegian D82803 10:10 (→ HEL 14:25), Ronin ZRH-kone 10:45',dur:'~40 min'},
    {t:'09:45',i:'move',x:'<b>Henu & Rappe:</b> checkout klo 10:00 mennessä → laukut säilöön: '+GL('Gare de Nice-Ville','Bagmobile asemalla')+' (8:15–21, ~5–10 €) tai Nannybag-piste (~2,50 €)'},
    {t:'10:30',i:'trip',x:'Bonuspäivä: junalla '+G('Villefranche-sur-Mer','Villefrancheen')+' — vanha kaupunki, Rue Obscure & rantapäivä',dur:'4 h'},
    {t:'15:00',i:'food',x:'Myöhäinen lounas + viimeinen '+G('Fenocchio','Fenocchio-jäätelö'),dur:'1 h'},
