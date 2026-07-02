@@ -223,7 +223,8 @@
 
   /* ===== activities ===== */
   .act-grp{margin:26px 0 6px;display:flex;align-items:center;gap:10px}
-  .act-grp h3{font-family:'Fraunces',serif;font-weight:600;font-size:20px;line-height:1.25}
+  .act-grp h3{font-family:'Fraunces',serif;font-weight:600;font-size:20px;line-height:1.25;display:flex;align-items:center}
+  .act-grp .gdot{width:13px;height:13px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:inline-block;margin-right:10px;flex:0 0 auto}
   .act-grp .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint)}
   .act{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--rule);border-radius:14px;padding:16px 18px;box-shadow:var(--shadow);text-decoration:none;color:var(--ink);transition:transform .14s,border-color .14s,box-shadow .14s}
   .act:hover{transform:translateY(-2px);border-color:rgba(18,115,184,.5);box-shadow:var(--shadow-lg)}
@@ -696,14 +697,14 @@ const DAYS = [
    AKTIVITEETTIRYHMÄT (Aktiviteetit-tab)
    ================================================================= */
 const ACT_GROUPS = [
-  {t:'Must-see Nizza',icon:'★',cats:['sight'],zones:['nizza']},
-  {t:'Rannat & meri',icon:'〜',cats:['beach'],zones:['nizza']},
-  {t:'Ruoka',icon:'🍴',cats:['food'],zones:['nizza']},
-  {t:'Baarit & illat',icon:'🍺',cats:['bar'],zones:['nizza']},
-  {t:'Monaco — päiväretki',icon:'🎰',cats:['trip'],zones:['monaco']},
-  {t:'Cannes & saaret — päiväretki',icon:'⛴',cats:['trip'],zones:['cannes']},
-  {t:'Vaellus — Le Boréon (su 12.7)',icon:'⛰',cats:['hike'],zones:['hike']},
-  {t:'Extra-pooli — jos jää aikaa',icon:'＋',cats:['trip'],zones:['nizza']}
+  {t:'Must-see Nizza',dot:'var(--azur)',cats:['sight'],zones:['nizza']},
+  {t:'Rannat & meri',dot:'var(--sea)',cats:['beach'],zones:['nizza']},
+  {t:'Ruoka',dot:'var(--coral)',cats:['food'],zones:['nizza']},
+  {t:'Baarit & illat',dot:'var(--lilac)',cats:['bar'],zones:['nizza']},
+  {t:'Monaco — päiväretki',dot:'var(--sun)',cats:['trip'],zones:['monaco']},
+  {t:'Cannes & saaret — päiväretki',dot:'var(--sun)',cats:['trip'],zones:['cannes']},
+  {t:'Vaellus — Le Boréon (su 12.7)',dot:'var(--palm)',cats:['hike'],zones:['hike']},
+  {t:'Extra-pooli — jos jää aikaa',dot:'var(--faint)',cats:['trip'],zones:['nizza']}
 ];
 
 /* =================================================================
@@ -755,7 +756,7 @@ ACT_GROUPS.forEach(gp=>{
   if(!items.length)return;
   items=[...items].sort((a,b)=>(b.star||0)-(a.star||0));
   const head=document.createElement('div');head.className='act-grp';
-  head.innerHTML='<h3>'+gp.icon+' '+gp.t+'</h3><span class="cnt">'+items.length+' kohdetta</span>';
+  head.innerHTML='<h3><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'</h3><span class="cnt">'+items.length+' kohdetta</span>';
   actsEl.appendChild(head);
   const grid=document.createElement('div');grid.className='grid g3';
   items.forEach(p=>{
