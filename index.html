@@ -50,7 +50,7 @@
   }
   @supports (animation-timeline: view()){
     @media(prefers-reduced-motion:no-preference){
-      .day,.act,.person,.tip{animation:rise-in linear both;animation-timeline:view();animation-range:entry 0% entry 38%}
+      .day,.arow,.person,.tip{animation:rise-in linear both;animation-timeline:view();animation-range:entry 0% entry 38%}
     }
   }
   @keyframes rise-in{from{opacity:.3;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -118,6 +118,12 @@
   .sec-head{display:flex;align-items:baseline;gap:var(--s4);margin-bottom:var(--s2);flex-wrap:wrap}
   .sec-head .n{font-family:'JetBrains Mono',monospace;color:var(--coral-text);font-size:13px;font-weight:600}
   .sec-head h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.015em;line-height:1.15}
+  .sec-acc summary{display:flex;align-items:center;gap:var(--s3);cursor:pointer;list-style:none;padding:2px 0;-webkit-tap-highlight-color:transparent}
+  .sec-acc summary::-webkit-details-marker{display:none}
+  .sec-acc summary .sec-head{margin:0;flex:1}
+  .sec-acc .chev{width:21px;height:21px;color:var(--faint);transition:transform .2s;flex:0 0 auto}
+  .sec-acc[open] .chev{transform:rotate(180deg)}
+  .sec-acc .sec-body{padding-top:var(--s3)}
   .sec-sub{color:var(--muted);font-size:15.5px;max-width:720px;margin-bottom:26px}
   .sec-sub b{color:var(--ink)}
 
@@ -151,6 +157,11 @@
   .kv dd{color:var(--ink)}
   .kv dd b{font-weight:600}
   @media(max-width:520px){.kv{grid-template-columns:1fr}.kv dt{margin-top:6px}}
+  @media(max-width:640px){
+    .crew{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:var(--s3);padding-bottom:6px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+    .crew::-webkit-scrollbar{display:none}
+    .crew .person{flex:0 0 80%;scroll-snap-align:start}
+  }
 
   /* ===== map ===== */
   .gbar{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;margin:var(--s4) 0}
@@ -166,7 +177,6 @@
   .gbtn.ghost:active{transform:translateY(1px)}
   .tab:active{transform:scale(.96)}
   .chip-btn:active{transform:scale(.96)}
-  .act:active{transform:translateY(0) scale(.99)}
   .brand:hover em{color:var(--azur)}
   .leaflet-popup-content a.go:hover{background:#0E62A0}
   #map{height:640px;width:100%;border:1px solid var(--rule2);border-radius:var(--r-lg);z-index:0;box-shadow:var(--shadow);background:#e8e6e1}
@@ -255,17 +265,22 @@
   .act-acc .cnt{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);margin-left:auto}
   .act-acc .chev{width:19px;height:19px;flex:0 0 auto;transition:transform .2s;color:var(--faint)}
   .act-acc[open] .chev{transform:rotate(180deg)}
-  .act-acc .grid{padding:var(--s1) var(--s4) var(--s4)}
-  .act-acc .act{box-shadow:none}
-  .act{display:flex;flex-direction:column;gap:6px;background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4) var(--s5);box-shadow:var(--shadow);text-decoration:none;color:var(--ink);transition:transform .14s,border-color .14s,box-shadow .14s}
-  .act:hover{transform:translateY(-2px);border-color:rgba(18,115,184,.5);box-shadow:var(--shadow-lg)}
-  .act:hover .go{text-decoration:underline;text-underline-offset:3px}
-  .act .top{display:flex;align-items:flex-start;gap:8px}
-  .act h4{font-family:'Fraunces',serif;font-weight:600;font-size:16.5px;letter-spacing:-.01em;flex:1;line-height:1.3}
-  .act .pr{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--gold-text);white-space:nowrap;padding-top:3px}
-  .act .ds{font-size:14px;color:var(--muted)}
-  .act .tp{font-size:13px;color:var(--muted);border-left:2px solid var(--rule2);padding-left:9px}
-  .act .go{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--azur);font-weight:600;margin-top:2px}
+  .act-acc .arows{padding:var(--s1) var(--s4) var(--s4)}
+  .arows{display:grid;gap:8px}
+  @media(min-width:820px){.arows{grid-template-columns:1fr 1fr;gap:8px 14px}}
+  .arow{border:1px solid var(--rule);border-radius:var(--r-sm);background:var(--card)}
+  .arow summary{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;list-style:none;font-weight:600;font-size:14.5px;line-height:1.35;-webkit-tap-highlight-color:transparent}
+  .arow summary::-webkit-details-marker{display:none}
+  @media(hover:hover){.arow summary:hover{background:rgba(18,115,184,.04)}}
+  .arow .nm{flex:1;min-width:0}
+  .arow .st{color:var(--gold-text)}
+  .arow .pr{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold-text);white-space:nowrap}
+  .arow .chev{width:15px;height:15px;flex:0 0 auto;color:var(--faint);transition:transform .2s}
+  .arow[open] .chev{transform:rotate(180deg)}
+  .arow[open] summary{border-bottom:1px dashed var(--rule)}
+  .arow-b{padding:10px 14px 13px;font-size:13.5px;color:var(--muted);display:grid;gap:7px}
+  .arow-b .tp{border-left:2px solid var(--rule2);padding-left:9px;font-size:12.5px}
+  .arow-b .gl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--azur);font-weight:600;text-decoration:none}
 
   /* ===== costs ===== */
   .tbl{width:100%;border-collapse:collapse;font-size:14.5px;background:var(--card);border-radius:var(--r-md);overflow:hidden;box-shadow:var(--shadow)}
@@ -409,7 +424,9 @@
 
   <section id="kamppa" class="band">
     <div class="wrap">
-      <div class="sec-head"><span class="n">02</span><h2>Kämppä — “Le Zen”</h2></div>
+      <details class="sec-acc">
+        <summary><div class="sec-head"><span class="n">02</span><h2>Kämppä — “Le Zen”</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="sec-body">
       <div class="grid g2">
         <div class="card">
           <h3>Le Zen #4 · EnjoyNice.com</h3>
@@ -434,12 +451,16 @@
           </dl>
         </div>
       </div>
+        </div>
+      </details>
     </div>
   </section>
 
   <section id="tapahtumat">
     <div class="wrap">
-      <div class="sec-head"><span class="n">03</span><h2>Reissuviikon tapahtumat</h2></div>
+      <details class="sec-acc">
+        <summary><div class="sec-head"><span class="n">03</span><h2>Reissuviikon tapahtumat</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="sec-body">
       <p class="sec-sub">Kaksi isoa juttua osuu viikolle: <b>MM-kisojen ratkaisupelit</b> (Ranska yhä mukana 2.7. tilanteessa!) ja <b>14.7. — Promenaden iskun 10-vuotismuistopäivä</b>, jota Nizza kunnioittaa poikkeuksellisin seremonioin.</p>
       <div class="grid g2">
         <div class="card">
@@ -469,13 +490,19 @@
         </div>
       </div>
       <div class="callout" style="margin-top:16px">📅 <b>Muut tapahtumat:</b> Nice Jazz Festival on vasta 23.–25.7. (Sting jää harmillisesti väliin) ja Cannesin Plages Électroniques elokuussa. Monacossa la 11.7. Monte-Carlo Summer Festivalin Queen-tribuuttigaala (€€€). OGC Nicellä ei kotipelejä. Ironman peruttiin helteen takia — ei katusulkuja.</div>
+        </div>
+      </details>
     </div>
   </section>
 
   <section id="kaytannot" class="band">
     <div class="wrap">
-      <div class="sec-head"><span class="n">04</span><h2>Käytännön asiat</h2></div>
+      <details class="sec-acc">
+        <summary><div class="sec-head"><span class="n">04</span><h2>Käytännön asiat</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <div class="sec-body">
       <div class="tips" id="tips"></div>
+        </div>
+      </details>
     </div>
   </section>
 </div>
@@ -884,13 +911,14 @@ ACT_GROUPS.forEach(gp=>{
   if(ACT_GROUPS.indexOf(gp)===0)det.open=true;
   det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+items.length+' kohdetta</span>'+
     '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
-  const grid=document.createElement('div');grid.className='grid g3';
+  const grid=document.createElement('div');grid.className='arows';
   items.forEach(p=>{
-    const a=document.createElement('a');a.className='act';a.href=gq(p.q||p.n);a.target='_blank';a.rel='noopener';
-    a.innerHTML='<div class="top"><h4>'+(p.star?'★ ':'')+p.n+'</h4>'+(p.pr?'<span class="pr">'+p.pr+'</span>':'')+'</div>'+
-      '<div class="ds">'+p.d+'</div>'+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
-      '<div class="go">Avaa Google Mapsissa →</div>';
-    grid.appendChild(a);
+    const d=document.createElement('details');d.className='arow';
+    d.innerHTML='<summary><span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+'</span>'+(p.pr?'<span class="pr">'+p.pr+'</span>':'')+
+      '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>'+
+      '<div class="arow-b"><div>'+p.d+'</div>'+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
+      '<a class="gl" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a></div>';
+    grid.appendChild(d);
   });
   det.appendChild(grid);
   actsEl.appendChild(det);
@@ -1081,6 +1109,7 @@ document.querySelector('.tabs').addEventListener('keydown',e=>{
   else if(e.key==='End')j=ts.length-1;
   if(j!==null){e.preventDefault();ts[j].focus();showTab(ts[j].dataset.tab);}
 });
+if(matchMedia('(min-width:941px)').matches)document.querySelectorAll('.sec-acc').forEach(d=>d.open=true);
 const initial=(location.hash||'#yleiskuva').slice(1);
 if(document.getElementById('p-'+initial))showTab(initial,false);
 </script>
