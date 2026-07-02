@@ -120,7 +120,8 @@
   .sec-head h2{font-family:'Fraunces',serif;font-weight:500;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.015em;line-height:1.15}
   .sec-acc summary{display:flex;align-items:center;gap:var(--s3);cursor:pointer;list-style:none;padding:2px 0;-webkit-tap-highlight-color:transparent}
   .sec-acc summary::-webkit-details-marker{display:none}
-  .sec-acc summary .sec-head{margin:0;flex:1}
+  .sec-acc summary .sec-head{margin:0;flex:1;flex-wrap:nowrap;min-width:0}
+  .sec-acc summary .sec-head h2{min-width:0}
   .sec-acc .chev{width:21px;height:21px;color:var(--faint);transition:transform .2s;flex:0 0 auto}
   .sec-acc[open] .chev{transform:rotate(180deg)}
   .sec-acc .sec-body{padding-top:var(--s3)}
