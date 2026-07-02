@@ -214,8 +214,9 @@
   .tl-row .tx a:hover{color:var(--azur)}
   .tl-row .tx a:visited{color:var(--lilac-text);border-bottom-color:rgba(139,111,192,.55)}
   .tl-row .dur{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--faint);margin-left:8px;white-space:nowrap}
-  .tl-row .opt{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold-text);border:1px solid rgba(220,154,46,.5);border-radius:4px;padding:0 5px;margin-left:8px;white-space:nowrap}
-  .tl-row .lock{font-family:'JetBrains Mono',monospace;font-size:9.5px;color:var(--palm);border:1px solid rgba(62,124,91,.5);border-radius:4px;padding:0 5px;margin-left:8px;white-space:nowrap}
+  .opt{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold-text);border:1px solid rgba(220,154,46,.5);border-radius:4px;padding:0 5px;white-space:nowrap}
+  .lock{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--palm);border:1px solid rgba(62,124,91,.5);border-radius:4px;padding:0 5px;white-space:nowrap}
+  .tl-row .opt,.tl-row .lock{margin-left:8px}
   .day-f{display:flex;gap:10px;align-items:baseline;padding:13px 22px;border-top:1px solid var(--rule);background:rgba(18,115,184,.045);font-size:14px;color:var(--muted)}
   .day-f .lb{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--azur);flex:0 0 auto;padding-top:1px;font-weight:600}
   .day-f b{color:var(--ink)}
@@ -432,7 +433,7 @@
   <section>
     <div class="wrap">
       <div class="sec-head"><span class="n">06</span><h2>Päiväkohtainen runko</h2></div>
-      <p class="sec-sub">Tämä on <b>loma, ei minuuttiaikataulu</b> — ajat ovat suuntaa-antavia ja päivän voi kääntää ympäri fiiliksen mukaan. Lukitut jutut on merkitty <span class="lock" style="position:relative;top:-1px">✓ sovittu</span> ja kevyet ehdotukset <span class="opt" style="position:relative;top:-1px">○ optio</span>. Jokainen kohde on klikattava → Google Maps.</p>
+      <p class="sec-sub">Tämä on <b>loma, ei minuuttiaikataulu</b> — ajat ovat suuntaa-antavia ja päivän voi kääntää ympäri fiiliksen mukaan. Lukitut jutut on merkitty <span class="lock">✓ sovittu</span> ja kevyet ehdotukset <span class="opt">○ optio</span>. Jokainen kohde on klikattava → Google Maps.</p>
       <div id="days"></div>
     </div>
   </section>
