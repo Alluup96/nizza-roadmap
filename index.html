@@ -147,7 +147,14 @@
   .chip-btn.on{background:var(--ink);color:#FDFBF6;border-color:var(--ink)}
   .gbar .spacer{flex:1}
   .gbtn{display:inline-flex;align-items:center;gap:7px;background:var(--azur);color:#fff;font-weight:600;font-size:13px;padding:8px 15px;border-radius:99px;text-decoration:none;transition:opacity .15s;border:none;cursor:pointer}
-  .gbtn:hover{opacity:.9}
+  .gbtn:hover{background:#0E62A0}
+  .gbtn:active{transform:translateY(1px)}
+  .gbtn.ghost:active{transform:translateY(1px)}
+  .tab:active{transform:scale(.96)}
+  .chip-btn:active{transform:scale(.96)}
+  .act:active{transform:translateY(0) scale(.99)}
+  .brand:hover em{color:var(--azur)}
+  .leaflet-popup-content a.go:hover{background:#0E62A0}
   #map{height:640px;width:100%;border:1px solid var(--rule2);border-radius:16px;z-index:0;box-shadow:var(--shadow);background:#e8e6e1}
   @media(max-width:640px){#map{height:66vh;min-height:420px}}
   #map:fullscreen,#map:-webkit-full-screen{width:100%!important;height:100%!important;border-radius:0;border:0}
