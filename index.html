@@ -166,6 +166,12 @@
 
   /* ===== map ===== */
   .gbar{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;margin:var(--s4) 0}
+  @media(max-width:640px){
+    #filterbar,#daybar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:var(--s2) calc(-1*var(--s6)) ;padding:2px var(--s6)}
+    #filterbar::-webkit-scrollbar,#daybar::-webkit-scrollbar{display:none}
+    #filterbar .chip-btn,#daybar .chip-btn{flex:0 0 auto}
+    #daybar .gbtn{flex:0 0 auto}
+  }
   .chip-btn{font-size:13px;font-weight:600;padding:9px 16px;min-height:40px;border-radius:99px;border:1px solid var(--rule2);background:var(--card);color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .12s;font-family:'Outfit',sans-serif}
   @media(max-width:640px){.chip-btn{min-height:44px;padding:10px 16px}}
   .chip-btn:hover{border-color:var(--azur);color:var(--azur)}
