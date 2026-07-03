@@ -1056,6 +1056,9 @@ function showTab(id,push){
   document.querySelectorAll('.tab').forEach(t=>{const on=t.dataset.tab===id;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');});
   if(push!==false)history.replaceState(null,'','#'+id);
   window.scrollTo({top:0});
+  if(id!=='yleiskuva'&&push!==false&&!matchMedia('(prefers-reduced-motion: reduce)').matches){
+    requestAnimationFrame(()=>requestAnimationFrame(()=>window.scrollTo({top:60,behavior:'smooth'})));
+  }
   const onTab=document.querySelector('.tab.on');
   if(onTab)onTab.scrollIntoView({inline:'center',block:'nearest'});
   if(id==='kartta')setTimeout(()=>{
