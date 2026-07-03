@@ -116,7 +116,10 @@
   .hero-copy{flex:1;min-width:0}
   .hero-art{flex:0 0 min(560px,48%);margin:0}
   .hero-art svg{width:100%;height:auto;display:block;border-radius:var(--r-md)}
-  @media(max-width:940px){.hero-inner{flex-direction:column;align-items:stretch;gap:var(--s3)}.hero-art{flex:none;max-width:none;margin-left:calc(-1*var(--s6));margin-right:calc(-1*var(--s6))}.hero-art svg{border-radius:0}.hero-toc{margin-top:0}.hero-cta{margin-top:var(--s5)}h1{margin-top:10px}}
+  @media(max-width:940px){.hero-inner{flex-direction:column;align-items:stretch;gap:var(--s3)}.hero-art{flex:none;max-width:none;margin-left:calc(-1*var(--s6));margin-right:calc(-1*var(--s6))}.hero-art svg{border-radius:0}
+    .hero-toc{margin-top:0;grid-template-columns:1fr 1fr;gap:5px 12px;padding-left:0;max-width:none}
+    .hero-toc::before{display:none}
+    .hero-toc a{font-size:14.5px;padding:4px 2px;gap:7px;white-space:nowrap}.hero-cta{margin-top:var(--s5)}h1{margin-top:10px}}
   .hero-art .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:drawline 1.3s cubic-bezier(.4,0,.2,1) forwards}
   .hero-art .dash{stroke-dasharray:.5 6;stroke-linecap:round;stroke-dashoffset:0}
   @keyframes drawline{to{stroke-dashoffset:0}}
@@ -421,7 +424,7 @@
       <nav class="hero-toc" aria-label="Sivun sisältö">
         <a href="#saapumiset"><span class="tn">01</span>Saapumiset &amp; lähdöt</a>
         <a href="#kamppa"><span class="tn">02</span>Kämppä — “Le Zen”</a>
-        <a href="#tapahtumat"><span class="tn">03</span>Reissuviikon tapahtumat</a>
+        <a href="#tapahtumat"><span class="tn">03</span>Tapahtumat</a>
         <a href="#kaytannot"><span class="tn">04</span>Käytännön asiat</a>
       </nav>
       </div>
@@ -437,14 +440,14 @@
           <h3><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(150 12 12)"><path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5L21,16z" fill="currentColor"/></g></svg>Saapumiset</h3>
           <div class="frow"><div class="fwho">Norre-tiimi <span class="fsub">Allu · Ana · Panska · Heru</span></div><div class="fdet mono">Norwegian D82802 · to 9.7 · HEL 10:20 → NCE 12:45</div></div>
           <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">ZRH 12:30 → NCE 13:45 · to 9.7 · nonstop</div><div class="fnote">Zürichistä, NCE T1</div></div>
-          <div class="frow"><div class="fwho">Henu</div><div class="fdet mono">Finnair · to 9.7 · Vaasa → HEL 15:55 → NCE ~18:25</div><div class="fnote">Kämpällä ~19:45</div></div>
-          <div class="frow"><div class="fwho">Rappe</div><div class="fdet mono">Finnair · pe 10.7 · HEL 15:55 → NCE ~18:25</div><div class="fnote">Suoraan Mikkelistä — vuorokauden muita perässä</div></div>
+          <div class="frow"><div class="fwho">Henu</div><div class="fdet mono">Finnair · to 9.7 · Vaasa → HEL 15:55 → NCE ~18:25</div></div>
+          <div class="frow"><div class="fwho">Rappe</div><div class="fdet mono">Finnair · pe 10.7 · HEL 15:55 → NCE ~18:25</div></div>
         </div>
         <div class="card fcard">
           <h3><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(35 12 12)"><path d="M21,16v-2l-8-5V3.5C13,2.67,12.33,2,11.5,2S10,2.67,10,3.5V9l-8,5v2l8-2.5V19l-2,1.5V22l3.5-1l3.5,1v-1.5L13,19v-5.5L21,16z" fill="currentColor"/></g></svg>Lähdöt <span class="fsub">ke 15.7</span></h3>
-          <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">NCE 10:45 → ZRH 12:05 · nonstop</div></div>
-          <div class="frow"><div class="fwho">Norre-tiimi</div><div class="fdet mono">Norwegian D82803 · NCE 10:10 → HEL 14:25</div><div class="fnote">Kentälle ratikalla ~7:15</div></div>
-          <div class="frow"><div class="fwho">Henu &amp; Rappe</div><div class="fdet mono">Finnair · lähtö ~19:10 · Vaasassa 01:05</div><div class="fnote">Koko päivä käytössä — checkout silti klo 10, laukut säilöön asemalle</div></div>
+          <div class="frow"><div class="fwho">Norre-tiimi</div><div class="fdet mono">Norwegian D82803 · NCE 10:10 → HEL 14:25</div></div>
+          <div class="frow"><div class="fwho">Roni</div><div class="fdet mono">NCE 10:45 → ZRH 12:05</div></div>
+          <div class="frow"><div class="fwho">Henu &amp; Rappe</div><div class="fdet mono">Finnair · lähtö ~19:10 · Vaasassa 01:05</div></div>
         </div>
       </div>
       <div class="callout blue" style="margin-top:18px">
@@ -490,7 +493,7 @@
   <section id="tapahtumat">
     <div class="wrap">
       <details class="sec-acc">
-        <summary><div class="sec-head"><span class="n">03</span><h2>Reissuviikon tapahtumat</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <summary><div class="sec-head"><span class="n">03</span><h2>Tapahtumat</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="sec-body">
       <p class="sec-sub">Kaksi isoa juttua osuu viikolle: <b>MM-kisojen ratkaisupelit</b> (Ranska yhä mukana 2.7. tilanteessa!) ja <b>14.7. — Promenaden iskun 10-vuotismuistopäivä</b>, jota Nizza kunnioittaa poikkeuksellisin seremonioin.</p>
       <div class="grid g2">
