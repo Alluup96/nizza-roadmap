@@ -787,7 +787,7 @@ const DAYS = [
 
  {date:'Sunnuntai 12.7',c:'var(--palm)',title:'Vaellus — Le Boréon & Cougourde',who:'7/7 · bussi 7:30',
   rows:[
-   {t:'06:40',i:'move',x:'<b>Lähtö kämpältä</b> → ratikka T2 '+GL('Grand Arénas Nice tram','Grand Arénasiin')+' — eväät ja vedet (1,5–2 l/hlö) edellisiltana valmiiksi',dur:'~25 min'},
+   {t:'06:40',i:'move',x:'<b>Lähtö kämpältä</b> → ratikka T2 '+GL('Grand Arénas tram stop Nice','Grand Arénasiin')+' — eväät ja vedet (1,5–2 l/hlö) edellisiltana valmiiksi',dur:'~25 min'},
    {t:'07:30',i:'move',x:'<b>Été Vésubie -bussi (varattu ✓)</b> Grand Arénas → Saint-Martin-Vésubie',dur:'1 h 25 min'},
    {t:'09:10',i:'move',x:'Vaihto: <b>navette</b> SMV → '+G('Vacherie du Boréon — lähtöpiste','Vacherie du Boréon')+' (1 670 m)',dur:'25 min'},
    {t:'09:45',i:'hike',x:'Vaellus alkaa: metsäpolkua puron vartta → Pont de Peïrastrèche → ylös graniittiportaita',dur:'~2 h'},
@@ -894,11 +894,11 @@ dpAll.addEventListener('click',()=>showDay('all'));dpEl.appendChild(dpAll);
   const codes=['to','pe','la','su','ma','ti','ke'];
   dayEls.forEach((el,i)=>{
     const route=DAYROUTES[codes[i]]||[];
-    const lookup=route.map((n,j)=>{const pl=PLACES.find(x=>x.n===n);return pl?{href:gq(pl.q||pl.n),num:j+1,cat:pl.cat}:null;}).filter(Boolean);
+    const lookup=route.map((n,j)=>{const pl=PLACES.find(x=>x.n===n);return pl?{href:gq(pl.q||pl.n),dec:decodeURIComponent(gq(pl.q||pl.n)),num:j+1,cat:pl.cat}:null;}).filter(Boolean);
     el.querySelectorAll('.tl-row').forEach(row=>{
       const links=[...row.querySelectorAll('.tx a')];
       for(const lk of links){
-        const hit=lookup.find(x=>x.href===lk.href);
+        const hit=lookup.find(x=>x.dec===decodeURIComponent(lk.href));
         if(hit){
           const ln=row.querySelector('.ln');
           ln.innerHTML='<a class="glnum c-'+hit.cat+'" href="'+hit.href+'" target="_blank" rel="noopener" aria-label="Avaa kartalla nro '+hit.num+'">'+hit.num+'</a>';
