@@ -251,7 +251,6 @@
   .dp.dp-all.on{color:var(--on-ink)}
   .day-h .dt{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--coral-text);font-weight:600}
   .day-h .ti{font-family:'Cormorant Garamond',serif;font-size:23px;font-weight:600;letter-spacing:-.01em;line-height:1.25}
-  .day-badges{display:flex;gap:6px;flex-wrap:wrap;padding:var(--s3) var(--s6) 0}
   .tl{padding:var(--s3) var(--s6) var(--s3)}
   .tl-row{display:grid;grid-template-columns:56px 20px 1fr;align-items:start;padding:7px 10px;margin:0 -10px;border-radius:var(--r-sm);transition:background .15s}
   @media(hover:hover){.tl-row:hover{background:rgba(99,82,65,.06)}}
@@ -279,7 +278,7 @@
   .day-f{display:flex;gap:var(--s3);align-items:baseline;padding:var(--s4) var(--s6);border-top:1px solid var(--rule);background:rgba(99,82,65,.06);font-size:14px;color:var(--muted)}
   .day-f .lb{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--azur);flex:0 0 auto;padding-top:1px;font-weight:600}
   .day-f b{color:var(--ink)}
-  @media(max-width:520px){.tl{padding:10px 14px}.day-h{padding:14px 16px}.tl-row{grid-template-columns:46px 16px 1fr}.day-badges{padding:10px 16px 0}}
+  @media(max-width:520px){.tl{padding:10px 14px}.day-h{padding:14px 16px}.tl-row{grid-template-columns:46px 16px 1fr}}
 
   /* ===== activities ===== */
   .gdot{width:13px;height:13px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:inline-block;flex:0 0 auto}
@@ -731,7 +730,6 @@ function GL(q,label){return '<a href="'+gq(q)+'" target="_blank" rel="noopener">
    ================================================================= */
 const DAYS = [
  {date:'Torstai 9.7',c:'var(--azur)',title:'Saapuminen & Vieux Nice',who:'6/7 paikalla · Henu illalla',
-  badges:[['blue','✈ 3 saapumisaaltoa'],['coral','ilta: vanha kaupunki']],
   rows:[
    {t:'12:45',i:'move',x:'<b>Norre-tiimi</b> laskeutuu (Roni ZRH-koneella 13:45) → ratikka T2 → Jean Médecin → kävely kämpälle',dur:'~50 min'},
    {t:'14:00',i:'move',x:'<b>Check-in Le Zen</b> — '+GL("18 Rue d'Angleterre 06000 Nice France",'18 Rue d’Angleterre')+' · WhatsApp Amandinelle etukäteen'},
@@ -745,7 +743,6 @@ const DAYS = [
   night:'Kaikki paitsi Rappe Nizzassa. Rauhallinen eka ilta — huomenna kokoonpano täydentyy.'},
 
  {date:'Perjantai 10.7',c:'var(--sea)',title:'Ranta, kaupunki & Rappen saapuminen',who:'7/7 illasta alkaen',
-  badges:[['blue','✈ Rappe ~18:25'],['gold','MM-puolivälierät']],
   rows:[
    {t:'09:30',i:'food',x:'Aamiainen: '+G('Mama Baker','Mama Bakerin croissantit')+' <i class="eur">€</i> tai '+G('La Maison de Céline','La Maison de Célinen flan')+' <i class="eur">€</i>',dur:'45 min'},
    {t:'10:30',i:'sight',x:G('Colline du Château — Linnavuori','Linnavuori')+' ennen pahinta hellettä — näköala + vesiputous (ilmainen hissi)',dur:'1,5 h'},
@@ -759,7 +756,6 @@ const DAYS = [
   night:'Täysi kokoonpano kasassa. Huomenna Monaco: kasinoillan varalta pitkät housut & siistit kengät mukaan, ja nostakaa käteistä sunnuntain vaellusmajaa varten.'},
 
  {date:'Lauantai 11.7',c:'var(--sun)',title:'Monaco — bling bling',who:'7/7 · junapäivä',
-  badges:[['palm','✓ sovittu: Monaco'],['gold','kasinoilta — passi mukaan']],
   rows:[
    {t:'08:45',i:'move',x:'Juna Nice-Ville → Monaco-Monte-Carlo (Mini-Groupe-lippu ~3 €/hlö/suunta)',dur:'~25 min'},
    {t:'09:30',i:'sight',x:'Le Rocher ennen kuumuutta: '+G('Monacon katedraali','katedraali (Grace Kelly)')+' + vanhankaupungin kujat',dur:'1,5 h'},
@@ -777,7 +773,6 @@ const DAYS = [
   night:'Casinolle passi mukaan (18+). Klo 14 jälkeen ei shortseja/lenkkareita — pukeutukaa fiksusti tai pakatkaa vaihtovaatteet. Nostakaa Monacossa käteistä huomisen refugea varten. Vaellusherätys ~6:15!'},
 
  {date:'Sunnuntai 12.7',c:'var(--palm)',title:'Vaellus — Le Boréon & Cougourde',who:'7/7 · bussi 7:30',
-  badges:[['palm','✓ sovittu & bussit varattu (Rappe MVP)'],['gold','käteinen mukaan']],
   rows:[
    {t:'06:40',i:'move',x:'<b>Lähtö kämpältä</b> → ratikka T2 '+GL('Grand Arénas Nice tram','Grand Arénasiin')+' — eväät ja vedet (1,5–2 l/hlö) edellisiltana valmiiksi',dur:'~25 min'},
    {t:'07:30',i:'move',x:'<b>Été Vésubie -bussi (varattu ✓)</b> Grand Arénas → Saint-Martin-Vésubie',dur:'1 h 25 min'},
@@ -792,7 +787,6 @@ const DAYS = [
   night:'Vuoristossa vain ~12–24 °C — kerrospukeutuminen. Lenkkarit riittävät (DD tehty), aurinkorasva & päähine pakolliset. Koko päivä kulkee yhdellä 7 € päivälipulla. Illalla: ostakaa huomisen saarilautan liput netistä (Horizon 17,50 €).'},
 
  {date:'Maanantai 13.7',c:'var(--coral)',title:'Cannes & Île Sainte-Marguerite',who:'7/7 · junapäivä',
-  badges:[['palm','✓ sovittu: Cannes'],['blue','juna ~7,90 €/suunta']],
   rows:[
    {t:'08:15',i:'move',x:'Juna '+GL('Gare de Nice-Ville','Nice-Ville')+' → Cannes (<b>ZOU Mini-Groupe</b> -ryhmälippu: jopa −50 %)',dur:'~35 min'},
    {t:'09:00',i:'food',x:G('Marché Forville','Marché Forville')+' — aamiainen + piknikostokset saarelle',dur:'45 min'},
@@ -808,7 +802,6 @@ const DAYS = [
   night:'Viimeinen paluulautta saarilta lähtee ~18:00–18:30 — sen jälkeen saarelta ei pääse pois. Huominen on chillipäivä, joten Antibes-jatkot ovat sallittuja.'},
 
  {date:'Tiistai 14.7',c:'var(--lilac)',title:'Chillipäivä & Bastille-muistopäivä',who:'7/7 · viimeinen täysi päivä',
-  badges:[['blue','Ranskan kansallispäivä'],['coral','muistotilaisuudet Promilla']],
   rows:[
    {t:'09:00',i:'sight',x:'Sotilasparaati '+G('Place Masséna','Place Massénalla')+' — kansallispäivän avaus',dur:'1 h',opt:1},
    {t:'10:00',i:'beach',x:'<b>Valinta A:</b> e-bike-lenkki '+G('Promenade des Anglais','Prom')+' → '+G('Villefranche-sur-Mer','Villefranche')+' + uinti',dur:'3 h'},
@@ -824,7 +817,6 @@ const DAYS = [
   night:'Ilotulituksia ei Nizzassa muistopäivän takia — lähimmät: Villefranche klo 22 ja Cannes klo 23 (omistettu Nizzan uhreille). Ronin + norre-tiimin pakkaus illalla — aamulla lähtö ~7:15.'},
 
  {date:'Keskiviikko 15.7',c:'var(--transit)',title:'Kotiinlähtö kahdessa erässä',who:'checkout 10:00 — kaikki',
-  badges:[['blue','✈ 2 lähtöaaltoa']],
   rows:[
    {t:'07:15',i:'move',x:'<b>Norre-tiimi + Roni:</b> ratikka T2 kentälle — Norwegian D82803 10:10 (→ HEL 14:25), Ronin ZRH-kone 10:45',dur:'~40 min'},
    {t:'09:45',i:'move',x:'<b>Henu & Rappe:</b> checkout klo 10:00 mennessä → laukut säilöön: '+GL('Gare de Nice-Ville','Bagmobile asemalla')+' (8:15–21, ~5–10 €) tai Nannybag-piste (~2,50 €)'},
@@ -858,14 +850,13 @@ const daysEl=document.getElementById('days');
 DAYS.forEach(D=>{
   const rows=D.rows.map(r=>'<div class="tl-row '+(r.i||'')+'"><div class="tm">'+r.t+'</div><div class="ln"><div class="gl"></div></div><div class="tx">'+r.x+
     (r.dur?'<span class="dur">'+r.dur+'</span>':'')+(r.opt?'<span class="opt">○ optio</span>':'')+'</div></div>').join('');
-  const badges=(D.badges||[]).map(b=>'<span class="pill '+b[0]+'">'+b[1]+'</span>').join('');
   const foot=D.night?'<div class="day-f"><span class="lb">Huom</span><div>'+D.night+'</div></div>':'';
   const parts=D.date.split(' '), dw=parts[0]||'', dn=parts[1]||'';
   const el=document.createElement('article');el.className='day';
   if(D.c)el.style.borderTop='3px solid '+D.c;
   el.innerHTML='<div class="day-h"><span class="day-date" aria-hidden="true"><span class="dw">'+dw.slice(0,2).toUpperCase()+'</span><span class="dn">'+dn+'</span></span>'+
     '<div><div class="dt">'+dw+'</div><h3 class="ti">'+D.title+'</h3></div></div>'+
-    (badges?'<div class="day-badges">'+badges+'</div>':'')+'<div class="tl">'+rows+'</div>'+foot;
+    '<div class="tl">'+rows+'</div>'+foot;
   el.dataset.idx=String(DAYS.indexOf(D));
   daysEl.appendChild(el);
 });
