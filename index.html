@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <meta name="description" content="IV:n Nizzan reissu 9.–15.7.2026 — kartta, päiväohjelma ja aktiviteetit." />
-<meta name="theme-color" content="#EDEAE3" />
+<meta name="theme-color" content="#F2F0EA" />
 <meta property="og:title" content="Nizza ’26 · IV — reissusuunnitelma" />
 <meta property="og:description" content="7 jäbää · 6 yötä · Nizza, Monaco, Cannes & vuoristovaellus. Kartta, päiväohjelma ja aktiviteetit — 9.–15.7.2026." />
 <meta property="og:type" content="website" />
@@ -17,11 +17,11 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <style>
   :root{
-    --paper:#EDEAE3; --sand:#E3DDCF; --card:#F8F6F0;
+    --paper:#F2F0EA; --sand:#E9E4DA; --card:#FBFAF6;
     --ink:#26201A; --muted:#5F5041; --faint:#7D6F60;
     --azur:#5B7284; --azur-deep:#3E5262; --sea:#6E8B7F;
     --coral:#A8654A; --sun:#B08A4F; --palm:#71805B; --lilac:#8D7C99;
-    --rule:#DCD4C4; --rule2:#C9BFAC;
+    --rule:#E0DACD; --rule2:#CFC7B7;
     --coral-text:#8F5238; --lilac-text:#6E5F80; --gold-text:#7A5A26;
     --on-ink:#F6F3EC; --transit:#9A9184;
     --btn:#635241; --btn-hover:#4E4033;
@@ -58,7 +58,7 @@
   @keyframes rise-in{from{opacity:.3;transform:translateY(12px)}to{opacity:1;transform:none}}
 
   /* ===== sticky nav ===== */
-  .nav{position:sticky;top:0;z-index:1000;background:rgba(251,247,239,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:box-shadow .25s}
+  .nav{position:sticky;top:0;z-index:1000;background:rgba(242,240,234,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:box-shadow .25s}
   .nav::after{content:'';position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--azur) 0%,var(--sea) 32%,var(--sun) 66%,var(--coral) 100%);opacity:.9}
   .nav.scrolled{box-shadow:0 8px 28px -14px rgba(30,43,54,.22)}
   .nav-in{max-width:1120px;margin:0 auto;padding:0 22px;display:flex;align-items:center;gap:18px;height:58px}
@@ -79,7 +79,7 @@
   @media(max-width:640px){
     body{padding-bottom:76px}
     /* backdrop-filter tekisi navista fixed-lapsen containing blockin → pois mobiilissa */
-    .nav{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(251,247,239,.97)}
+    .nav{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(242,240,234,.97)}
     .nav-in{justify-content:center;height:52px}
     .tabs{position:fixed;left:0;right:0;bottom:0;z-index:1200;margin:0;padding:6px max(12px,env(safe-area-inset-left)) calc(7px + env(safe-area-inset-bottom)) max(12px,env(safe-area-inset-right));background:rgba(255,255,255,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-top:1px solid var(--rule);display:flex;justify-content:space-around;gap:2px;overflow:visible;box-shadow:0 -8px 28px -16px rgba(30,43,54,.25)}
     .tab{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:10px;font-weight:600;letter-spacing:.02em;padding:7px 8px;border-radius:13px;min-width:58px;color:var(--faint)}
@@ -116,7 +116,7 @@
   .hero-copy{flex:1;min-width:0}
   .hero-art{flex:0 0 min(560px,48%);margin:0}
   .hero-art svg{width:100%;height:auto;display:block;border-radius:var(--r-md)}
-  @media(max-width:940px){.hero-inner{flex-direction:column;align-items:stretch;gap:var(--s3)}.hero-art{flex:none;max-width:none}.hero-toc{margin-top:36px}.hero-cta{margin-top:var(--s5)}h1{margin-top:10px}}
+  @media(max-width:940px){.hero-inner{flex-direction:column;align-items:stretch;gap:var(--s3)}.hero-art{flex:none;max-width:none;margin-left:calc(-1*var(--s6));margin-right:calc(-1*var(--s6))}.hero-art svg{border-radius:0}.hero-toc{margin-top:var(--s3)}.hero-cta{margin-top:var(--s5)}h1{margin-top:10px}}
   .hero-art .draw{stroke-dasharray:1;stroke-dashoffset:1;animation:drawline 1.3s cubic-bezier(.4,0,.2,1) forwards}
   .hero-art .dash{stroke-dasharray:.5 6;stroke-linecap:round;stroke-dashoffset:0}
   @keyframes drawline{to{stroke-dashoffset:0}}
@@ -232,7 +232,7 @@
   .day-date{flex:0 0 auto;width:48px;height:48px;border-radius:var(--r-md);background:var(--ink);color:var(--on-ink);display:flex;flex-direction:column;align-items:center;justify-content:center;line-height:1.05;box-shadow:var(--shadow)}
   .day-date .dw{font-family:'JetBrains Mono',monospace;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;opacity:.65}
   .day-date .dn{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;letter-spacing:-.01em}
-  .day-picker{position:sticky;top:64px;z-index:900;display:flex;gap:6px;overflow-x:auto;padding:var(--s2) 0 var(--s3);background:linear-gradient(var(--paper) 82%,rgba(251,247,239,0));scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .day-picker{position:sticky;top:64px;z-index:900;display:flex;gap:6px;overflow-x:auto;padding:var(--s2) 0 var(--s3);background:linear-gradient(var(--paper) 82%,rgba(242,240,234,0));scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .day-picker::-webkit-scrollbar{display:none}
   @media(max-width:640px){.day-picker{top:52px}}
   .dp{flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:1px;min-width:54px;padding:7px 10px 6px;border:1px solid var(--rule2);border-bottom-width:3px;border-radius:var(--r-sm);background:var(--card);cursor:pointer;font-family:'JetBrains Mono',monospace;transition:background .15s,border-color .15s,transform .12s}
@@ -363,8 +363,8 @@
               <stop offset="1" stop-color="#A8654A"/>
             </radialGradient>
             <linearGradient id="gLand" x1="0" y1="1" x2="0" y2="0">
-              <stop offset="0" stop-color="#E3DDCF" stop-opacity=".8"/>
-              <stop offset="1" stop-color="#E3DDCF" stop-opacity="0"/>
+              <stop offset="0" stop-color="#E9E4DA" stop-opacity=".85"/>
+              <stop offset="1" stop-color="#E9E4DA" stop-opacity="0"/>
             </linearGradient>
           </defs>
           <path d="M-6 178 C 60 154, 118 170, 168 152 C 214 136, 240 150, 284 142 C 330 134, 356 120, 396 113 C 436 106, 472 98, 526 88 L 526 -6 L -6 -6 Z" fill="url(#gLand)"/>
