@@ -14,7 +14,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
 <style>
   :root{
     --paper:#F2F0EA; --sand:#E9E4DA; --card:#FBFAF6;
@@ -202,9 +201,14 @@
   .chip-btn:active{transform:scale(.96)}
   .brand:hover em{color:var(--azur)}
   .leaflet-popup-content a.go:hover{background:var(--btn-hover)}
-  #map{height:640px;width:100%;border:1px solid var(--rule2);border-radius:var(--r-lg);z-index:0;box-shadow:var(--shadow);background:#e8e6e1}
+  #map{height:640px;width:100%;border:1px solid var(--rule2);border-radius:var(--r-lg);z-index:0;box-shadow:var(--shadow);background:#e8e6e1;position:relative;overflow:hidden}
   @media(max-width:640px){#map{height:66vh;min-height:420px}}
   #map:fullscreen,#map:-webkit-full-screen{width:100%!important;height:100%!important;border-radius:0;border:0}
+  #map.map-loading::after{content:'Kartta latautuu';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);background:linear-gradient(135deg,rgba(251,250,246,.92),rgba(233,228,218,.82));z-index:1}
+  body.map-fullscreen{overflow:hidden}
+  body.map-fullscreen .tabs{display:none}
+  body.map-fullscreen #map{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;min-height:100dvh!important;border:0!important;border-radius:0!important;z-index:2100;box-shadow:none}
+  body.map-fullscreen .leaflet-control-container{position:relative;z-index:2110}
   .map-hint{font-size:12.5px;color:var(--faint);margin-top:10px}
   .legend{display:flex;flex-wrap:wrap;gap:7px 18px;padding:12px 2px 0;font-size:12.5px;color:var(--muted)}
   .leg{display:flex;align-items:center;gap:7px}
@@ -258,7 +262,7 @@
   .tl-row .ln{position:relative;display:flex;justify-content:center}
   .tl-row .ln::before{content:'';position:absolute;top:17px;bottom:-14px;width:1.5px;background:var(--rule)}
   .tl-row:last-child .ln::before{display:none}
-  .glnum{width:22px;height:22px;border-radius:50%;background:#fff;border:3px solid var(--azur);box-shadow:0 1px 5px rgba(38,32,26,.25);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:10.5px;color:var(--ink);text-decoration:none;z-index:1;margin-top:1px}
+  .glnum{width:22px;height:22px;border-radius:50%;background:var(--sand);border:2px solid var(--rule2);box-shadow:0 1px 4px rgba(38,32,26,.16);display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:10.5px;color:var(--ink);text-decoration:none;z-index:1;margin-top:1px}
   .glnum:hover{transform:scale(1.12)}
   .tl-row .gl{width:11px;height:11px;border-radius:50%;border:2.5px solid var(--azur);background:#fff;margin-top:4px;z-index:1}
   .tl-row.food .gl{border-color:var(--coral)}
@@ -571,7 +575,7 @@
         <button class="chip-btn" data-df="ti">TI 14</button>
         <button class="chip-btn" data-df="ke">KE 15</button>
       </div>
-      <div id="map" role="region" aria-label="Kartta reissun kohteista"></div>
+      <div id="map" class="map-loading" role="region" aria-label="Kartta reissun kohteista"></div>
       <div class="legend">
         <span class="leg"><i style="border-color:var(--ink);background:var(--ink)"></i> Kämppä</span>
         <span class="leg"><i style="border-color:var(--azur)"></i> Nähtävyys</span>
@@ -581,7 +585,7 @@
         <span class="leg"><i style="border-color:var(--sun)"></i> Päiväretki</span>
         <span class="leg"><i style="border-color:var(--palm)"></i> Vaellus</span>
       </div>
-      <p class="map-hint"><span class="mono">43.70°N 7.27°E</span> · pienet pisteet kasvavat merkeiksi lähizoomilla · ⛶ koko näyttö vasemmasta yläkulmasta · zoomi aktivoituu klikkaamalla.</p>
+      <p class="map-hint"><span class="mono">43.70°N 7.27°E</span> · valitse päivä nähdäksesi reitin · numerot kertovat järjestyksen.</p>
     </div>
   </section>
 </div>
@@ -612,7 +616,6 @@
   <div class="wrap">IV · Côte d’Azur · 43.70°N 7.27°E · 9.7.-15.7.2026</div>
 </footer>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
 /* =================================================================
    PAIKKADATA, haettu ja ristiinvalidoitu 7/2026
@@ -647,7 +650,7 @@ const PLACES = [
 
   /* ---- Nizza: aktiviteetit ---- */
   {n:'Sähköpyörät / pyörävuokra',dd:['ti'],cat:'sight',zone:'nizza',la:43.6999133,lo:7.2708201,d:'E-bike ~39 €/pv, tavallinen ~15-19 €/pv. Lime/Pony-potkulaudat ja kaupunkipyörät apilla.',pr:'15-39 €/pv',tip:'Prom → Villefranche → Cap Ferrat on loistava e-bike-lenkki.',q:'Holland Bikes Nice'},
-  {n:'SUP ja kajakki, Nikaia Glisse',cat:'beach',zone:'nizza',la:43.6935,lo:7.2972,d:'SUP/kajakkivuokraus satamanlahdella. Sieltä voi meloa kohti Villefranchea.',pr:'~15 €/h',tip:'Aamumeri tyynin. Kysy ryhmähintaa.',q:'Nikaia Glisse Nice'},
+  {n:'SUP ja kajakki, Nikaia Glisse',cat:'beach',zone:'nizza',la:43.6952007,lo:7.2714289,d:'SUP/kajakkivuokraus Promin varressa. Sieltä pääsee helposti vesille ilman pitkää siirtymää.',pr:'~15 €/h',tip:'Aamumeri tyynin. Kysy ryhmähintaa.',q:'Nikaia Glisse Nice'},
   {n:'Trans Côte d’Azur -risteily',cat:'sight',zone:'nizza',la:43.6955947,lo:7.2836501,d:'1 h rannikkoristeily: Baie des Anges, Cap de Nice ja Villefranchen lahti mereltä.',pr:'23,50 €',tip:'Lähdöt ti-su klo 11 & 15 Quai Lunelilta. Tämä on edullinen venehetki.',q:'Trans Cote d\'Azur Nice quai Lunel'},
 
   /* ---- Nizza: ruoka ---- */
@@ -678,15 +681,15 @@ const PLACES = [
   {n:'Babel Babel',cat:'bar',zone:'nizza',la:43.6951943,lo:7.2757177,d:'Välimeri-baari suoraan rantaa vastapäätä. Hyvä paikka sunset-aperitiiveille.',pr:'drinkit ~12-14 €',tip:'Auki 7/7, ei varausta.',q:'Babel Babel Nice'},
 
   /* ---- Päiväretket: lähikohteet ---- */
-  {n:'Villefranche-sur-Mer',dd:['ti','ke'],cat:'trip',zone:'nizza',la:43.7036,lo:7.3118,star:1,d:'Värikäs satamakylä ja Nizzaa hiekkaisempi Plage des Marinières heti asemalla.',pr:'juna ~2,10 € · 6 min',tip:'Vanha kaupunki + Rue Obscure + uinti = täydellinen puolikas päivä.',q:'Villefranche-sur-Mer old town'},
+  {n:'Villefranche-sur-Mer',dd:['ti','ke'],cat:'trip',zone:'nizza',la:43.7040256,lo:7.3120920,star:1,d:'Värikäs satamakylä ja Nizzaa hiekkaisempi Plage des Marinières heti asemalla.',pr:'juna ~2,10 € · 6 min',tip:'Vanha kaupunki + Rue Obscure + uinti = täydellinen puolikas päivä.',q:'Rue Obscure Villefranche-sur-Mer'},
   {n:'Èze + Nietzschen polku',cat:'trip',zone:'nizza',la:43.7278189,lo:7.3617920,d:'Keskiaikainen kotkanpesäkylä 400 m merenpinnasta, näköalapuutarha (10 €).',pr:'bussi 1,70 €',tip:'Bussi 82 ylös, Nietzschen polku ALAS asemalle (45-60 min). Ei nousua helteessä.',q:'Eze village'},
-  {n:'Plage Mala, Cap d’Ail',dd:['ti'],cat:'trip',zone:'nizza',la:43.7202,lo:7.4060,d:'Dramaattinen kallioiden reunustama poukama. Rivieran kaunein lähiranta.',pr:'juna ~3 €',tip:'~100 porrasta alas. Aamulla, täyttyy nopeasti.',q:'Plage Mala Cap d\'Ail'},
+  {n:'Plage Mala, Cap d’Ail',dd:['ti'],cat:'trip',zone:'nizza',la:43.7219243,lo:7.3916041,d:'Dramaattinen kallioiden reunustama poukama. Rivieran kaunein lähiranta.',pr:'juna ~3 €',tip:'~100 porrasta alas. Aamulla, täyttyy nopeasti.',q:'Plage Mala Cap d\'Ail'},
   {n:'Villa Ephrussi de Rothschild',cat:'trip',zone:'nizza',la:43.6966527,lo:7.3284656,d:'Vaaleanpunainen palatsi ja 9 teemapuutarhaa suihkulähdeshow’lla Cap Ferrat’lla.',pr:'18 €',tip:'Bussi 15. Yhdistä Paloma Beachiin ja rantapolkuun.',q:'Villa Ephrussi de Rothschild'},
 
   /* ---- Monaco ---- */
-  {n:'Casino de Monte-Carlo',dd:['la'],cat:'trip',zone:'monaco',la:43.7391,lo:7.4281,star:1,d:'Maailman kuuluisin kasino. Bond-fiilis. Pelisalit avautuvat klo 14.',pr:'20 € (sis. 10 € pelikrediitin)',tip:'Klo 14+ ei shortseja/lenkkareita, klo 19+ siistimmin. Passi mukaan, 18+.',q:'Casino de Monte-Carlo'},
+  {n:'Casino de Monte-Carlo',dd:['la'],cat:'trip',zone:'monaco',la:43.7390972,lo:7.4280681,star:1,d:'Maailman kuuluisin kasino. Bond-fiilis. Pelisalit avautuvat klo 14.',pr:'20 € (sis. 10 € pelikrediitin)',tip:'Klo 14+ ei shortseja/lenkkareita, klo 19+ siistimmin. Passi mukaan, 18+.',q:'Casino de Monte-Carlo'},
   {n:'Casino Square ja autobongaus',dd:['la'],cat:'trip',zone:'monaco',la:43.7392,lo:7.4276,d:'Ferrarit ja Lamborghinit parkkeeraavat kasinon eteen. Paras ilmainen show.',pr:'ilmainen',tip:'Paras autosaalis klo 17-21 Café de Paris’n terassilta.',q:'Place du Casino Monaco'},
-  {n:'F1-radan kävely & hiuspinni',dd:['la'],cat:'trip',zone:'monaco',la:43.7404,lo:7.4291,star:1,d:'Kävele koko 3,3 km rata: lähtösuora, kasinomutka, Fairmont-hiuspinni, tunneli, allasosuus.',pr:'ilmainen',tip:'Tunnelissa on jalkakäytävä. Aloita Blvd Albert 1er:ltä, ~1,5 h.',q:'Fairmont Hairpin Monaco'},
+  {n:'F1-radan kävely & hiuspinni',dd:['la'],cat:'trip',zone:'monaco',la:43.7402980,lo:7.4296305,star:1,d:'Kävele koko 3,3 km rata: lähtösuora, kasinomutka, Fairmont-hiuspinni, tunneli, allasosuus.',pr:'ilmainen',tip:'Tunnelissa on jalkakäytävä. Aloita Blvd Albert 1er:ltä, ~1,5 h.',q:'Fairmont Hairpin Monaco'},
   {n:'Ruhtinaan palatsi',dd:['la'],cat:'trip',zone:'monaco',la:43.7312,lo:7.4197,d:'Grimaldien palatsi Le Rocher -kalliolla. Vahdinvaihto joka päivä klo 11.55.',pr:'aukio ilmainen',tip:'Paikalle 11.30 hyvän katselupaikan takia.',q:'Palais Princier Monaco'},
   {n:'Monacon katedraali',dd:['la'],cat:'trip',zone:'monaco',la:43.7303806,lo:7.4225216,d:'Grace Kellyn ja Rainier III:n haudat. Sopii 15 minuutin pysähdys Rocher-kierroksella.',pr:'ilmainen',tip:'Ei paljaita olkapäitä sisällä.',q:'Cathédrale de Monaco'},
   {n:'Musée Océanographique',dd:['la'],cat:'trip',zone:'monaco',la:43.7307,lo:7.4255,d:'Näyttävä meritiedemuseo kallion reunalla. Hait ja kattoterassi.',pr:'22,50 €',tip:'Hintava: valitkaa tämä TAI kasino.',q:'Musée Océanographique Monaco'},
@@ -695,24 +698,24 @@ const PLACES = [
   {n:'Marché de la Condamine',dd:['la'],cat:'trip',zone:'monaco',la:43.7326030,lo:7.4200318,star:1,d:'Ruokahalli paikallisten torilla. Monacon halvin kunnon lounas.',pr:'socca 3 €, annokset 8-15 €',tip:'Chez Rogerin socca on pakollinen.',q:'Marché de la Condamine Monaco'},
   {n:'Café de Paris',dd:['la'],cat:'trip',zone:'monaco',la:43.7396369,lo:7.4278619,d:'Legendaarinen terassi Casino Squarella. Maksat näköalasta.',pr:'olut ~10-16 €',tip:'Budjetoi yksi “bling-bisse” ja katselkaa autoja tunti.',q:'Café de Paris Monte-Carlo'},
   {n:'Tip Top',cat:'trip',zone:'monaco',la:43.7405006,lo:7.4279316,d:'Yöinstituutio kasinon takana. Pizzat ja pastat myöhään, paikallisten ja F1-kuskien suosikki.',pr:'€€',tip:'Auki todella myöhään. Hyvä lopetus kasinoillalle.',q:'Tip Top Monaco'},
-  {n:'Larvotto-ranta',dd:['la'],cat:'trip',zone:'monaco',la:43.7458,lo:7.4308,d:'Monacon julkinen ranta, jossa on suihkut ja meduusaverkko.',pr:'ilmainen',tip:'Kivipohja: uimatossut. Ennen klo 11 tai iltapäiväpulahdus.',q:'Plage du Larvotto Monaco'},
+  {n:'Larvotto-ranta',dd:['la'],cat:'trip',zone:'monaco',la:43.7461819,lo:7.4338741,d:'Monacon julkinen ranta, jossa on suihkut ja meduusaverkko.',pr:'ilmainen',tip:'Kivipohja: uimatossut. Ennen klo 11 tai iltapäiväpulahdus.',q:'Plage du Larvotto Monaco'},
 
   /* ---- Cannes ---- */
-  {n:'Palais des Festivals & punaiset portaat',dd:['ma'],cat:'trip',zone:'cannes',la:43.5507,lo:7.0174,star:1,d:'Elokuvajuhlien kuuluisat 24 porrasta ja tähtien kädenjäljet (Allée des Étoiles).',pr:'ilmainen',tip:'Portailla saa poseerata vapaasti. Aamulla vähiten väkeä.',q:'Palais des Festivals Cannes'},
-  {n:'La Croisette & Carlton',dd:['ma'],cat:'trip',zone:'cannes',la:43.5494,lo:7.0296,d:'Legendaarinen rantabulevardi, luksushotellit ja -kaupat.',pr:'ilmainen',tip:'Carltonin aulaan voi kurkata siististi pukeutuneena.',q:'Carlton Cannes La Croisette'},
-  {n:'Le Suquet & näköalaterassi',dd:['ma'],cat:'trip',zone:'cannes',la:43.5516,lo:7.0121,star:1,d:'Vanhankaupungin mäki. Paras ilmaisnäköala lahdelle ja Lérins-saarille.',pr:'ilmainen',tip:'Kiipeä aamulla ennen hellettä. Museon torni (6 €) kruunaa näkymän.',q:'Notre-Dame d\'Esperance Cannes'},
+  {n:'Palais des Festivals & punaiset portaat',dd:['ma'],cat:'trip',zone:'cannes',la:43.5507652,lo:7.0179543,star:1,d:'Elokuvajuhlien kuuluisat 24 porrasta ja tähtien kädenjäljet (Allée des Étoiles).',pr:'ilmainen',tip:'Portailla saa poseerata vapaasti. Aamulla vähiten väkeä.',q:'Palais des Festivals Cannes'},
+  {n:'La Croisette & Carlton',dd:['ma'],cat:'trip',zone:'cannes',la:43.5495959,lo:7.0272260,d:'Legendaarinen rantabulevardi, luksushotellit ja -kaupat.',pr:'ilmainen',tip:'Carltonin aulaan voi kurkata siististi pukeutuneena.',q:'Carlton Cannes a Regent Hotel'},
+  {n:'Le Suquet & näköalaterassi',dd:['ma'],cat:'trip',zone:'cannes',la:43.5507424,lo:7.0102476,star:1,d:'Vanhankaupungin mäki. Paras ilmaisnäköala lahdelle ja Lérins-saarille.',pr:'ilmainen',tip:'Kiipeä aamulla ennen hellettä. Museon torni (6 €) kruunaa näkymän.',q:'Notre-Dame d\'Esperance Cannes'},
   {n:'Marché Forville',dd:['ma'],cat:'trip',zone:'cannes',la:43.5521635,lo:7.0123368,d:'Katettu provencelainen aamutori. Heinäkuussa joka päivä 7-13.',pr:'ilmainen',tip:'Kerää piknik saarelle täältä. Säästätte kympit.',q:'Marche Forville Cannes'},
   {n:'Île Sainte-Marguerite',dd:['ma'],cat:'trip',zone:'cannes',la:43.5199254,lo:7.0484999,star:1,d:'Eukalyptusmetsää, kirkasvetisiä poukamia ja Rautanaamiomiehen linnoitus (Fort Royal 6,50 €).',pr:'lautta 17,50 € m-p',tip:'Snorkkeli mukaan: etelärannalla vedenalainen patsasmuseo. VIIMEINEN paluulautta ~18-18.30!',q:'Ile Sainte-Marguerite Cannes'},
-  {n:'Quai Laubeuf, lauttalaituri',dd:['ma'],cat:'trip',zone:'cannes',la:43.5474,lo:7.0158,d:'Lauttojen lähtöpaikka Lérins-saarille, 10 min asemalta.',pr:'Horizon 17,50 € netistä',tip:'Osta liput etukäteen, sillä heinäkuun aamuvuorot täyttyvät.',q:'Quai Laubeuf Cannes'},
-  {n:'Plage Macé',dd:['ma'],cat:'trip',zone:'cannes',la:43.5504112,lo:7.0219445,d:'Ilmainen yleinen hiekkaranta keskellä Croisettea.',pr:'ilmainen',tip:'Pyyhe hiekalle riittää. Klubituolit 25-45 € voi skipata.',q:'Plage Mace Cannes'},
+  {n:'Quai Laubeuf, lauttalaituri',dd:['ma'],cat:'trip',zone:'cannes',la:43.5476541,lo:7.0134413,d:'Lauttojen lähtöpaikka Lérins-saarille, 10 min asemalta.',pr:'Horizon 17,50 € netistä',tip:'Osta liput etukäteen, sillä heinäkuun aamuvuorot täyttyvät.',q:'Quai Laubeuf Cannes'},
+  {n:'Plage Macé',dd:['ma'],cat:'trip',zone:'cannes',la:43.5496050,lo:7.0201186,d:'Ilmainen yleinen hiekkaranta keskellä Croisettea.',pr:'ilmainen',tip:'Pyyhe hiekalle riittää. Klubituolit 25-45 € voi skipata.',q:'Plage Mace Cannes'},
   {n:'Aux Bons Enfants',cat:'trip',zone:'cannes',la:43.5521,lo:7.0133,d:'Neljännen polven provencelaisbistro. Michelin Bib Gourmand 2026.',pr:'menu 41 €',tip:'Ei nettivarauksia eikä kortteja, joten käteistä mukaan.',q:'Aux Bons Enfants Cannes'},
   {n:'La Pizza Cresci',dd:['ma'],cat:'trip',zone:'cannes',la:43.5504980,lo:7.0119301,d:'Vanhan sataman pizzainstituutio vuodesta 1960, puu-uuni.',pr:'pizzat 15-17 €',tip:'Auki 11-00.30 joka päivä. Sopii isolle porukalle.',q:'La Pizza Cresci Cannes'},
 
   /* ---- Antibes (extra) ---- */
-  {n:'Vieux Antibes & vallit',cat:'trip',zone:'cannes',la:43.5808,lo:7.1250,d:'Muurien ympäröimä vanhakaupunki. Aitoa Rivieraa ilman glamouria. Junalla Nizzan ja Cannesin välissä.',pr:'ilmainen',tip:'Paluumatkalla Cannesista voi hypätä pois. Asemalta on 10 min asemalta.',q:'Vieil Antibes'},
+  {n:'Vieux Antibes & vallit',cat:'trip',zone:'cannes',la:43.5805707,lo:7.1221098,d:'Muurien ympäröimä vanhakaupunki. Aitoa Rivieraa ilman glamouria. Junalla Nizzan ja Cannesin välissä.',pr:'ilmainen',tip:'Paluumatkalla Cannesista voi hypätä pois. Asemalta on 10 min kävely.',q:'Vieil Antibes'},
   {n:'Quai des Milliardaires',cat:'trip',zone:'cannes',la:43.5873684,lo:7.1319573,d:'Euroopan suurin huvivenesatama. Miljardöörien superjahdit rivissä.',pr:'ilmainen',tip:'Paras ilmaisviihde: kävele aallonmurtajalle.',q:'Quai des Milliardaires Antibes'},
   {n:'Plage de la Gravette',cat:'trip',zone:'cannes',la:43.5828634,lo:7.1291235,d:'Ilmainen HIEKKApoukama Antibesin muurien kupeessa. Harvinaisuus Rivieralla.',pr:'ilmainen',tip:'Suojaisa ja matala. Sopii pulahdukseen kesken kierroksen.',q:'Plage de la Gravette Antibes'},
-  {n:'Absinthe Bar',dd:['ma'],cat:'trip',zone:'cannes',la:43.5803,lo:7.1253,d:'Holvikellari, jossa absinttia perinteisin vesilähtein. Hattuja saa lainaksi.',pr:'absintti ~10 €',tip:'Sopivan hölmö päätösetappi ennen paluujunaa.',q:'Absinthe Bar Antibes'},
+  {n:'Absinthe Bar',dd:['ma'],cat:'trip',zone:'cannes',la:43.5808091,lo:7.1274276,d:'Holvikellari, jossa absinttia perinteisin vesilähtein. Hattuja saa lainaksi.',pr:'absintti ~10 €',tip:'Sopivan hölmö päätösetappi ennen paluujunaa.',q:'Absinthe Bar Antibes'},
 
   /* ---- Vaellus (su 12.7, varattu) ---- */
   {n:'Vacherie du Boréon, lähtöpiste',dd:['su'],cat:'hike',zone:'hike',la:44.1101500,lo:7.3076300,d:'Vaelluksen lähtö noin 1 670 metristä. Navette tuo tänne. Leveä metsäpolku puron vartta ylös.',tip:'Été Vésubie -bussi + navette varattu ✓. Reitti: GR52 puna-valkoiset + keltaiset merkit.',q:'Vacherie du Boréon Saint-Martin-Vésubie'},
@@ -752,7 +755,7 @@ const DAYS = [
    {t:'20:30',i:'food',x:'Illallinen: '+G('Le Café de Turin','Café de Turin')+' <i class="eur">€€€</i> (äyriäiset, walk-in) tai '+G('Lou Pilha Leva','Lou Pilha Leva')+' <i class="eur">€</i> (rento nizzalainen)',dur:'1,5 h'},
    {t:'22:00',i:'bar',x:'<b>MM-puolivälierä 1 klo 22:00</b>. Jos Ranska voitti Paraguayn 4.7., se pelaa TÄNÄÄN → '+G('Ma Nolan’s','Ma Nolan’s')+' tai '+G('Les Distilleries Idéales','Distilleries')+' <i class="eur">€</i> täyttyy',opt:1}
   ],
-  night:'Kaikki paitsi Rappe Nizzassa. Rauhallinen eka ilta. Huomenna kokoonpano täydentyy.'},
+  night:'Ostakaa samalla vedet, aamiaiset ja rantaeväät kämpälle. Henu tulee illalla, joten avain- ja summerikäytäntö kannattaa sopia chatissa.'},
 
  {date:'Perjantai 10.7',c:'var(--sea)',title:'Ranta, kaupunki & Rappen saapuminen',who:'7/7 illasta alkaen',
   rows:[
@@ -765,7 +768,7 @@ const DAYS = [
    {t:'20:30',i:'food',x:'Koko porukan avausillallinen: '+G('La Rossettisserie','La Rossettisserie')+' <i class="eur">€€</i> (varaa!). Luvassa lihaa & muusia',dur:'1,5 h'},
    {t:'21:00',i:'bar',x:'<b>MM-puolivälierä 2 klo 21:00</b> screeniltä: '+G('Ma Nolan’s','Ma Nolan’s')+' tai '+G('Wayne’s Bar','Wayne’s')+'. Paikalle ajoissa',opt:1}
   ],
-  night:'Täysi kokoonpano kasassa. Huomenna Monaco: kasinoillan varalta pitkät housut & siistit kengät mukaan, ja nostakaa käteistä sunnuntain vaellusmajaa varten.'},
+  night:'Huomenna Monaco: passi mukaan, kasinoa varten pitkät housut ja siistit kengät. Nostakaa samalla käteistä sunnuntain vaellusmajaa varten.'},
 
  {date:'Lauantai 11.7',c:'var(--sun)',title:'Monaco ja bling bling',who:'7/7 · junapäivä',
   rows:[
@@ -782,11 +785,11 @@ const DAYS = [
    {t:'23:00',i:'bar',x:'Kotiinpalaajille: MM-puolivälierä 3 pubissa. Vain rautaisille, huomenna herätys 6:15',opt:1},
    {t:'23:40',i:'move',x:'<b>Vaihtoehto B:</b> jatketaan pelejä → yöbussi ZOU 601 tai kimppataksi (~13 €/hlö). Omalla vastuulla',opt:1}
   ],
-  night:'Casinolle passi mukaan (18+). Klo 14 jälkeen ei shortseja/lenkkareita. Pukeutukaa fiksusti tai pakatkaa vaihtovaatteet. Nostakaa Monacossa käteistä huomisen refugea varten. Vaellusherätys ~6:15!'},
+  night:'Casinolle passi mukaan (18+). Klo 14 jälkeen ei shortseja tai lenkkareita. Viimeinen suora juna on järkevin valinta, koska vaellusherätys on noin 6:15.'},
 
  {date:'Sunnuntai 12.7',c:'var(--palm)',title:'Vaellus Le Boréonissa ja Cougourdella',who:'7/7 · bussi 7:30',
   rows:[
-   {t:'06:40',i:'move',x:'<b>Lähtö kämpältä</b> → ratikka T2 '+GL('Grand Arénas tram stop Nice','Grand Arénasiin')+'. Eväät ja vedet (1,5-2 l/hlö) edellisiltana valmiiksi',dur:'~25 min'},
+   {t:'06:40',i:'move',x:'<b>Lähtö kämpältä</b> → ratikka T2 '+GL('Grand Arénas tram stop Nice','Grand Arénasiin')+'. Eväät ja 1,5-2 l vettä per henkilö valmiiksi edellisiltana',dur:'~25 min'},
    {t:'07:30',i:'move',x:'<b>Été Vésubie -bussi (varattu ✓)</b> Grand Arénas → Saint-Martin-Vésubie',dur:'1 h 25 min'},
    {t:'09:10',i:'move',x:'Vaihto: <b>navette</b> SMV → '+G('Vacherie du Boréon, lähtöpiste','Vacherie du Boréon')+' (1 670 m)',dur:'25 min'},
    {t:'09:45',i:'hike',x:'Vaellus alkaa: metsäpolkua puron vartta → Pont de Peïrastrèche → ylös graniittiportaita',dur:'~2 h'},
@@ -796,7 +799,7 @@ const DAYS = [
    {t:'16:55',i:'move',x:'Navette Boréonista → SMV → <b>Été Vésubie 17:45</b> → Nizzassa ~19:45'},
    {t:'20:30',i:'food',x:'Yhteinen palautumisillallinen: '+G('Chez Davia','Chez Davia')+' <i class="eur">€€</i> (Bib Gourmand, 300 m kämpältä)',dur:'1,5 h'}
   ],
-  night:'Vuoristossa vain ~12-24 °C, joten kerrospukeutuminen. Lenkkarit riittävät (DD tehty), aurinkorasva & päähine pakolliset. Koko päivä kulkee yhdellä 7 € päivälipulla. Illalla: ostakaa huomisen saarilautan liput netistä (Horizon 17,50 €).'},
+  night:'Vuoristossa on viileämpää kuin Nizzassa: kerrospukeutuminen, päähine ja aurinkorasva mukaan. Refuge ottaa vain käteistä. Illalla ostetaan maanantain saarilauttaliput netistä.'},
 
  {date:'Maanantai 13.7',c:'var(--coral)',title:'Cannes & Île Sainte-Marguerite',who:'7/7 · junapäivä',
   rows:[
@@ -809,9 +812,9 @@ const DAYS = [
    {t:'16:00',i:'sight',x:G('Palais des Festivals & punaiset portaat','Punaiset portaat')+' + tähtien kädenjäljet + '+G('La Croisette & Carlton','Croisette-kävely'),dur:'1,5 h'},
    {t:'17:30',i:'beach',x:'Pulahdus: '+G('Plage Macé','Plage Macé')+' (ilmainen hiekkaranta!)',dur:'1 h',opt:1},
    {t:'19:30',i:'food',x:'Illallinen Cannesissa: '+G('La Pizza Cresci','Pizza Cresci')+' <i class="eur">€€</i>. Huom: '+G('Aux Bons Enfants','Aux Bons Enfants')+' <i class="eur">€€€</i> on ma kiinni',dur:'1,5 h'},
-   {t:'21:30',i:'move',x:'Juna Nizzaan. Halutessa extraajille välipysähdys Antibesissa: '+G('Absinthe Bar','absinttibaari')+' 🥃',opt:1}
+   {t:'21:30',i:'move',x:'Juna Nizzaan. Halukkaat voivat jäädä Antibesiin välipysähdykselle: '+G('Absinthe Bar','absinttibaari')+' 🥃',opt:1}
   ],
-  night:'Viimeinen paluulautta saarilta lähtee noin 18:00-18:30. Sen jälkeen saarelta ei pääse pois. Huominen on chillipäivä, joten Antibes-jatkot ovat sallittuja.'},
+  night:'Viimeinen paluulautta saarilta lähtee noin 18:00-18:30. Sen jälkeen saarelta ei pääse pois. Ota uikkarit, snorkkeli ja piknik mukaan jo aamulla.'},
 
  {date:'Tiistai 14.7',c:'var(--lilac)',title:'Chillipäivä & Bastille-muistopäivä',who:'7/7 · viimeinen täysi päivä',
   rows:[
@@ -826,7 +829,7 @@ const DAYS = [
    {t:'22:00',i:'sight',x:'<b>Droneshow Promin yllä</b> ja klo 22:34, iskun tarkalla hetkellä, <b>86 valokeilaa</b> taivaalle. 10-vuotismuistopäivän arvokas päätös, ei ilotulituksia Nizzassa.',dur:'45 min'},
    {t:'21:30',i:'bar',x:'Yökiertue halukkaille: '+G('Moon Bar, Aston La Scala','Moon Bar -katolta')+' <i class="eur">€€€</i> näkee sekä auringonlaskun että valokeilat',dur:'2 h',opt:1}
   ],
-  night:'Ilotulituksia ei Nizzassa muistopäivän takia. Lähimmät: Villefranche klo 22 ja Cannes klo 23 (omistettu Nizzan uhreille). Ronin + norre-tiimin pakkaus illalla. Aamulla lähtö ~7:15.'},
+  night:'Promilla voi olla kulkurajoituksia muistotilaisuuksien takia. Nizzassa ei ole ilotulituksia. Ronin ja norre-tiimin pakkaus illalla, koska aamun lähtö on noin 7:15.'},
 
  {date:'Keskiviikko 15.7',c:'var(--transit)',title:'Kotiinlähtö kahdessa erässä',who:'checkout 10:00, kaikki',
   rows:[
@@ -837,7 +840,7 @@ const DAYS = [
    {t:'16:30',i:'move',x:'Laukut noutoon → ratikka T2 kentälle',dur:'~45 min'},
    {t:'19:10',i:'move',x:'<b>Henu & Rappe:</b> Finnair-lento kotiin. HEL 23:25, Vaasassa 01:05'}
   ],
-  night:'Kiitos, kuittaus ja seuraavan reissun äänestys käyntiin chatissa. 🌴'}
+  night:'Checkout on klo 10. Iltalentolaiset tarvitsevat laukuille säilytyksen ja riittävästi aikaa palata kentälle ruuhkan varalta.'}
 ];
 
 /* =================================================================
@@ -968,108 +971,183 @@ const tipsEl=document.getElementById('tips');
 TIPS.forEach(([h,p])=>{const d=document.createElement('div');d.className='tip';d.innerHTML='<h3>'+h+'</h3><p>'+p+'</p>';tipsEl.appendChild(d);});
 
 /* =================================================================
-   MAP, Google Maps -pohja (roadmap-tiilet, identtinen google.comin kanssa)
+   MAP, loaded only when the map tab opens
    ================================================================= */
-const _map=L.map('map',{scrollWheelZoom:false,zoomControl:true});
-window._map=_map;
-L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=fi&apistyle=s.t%3A2%7Cs.e%3Al%7Cp.v%3Aoff',{
-  maxZoom:20,subdomains:['mt0','mt1','mt2','mt3'],attribution:'&copy; Google Maps'
-}).addTo(_map);
+const LEAFLET_CSS='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+const LEAFLET_JS='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+const ZOOMS={nizza:[[43.685,7.245],[43.712,7.300]]};
+let _map=null,mapInitPromise=null,routeLayer=null,fsBtn=null;
+let markers=[];
+let curMode={type:'top'};
+window._map=null;
 
-/* fullscreen control */
-const FsCtl=L.Control.extend({options:{position:'topleft'},onAdd:function(){
-  const b=L.DomUtil.create('a','leaflet-bar fs-btn');b.href='#';b.title='Koko näyttö';b.innerHTML='⛶';
-  L.DomEvent.on(b,'click',L.DomEvent.stop).on(b,'click',function(){
-    const el=document.getElementById('map');
-    if(!document.fullscreenElement&&!document.webkitFullscreenElement){
-      (el.requestFullscreen||el.webkitRequestFullscreen||function(){}).call(el);
-    }else{(document.exitFullscreen||document.webkitExitFullscreen||function(){}).call(document);}
-  });return b;}});
-_map.addControl(new FsCtl());
-['fullscreenchange','webkitfullscreenchange'].forEach(e=>document.addEventListener(e,()=>setTimeout(()=>_map.invalidateSize(),160)));
-
+function loadLeaflet(){
+  if(window.L)return Promise.resolve();
+  if(!document.querySelector('link[data-leaflet]')){
+    const css=document.createElement('link');
+    css.rel='stylesheet';
+    css.href=LEAFLET_CSS;
+    css.integrity='sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=';
+    css.crossOrigin='';
+    css.dataset.leaflet='1';
+    document.head.appendChild(css);
+  }
+  return new Promise((resolve,reject)=>{
+    const existing=document.querySelector('script[data-leaflet]');
+    if(existing){existing.addEventListener('load',resolve,{once:true});existing.addEventListener('error',reject,{once:true});return;}
+    const js=document.createElement('script');
+    js.src=LEAFLET_JS;
+    js.integrity='sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=';
+    js.crossOrigin='';
+    js.dataset.leaflet='1';
+    js.onload=resolve;
+    js.onerror=reject;
+    document.head.appendChild(js);
+  });
+}
+function mapPadding(){return matchMedia('(max-width:640px)').matches?[26,26]:[48,48];}
+function fitMaxZoom(){return matchMedia('(max-width:640px)').matches?13:15;}
+function distanceKm(a,b){
+  const R=6371,rad=Math.PI/180;
+  const dLat=(b.lat-a.lat)*rad,dLng=(b.lng-a.lng)*rad;
+  const s=Math.sin(dLat/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dLng/2)**2;
+  return 2*R*Math.asin(Math.sqrt(s));
+}
 function mkIcon(p,full,num){
   if(p.cat==='home'&&!num)return L.divIcon({className:'',html:'<div class="mk mk-home">⌂</div>',iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-14]});
-  if(num){return L.divIcon({className:'',html:'<div class="mk2 mk2-num c-'+(p.cat==='home'?'homey':p.cat)+'">'+num+'</div>',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});}
+  if(num)return L.divIcon({className:'',html:'<div class="mk2 mk2-num c-'+(p.cat==='home'?'homey':p.cat)+'">'+num+'</div>',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
   const sz=full?22:12,a=sz/2;
   return L.divIcon({className:'',html:'<div class="mk2 c-'+p.cat+(full?'':' mk2-dot')+'"></div>',iconSize:[sz,sz],iconAnchor:[a,a],popupAnchor:[0,-a]});
 }
-let routeLine=null;
-
-const markers=[];
-PLACES.forEach(p=>{
-  if(typeof p.la!=='number'||typeof p.lo!=='number')return;
-  const m=L.marker([p.la,p.lo],{icon:mkIcon(p,true)});
-  m._place=p;
-  m.bindPopup('<b class="t">'+(p.star?'★ ':'')+p.n+'</b><div class="m">'+p.d+'</div>'+
-    (p.pr?'<div class="pr">'+p.pr+'</div>':'')+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
-    '<a class="go" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a>');
-  m.bindTooltip(p.n,p.lbl?{permanent:true,direction:'right',className:'map-tip',offset:[12,0]}:{direction:'top',className:'map-tip',offset:[0,-13]});
-  markers.push(m);
-});
-
-/* nakymat: tahtipoiminnat / kategoria / paivan reitti + tier-merkit */
-const ZOOMS={nizza:[[43.685,7.245],[43.712,7.300]]};
-_map.fitBounds(ZOOMS.nizza,{padding:[30,30]});
-let curMode={type:'top'};
 function matches(p){
   if(p.cat==='home')return true;
-  if(curMode.type==='top')return !!p.star;
+  if(curMode.type==='top')return !!p.star&&p.zone==='nizza';
   if(curMode.type==='all')return true;
   if(curMode.type==='cat')return p.cat===curMode.v;
   if(curMode.type==='day')return DAYROUTES[curMode.v].indexOf(p.n)>=0;
   return true;
 }
 function tierFull(p){
+  if(!_map)return true;
   if(p.cat==='home'||p.star)return true;
   if(curMode.type==='day'||curMode.type==='top')return true;
   if(p.cat==='transit')return false;
   return _map.getZoom()>=15;
 }
+function visiblePoints(includeHome){
+  return markers.filter(m=>{
+    const p=m._place;
+    return matches(p)&&(includeHome||p.cat!=='home')&&p.cat!=='transit';
+  }).map(m=>m.getLatLng());
+}
+function drawRoute(route){
+  routeLayer.clearLayers();
+  const routePlaces=route.map(n=>markers.find(m=>m._place.n===n)).filter(Boolean);
+  const ll=routePlaces.map(m=>m.getLatLng());
+  for(let i=0;i<routePlaces.length-1;i++){
+    const from=routePlaces[i],to=routePlaces[i+1],a=from.getLatLng(),b=to.getLatLng();
+    const km=distanceKm(a,b);
+    if(km>8)continue;
+    if((from._place.cat==='transit'||to._place.cat==='transit')&&km>1.5)continue;
+    L.polyline([a,b],{color:'#F2F0EA',weight:7,opacity:.95,lineCap:'round',lineJoin:'round',interactive:false}).addTo(routeLayer);
+    L.polyline([a,b],{color:'#5B7284',weight:3,opacity:.9,lineCap:'round',lineJoin:'round',interactive:false}).addTo(routeLayer);
+  }
+  return ll;
+}
 function refresh(fit){
+  if(!_map)return;
   const isDay=curMode.type==='day';
   const route=isDay?DAYROUTES[curMode.v]:null;
-  const pts=[];
   markers.forEach(mk=>{
     const p=mk._place;
     if(matches(p)){
       const num=isDay?route.indexOf(p.n)+1:0;
       mk.setIcon(mkIcon(p,tierFull(p),num>0?num:null));
       if(!_map.hasLayer(mk))mk.addTo(_map);
-      if(p.cat!=='transit'&&p.cat!=='home')pts.push(mk.getLatLng());
     }else if(_map.hasLayer(mk))_map.removeLayer(mk);
   });
-  if(routeLine){_map.removeLayer(routeLine);routeLine=null;}
+  routeLayer.clearLayers();
   if(isDay){
-    const ll=route.map(n=>{const mk=markers.find(m=>m._place.n===n);return mk&&mk.getLatLng();}).filter(Boolean);
-    if(ll.length>1)routeLine=L.polyline(ll,{color:'#1273B8',weight:2.5,opacity:.8,dashArray:'7 9',lineCap:'round',lineJoin:'round'}).addTo(_map);
-    if(fit&&ll.length)_map.fitBounds(L.latLngBounds(ll),{padding:[48,48],maxZoom:15});
+    const ll=drawRoute(route);
+    if(fit&&ll.length)_map.fitBounds(L.latLngBounds(ll),{padding:mapPadding(),maxZoom:fitMaxZoom()});
   }else if(fit){
-    if(curMode.type==='cat'&&pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:[46,46],maxZoom:15});
-    else _map.fitBounds(ZOOMS.nizza,{padding:[30,30]});
+    const pts=curMode.type==='top'?visiblePoints(true):visiblePoints(false);
+    if(pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:mapPadding(),maxZoom:fitMaxZoom()});
+    else _map.fitBounds(ZOOMS.nizza,{padding:mapPadding()});
   }
 }
 function setChip(el){
   document.querySelectorAll('#filterbar .chip-btn,#daybar .chip-btn').forEach(x=>x.classList.toggle('on',x===el));
 }
-document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{
-  const f=b.dataset.f;
-  curMode=f==='top'?{type:'top'}:f==='all'?{type:'all'}:{type:'cat',v:f};
-  setChip(b);refresh(true);
-}));
-document.querySelectorAll('[data-df]').forEach(b=>b.addEventListener('click',()=>{
-  curMode={type:'day',v:b.dataset.df};setChip(b);refresh(true);
-}));
-_map.on('zoomend',()=>refresh(false));
-refresh(false);
-
-_map.on('click',()=>_map.scrollWheelZoom.enable());
-_map.on('mouseout',()=>_map.scrollWheelZoom.disable());
+function setMapFullscreen(on){
+  document.body.classList.toggle('map-fullscreen',on);
+  if(fsBtn){fsBtn.innerHTML=on?'×':'⛶';fsBtn.title=on?'Sulje koko näyttö':'Koko näyttö';fsBtn.setAttribute('aria-label',fsBtn.title);}
+  setTimeout(()=>{if(_map){_map.invalidateSize();refresh(false);}},120);
+}
+function initMap(){
+  if(mapInitPromise)return mapInitPromise;
+  mapInitPromise=loadLeaflet().then(()=>{
+    const el=document.getElementById('map');
+    _map=L.map(el,{preferCanvas:true,scrollWheelZoom:false,zoomControl:true,zoomSnap:.5,wheelPxPerZoomLevel:90,tap:true});
+    window._map=_map;
+    L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=fi&apistyle=s.t%3A2%7Cs.e%3Al%7Cp.v%3Aoff',{
+      maxZoom:20,subdomains:['mt0','mt1','mt2','mt3'],attribution:'&copy; Google Maps',updateWhenIdle:true,keepBuffer:1
+    }).addTo(_map);
+    const FsCtl=L.Control.extend({options:{position:'topleft'},onAdd:function(){
+      fsBtn=L.DomUtil.create('a','leaflet-bar fs-btn');
+      fsBtn.href='#';
+      fsBtn.title='Koko näyttö';
+      fsBtn.setAttribute('aria-label','Koko näyttö');
+      fsBtn.innerHTML='⛶';
+      L.DomEvent.on(fsBtn,'click',L.DomEvent.stop).on(fsBtn,'click',()=>setMapFullscreen(!document.body.classList.contains('map-fullscreen')));
+      return fsBtn;
+    }});
+    _map.addControl(new FsCtl());
+    routeLayer=L.layerGroup().addTo(_map);
+    markers=[];
+    PLACES.forEach(p=>{
+      if(typeof p.la!=='number'||typeof p.lo!=='number')return;
+      const m=L.marker([p.la,p.lo],{icon:mkIcon(p,true)});
+      m._place=p;
+      m.bindPopup('<b class="t">'+(p.star?'★ ':'')+p.n+'</b><div class="m">'+p.d+'</div>'+
+        (p.pr?'<div class="pr">'+p.pr+'</div>':'')+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
+        '<a class="go" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a>');
+      m.bindTooltip(p.n,p.lbl?{permanent:true,direction:'right',className:'map-tip',offset:[12,0]}:{direction:'top',className:'map-tip',offset:[0,-13]});
+      markers.push(m);
+    });
+    _map.on('zoomend',()=>refresh(false));
+    _map.on('click',()=>_map.scrollWheelZoom.enable());
+    _map.on('mouseout',()=>_map.scrollWheelZoom.disable());
+    document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{
+      const f=b.dataset.f;
+      curMode=f==='top'?{type:'top'}:f==='all'?{type:'all'}:{type:'cat',v:f};
+      setChip(b);refresh(true);
+    }));
+    document.querySelectorAll('[data-df]').forEach(b=>b.addEventListener('click',()=>{
+      curMode={type:'day',v:b.dataset.df};setChip(b);refresh(true);
+    }));
+    document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('map-fullscreen'))setMapFullscreen(false);});
+    el.classList.remove('map-loading');
+    _map.fitBounds(ZOOMS.nizza,{padding:mapPadding()});
+    refresh(false);
+    return _map;
+  }).catch(err=>{
+    document.getElementById('map').classList.remove('map-loading');
+    console.error('Karttaa ei voitu ladata',err);
+  });
+  return mapInitPromise;
+}
+function openMap(){
+  initMap().then(()=>{
+    if(!_map)return;
+    _map.invalidateSize();
+    if(curMode.type==='top')refresh(true);
+  });
+}
 
 /* =================================================================
    TABS
    ================================================================= */
-let _mapFitted=false;
 const _navEl=document.querySelector('.nav');
 addEventListener('scroll',()=>_navEl.classList.toggle('scrolled',scrollY>8),{passive:true});
 function showTab(id,push){
@@ -1079,12 +1157,13 @@ function showTab(id,push){
   window.scrollTo({top:0});
   const onTab=document.querySelector('.tab.on');
   if(onTab)onTab.scrollIntoView({inline:'center',block:'nearest'});
-  if(id==='kartta')setTimeout(()=>{
-    _map.invalidateSize();
-    if(!_mapFitted){_mapFitted=true;_map.fitBounds(ZOOMS.nizza,{padding:[30,30]});}
-  },80);
+  if(id==='kartta')setTimeout(openMap,80);
 }
 document.querySelectorAll('[data-tab]').forEach(t=>t.addEventListener('click',e=>{e.preventDefault();showTab(t.dataset.tab);}));
+addEventListener('hashchange',()=>{
+  const id=(location.hash||'#yleiskuva').slice(1);
+  if(document.getElementById('p-'+id))showTab(id,false);
+});
 document.querySelector('.tabs').addEventListener('keydown',e=>{
   const ts=[...document.querySelectorAll('.tabs .tab')];
   const i=ts.indexOf(document.activeElement);
