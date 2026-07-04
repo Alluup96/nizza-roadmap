@@ -641,7 +641,7 @@
         <a href="#act-food">Ruoka</a>
         <a href="#act-beach">Rannat</a>
         <a href="#act-bars">Baarit</a>
-        <a href="#act-monaco">Retket</a>
+        <a href="#act-monaco" data-open="false" data-close="#act-monaco,#act-trips,#act-hike">Retket</a>
       </div>
       <div id="acts"></div>
     </div>
@@ -1040,7 +1040,13 @@ document.querySelectorAll('.act-jump a').forEach(a=>a.addEventListener('click',e
   ensureActivities();
   const target=document.querySelector(a.getAttribute('href'));
   if(!target)return;
-  target.open=true;
+  if(a.dataset.close){
+    a.dataset.close.split(',').forEach(sel=>{
+      const det=document.querySelector(sel.trim());
+      if(det)det.open=false;
+    });
+  }
+  if(a.dataset.open!=='false')target.open=true;
   target.scrollIntoView({block:'start',behavior:'smooth'});
 }));
 
