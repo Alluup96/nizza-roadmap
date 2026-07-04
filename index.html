@@ -13,7 +13,8 @@
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌴</text></svg>" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+<noscript><link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" /></noscript>
 <style>
   :root{
     --paper:#F2F0EA; --sand:#E9E4DA; --card:#FBFAF6;
@@ -133,6 +134,7 @@
 
   /* ===== generic section ===== */
   section{padding:var(--s8) 0 var(--s2)}
+  .panel section{content-visibility:auto;contain-intrinsic-size:700px}
   .sec-head{display:flex;align-items:baseline;gap:var(--s4);margin-bottom:var(--s2);flex-wrap:wrap}
   .sec-head .n{font-family:'JetBrains Mono',monospace;color:var(--coral-text);font-size:13px;font-weight:600}
   .sec-head h2{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(24px,3.4vw,34px);letter-spacing:-.015em;line-height:1.15}
@@ -211,6 +213,8 @@
   #map:fullscreen,#map:-webkit-full-screen{width:100%!important;height:100%!important;border-radius:0;border:0}
   #map.map-loading::after{content:'Kartta latautuu';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);background:linear-gradient(135deg,rgba(251,250,246,.92),rgba(233,228,218,.82));z-index:1}
   body.map-fullscreen{overflow:hidden}
+  body.map-fullscreen .nav{display:none}
+  body.map-fullscreen .panel section{content-visibility:visible;contain:none}
   body.map-fullscreen .tabs{display:none}
   body.map-fullscreen #map{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;min-height:100dvh!important;border:0!important;border-radius:0!important;z-index:2100;box-shadow:none}
   body.map-fullscreen .leaflet-control-container{position:relative;z-index:2110}
@@ -861,99 +865,134 @@ const ACT_GROUPS = [
    RENDER: DAYS
    ================================================================= */
 const daysEl=document.getElementById('days');
-DAYS.forEach(D=>{
-  const rows=D.rows.map(r=>'<div class="tl-row '+(r.i||'')+'"><div class="tm">'+r.t+'</div><div class="ln"><div class="gl"></div></div><div class="tx">'+r.x+
-    (r.dur?'<span class="dur">'+r.dur+'</span>':'')+(r.opt?'<span class="opt">○ optio</span>':'')+'</div></div>').join('');
-  const foot=D.night?'<div class="day-f"><span class="lb">Huom</span><div>'+D.night+'</div></div>':'';
-  const parts=D.date.split(' '), dw=parts[0]||'', dn=parts[1]||'';
-  const el=document.createElement('article');el.className='day';
-  if(D.c)el.style.borderTop='3px solid '+D.c;
-  el.innerHTML='<div class="day-h"><span class="day-date" aria-hidden="true"><span class="dw">'+dw.slice(0,2).toUpperCase()+'</span><span class="dn">'+dn+'</span></span>'+
-    '<div><div class="dt">'+dw+'</div><h3 class="ti">'+D.title+'</h3></div></div>'+
-    '<div class="tl">'+rows+'</div>'+foot;
-  el.dataset.idx=String(DAYS.indexOf(D));
-  daysEl.appendChild(el);
-});
-/* päivävalitsin, yksi päivä kerrallaan */
 const dpEl=document.getElementById('daypick');
-const dayEls=[...daysEl.children];
-function showDay(sel){
+const idle=cb=>'requestIdleCallback'in window?requestIdleCallback(cb,{timeout:1400}):setTimeout(cb,120);
+const DAY_CODES=['to','pe','la','su','ma','ti','ke'];
+const DAY_NUM={},DAY_STEPS=[];
+let dayEls=[],daysRendered=false,dayNumbersReady=false;
+function defaultDay(){
+  const now=new Date();
+  if(now.getFullYear()===2026&&now.getMonth()===6){const dd=now.getDate();if(dd>=9&&dd<=15)return dd-9;}
+  return 0;
+}
+const decCache=new Map();
+function placeForHref(href){
+  const dec=decodeURIComponent(href);
+  return PLACES.find(p=>{
+    let d=decCache.get(p.n);
+    if(d==null){d=decodeURIComponent(gq(p.q||p.n));decCache.set(p.n,d);}
+    return d===dec;
+  });
+}
+function rowPlacesFromHtml(html){
+  const found=[],rx=/href="([^"]+)"/g;
+  let m;
+  while((m=rx.exec(html))){
+    const pl=placeForHref(m[1]);
+    if(pl&&!found.includes(pl))found.push(pl);
+  }
+  return found;
+}
+function ensureDayNumbers(){
+  if(dayNumbersReady)return;
+  DAYS.forEach((D,i)=>{
+    const map={};let step=0;
+    DAY_STEPS[i]=D.rows.map(r=>{
+      const rowPlaces=rowPlacesFromHtml(r.x);
+      if(!rowPlaces.length)return null;
+      step++;
+      rowPlaces.forEach(pl=>{if(map[pl.n]==null)map[pl.n]=step;});
+      return {num:step,primary:rowPlaces[0]};
+    });
+    DAY_NUM[DAY_CODES[i]]=map;
+  });
+  dayNumbersReady=true;
+}
+ensureDayNumbers();
+function applyDay(sel){
   dayEls.forEach((el,i)=>{el.style.display=(sel==='all'||sel===i)?'':'none';});
   [...dpEl.children].forEach(c=>c.classList.toggle('on',c.dataset.d===String(sel)));
 }
-DAYS.forEach((D,i)=>{
-  const parts=D.date.split(' ');
-  const btn=document.createElement('button');btn.className='dp';btn.dataset.d=String(i);
-  if(D.c)btn.style.borderBottomColor=D.c;
-  btn.innerHTML='<span class="w">'+(parts[0]||'').slice(0,2).toUpperCase()+'</span><span class="n">'+(parts[1]||'')+'</span>';
-  btn.addEventListener('click',()=>showDay(i));
-  dpEl.appendChild(btn);
-});
-const dpAll=document.createElement('button');dpAll.className='dp dp-all';dpAll.dataset.d='all';dpAll.textContent='Koko viikko';
-dpAll.addEventListener('click',()=>showDay('all'));dpEl.appendChild(dpAll);
-/* Rivipohjainen numerointi: jokainen aikajanan rivi jolla on >=1 kartalla oleva kohde
-   saa yhden juoksevan numeron. Saman rivin vaihtoehdot (esim. "A tai B") jakavat numeron
-   kartalla. DAY_NUM ohjaa kartan merkkinumerot samaksi kuin paivaohjelmassa. */
-const DAY_NUM={};
-(function(){
-  const codes=['to','pe','la','su','ma','ti','ke'];
-  const decCache=new Map();
-  const placeForLink=href=>{const dec=decodeURIComponent(href);return PLACES.find(p=>{let d=decCache.get(p.n);if(d==null){d=decodeURIComponent(gq(p.q||p.n));decCache.set(p.n,d);}return d===dec;});};
-  dayEls.forEach((el,i)=>{
-    const map={};let step=0;
-    el.querySelectorAll('.tl-row').forEach(row=>{
-      const rowPlaces=[];
-      [...row.querySelectorAll('.tx a')].forEach(lk=>{const pl=placeForLink(lk.href);if(pl&&!rowPlaces.includes(pl))rowPlaces.push(pl);});
-      if(!rowPlaces.length)return;
-      step++;
-      const primary=rowPlaces[0];
-      row.querySelector('.ln').innerHTML='<a class="glnum c-'+primary.cat+'" href="'+gq(primary.q||primary.n)+'" target="_blank" rel="noopener" aria-label="Avaa kartalla nro '+step+'">'+step+'</a>';
-      rowPlaces.forEach(pl=>{if(map[pl.n]==null)map[pl.n]=step;});
-    });
-    DAY_NUM[codes[i]]=map;
+function ensureDays(){
+  if(daysRendered)return;
+  ensureDayNumbers();
+  const frag=document.createDocumentFragment();
+  DAYS.forEach((D,di)=>{
+    const rows=D.rows.map((r,ri)=>{
+      const step=DAY_STEPS[di]&&DAY_STEPS[di][ri];
+      const line=step?'<a class="glnum c-'+step.primary.cat+'" href="'+gq(step.primary.q||step.primary.n)+'" target="_blank" rel="noopener" aria-label="Avaa kartalla nro '+step.num+'">'+step.num+'</a>':'<div class="gl"></div>';
+      return '<div class="tl-row '+(r.i||'')+'"><div class="tm">'+r.t+'</div><div class="ln">'+line+'</div><div class="tx">'+r.x+
+        (r.dur?'<span class="dur">'+r.dur+'</span>':'')+(r.opt?'<span class="opt">○ optio</span>':'')+'</div></div>';
+    }).join('');
+    const foot=D.night?'<div class="day-f"><span class="lb">Huom</span><div>'+D.night+'</div></div>':'';
+    const parts=D.date.split(' '),dw=parts[0]||'',dn=parts[1]||'';
+    const el=document.createElement('article');el.className='day';
+    if(D.c)el.style.borderTop='3px solid '+D.c;
+    el.innerHTML='<div class="day-h"><span class="day-date" aria-hidden="true"><span class="dw">'+dw.slice(0,2).toUpperCase()+'</span><span class="dn">'+dn+'</span></span>'+
+      '<div><div class="dt">'+dw+'</div><h3 class="ti">'+D.title+'</h3></div></div>'+
+      '<div class="tl">'+rows+'</div>'+foot;
+    el.dataset.idx=String(di);
+    frag.appendChild(el);
   });
-})();
-(function(){
-  const now=new Date();let def=0;
-  if(now.getFullYear()===2026&&now.getMonth()===6){const dd=now.getDate();if(dd>=9&&dd<=15)def=dd-9;}
-  showDay(def);
-})();
+  daysEl.appendChild(frag);
+  DAYS.forEach((D,i)=>{
+    const parts=D.date.split(' ');
+    const btn=document.createElement('button');btn.className='dp';btn.dataset.d=String(i);
+    if(D.c)btn.style.borderBottomColor=D.c;
+    btn.innerHTML='<span class="w">'+(parts[0]||'').slice(0,2).toUpperCase()+'</span><span class="n">'+(parts[1]||'')+'</span>';
+    btn.addEventListener('click',()=>applyDay(i));
+    dpEl.appendChild(btn);
+  });
+  const dpAll=document.createElement('button');dpAll.className='dp dp-all';dpAll.dataset.d='all';dpAll.textContent='Koko viikko';
+  dpAll.addEventListener('click',()=>applyDay('all'));dpEl.appendChild(dpAll);
+  dayEls=[...daysEl.children];
+  daysRendered=true;
+  applyDay(defaultDay());
+}
+function showDay(sel){ensureDays();applyDay(sel);}
 
 /* =================================================================
    RENDER: ACTIVITIES
    ================================================================= */
 const actsEl=document.getElementById('acts');
 const EXTRA_NAMES=['Villefranche-sur-Mer','Èze + Nietzschen polku','Plage Mala, Cap d’Ail','Villa Ephrussi de Rothschild','Vieux Antibes & vallit','Quai des Milliardaires','Plage de la Gravette','Absinthe Bar','Trans Côte d’Azur -risteily','Sähköpyörät / pyörävuokra','SUP ja kajakki, Nikaia Glisse'];
-ACT_GROUPS.forEach(gp=>{
-  let items;
-  if(gp.t.startsWith('Extra')){
-    items=PLACES.filter(p=>EXTRA_NAMES.includes(p.n));
-  }else if(gp.zones[0]==='cannes'){
-    items=PLACES.filter(p=>p.zone==='cannes'&&!['Vieux Antibes & vallit','Quai des Milliardaires','Plage de la Gravette','Absinthe Bar'].includes(p.n));
-  }else if(gp.zones[0]==='nizza'&&gp.cats[0]==='sight'){
-    items=PLACES.filter(p=>p.cat==='sight'&&p.zone==='nizza'&&!EXTRA_NAMES.includes(p.n));
-  }else if(gp.zones[0]==='nizza'&&gp.cats[0]==='beach'){
-    items=PLACES.filter(p=>p.cat==='beach'&&p.zone==='nizza'&&!EXTRA_NAMES.includes(p.n));
-  }else{
-    items=PLACES.filter(p=>gp.cats.includes(p.cat)&&gp.zones.includes(p.zone)&&!EXTRA_NAMES.includes(p.n));
-  }
-  if(!items.length)return;
-  items=[...items].sort((a,b)=>(b.star||0)-(a.star||0));
-  const det=document.createElement('details');det.className='act-acc';
-  det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+items.length+' kohdetta</span>'+
-    '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
-  const grid=document.createElement('div');grid.className='arows';
-  items.forEach(p=>{
-    const d=document.createElement('details');d.className='arow';
-    d.innerHTML='<summary><span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+'</span>'+(p.pr?'<span class="pr">'+p.pr+'</span>':'')+
-      '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>'+
-      '<div class="arow-b"><div>'+p.d+'</div>'+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
-      '<a class="gl" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a></div>';
-    grid.appendChild(d);
+let actsRendered=false;
+function ensureActivities(){
+  if(actsRendered)return;
+  const frag=document.createDocumentFragment();
+  ACT_GROUPS.forEach(gp=>{
+    let items;
+    if(gp.t.startsWith('Extra')){
+      items=PLACES.filter(p=>EXTRA_NAMES.includes(p.n));
+    }else if(gp.zones[0]==='cannes'){
+      items=PLACES.filter(p=>p.zone==='cannes'&&!['Vieux Antibes & vallit','Quai des Milliardaires','Plage de la Gravette','Absinthe Bar'].includes(p.n));
+    }else if(gp.zones[0]==='nizza'&&gp.cats[0]==='sight'){
+      items=PLACES.filter(p=>p.cat==='sight'&&p.zone==='nizza'&&!EXTRA_NAMES.includes(p.n));
+    }else if(gp.zones[0]==='nizza'&&gp.cats[0]==='beach'){
+      items=PLACES.filter(p=>p.cat==='beach'&&p.zone==='nizza'&&!EXTRA_NAMES.includes(p.n));
+    }else{
+      items=PLACES.filter(p=>gp.cats.includes(p.cat)&&gp.zones.includes(p.zone)&&!EXTRA_NAMES.includes(p.n));
+    }
+    if(!items.length)return;
+    items=[...items].sort((a,b)=>(b.star||0)-(a.star||0));
+    const det=document.createElement('details');det.className='act-acc';
+    det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+items.length+' kohdetta</span>'+
+      '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
+    const grid=document.createElement('div');grid.className='arows';
+    items.forEach(p=>{
+      const d=document.createElement('details');d.className='arow';
+      d.innerHTML='<summary><span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+'</span>'+(p.pr?'<span class="pr">'+p.pr+'</span>':'')+
+        '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>'+
+        '<div class="arow-b"><div>'+p.d+'</div>'+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
+        '<a class="gl" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a></div>';
+      grid.appendChild(d);
+    });
+    det.appendChild(grid);
+    frag.appendChild(det);
   });
-  det.appendChild(grid);
-  actsEl.appendChild(det);
-});
+  actsEl.appendChild(frag);
+  actsRendered=true;
+}
 
 
 /* =================================================================
@@ -971,7 +1010,15 @@ const TIPS=[
   ['MM-futis','Puolivälierät ja välierät osuvat reissuviikolle. Pelit alkavat Ranskan aikaa tyypillisesti klo 21-02. Ma Nolan’s ja Wayne’s näyttävät kaiken; fan zone -tilanne kannattaa tsekata paikan päällä (nice.fr).']
 ];
 const tipsEl=document.getElementById('tips');
-TIPS.forEach(([h,p])=>{const d=document.createElement('div');d.className='tip';d.innerHTML='<h3>'+h+'</h3><p>'+p+'</p>';tipsEl.appendChild(d);});
+let tipsRendered=false;
+function ensureTips(){
+  if(tipsRendered)return;
+  const frag=document.createDocumentFragment();
+  TIPS.forEach(([h,p])=>{const d=document.createElement('div');d.className='tip';d.innerHTML='<h3>'+h+'</h3><p>'+p+'</p>';frag.appendChild(d);});
+  tipsEl.appendChild(frag);
+  tipsRendered=true;
+}
+idle(ensureTips);
 
 /* =================================================================
    MAP, loaded only when the map tab opens
@@ -979,13 +1026,23 @@ TIPS.forEach(([h,p])=>{const d=document.createElement('div');d.className='tip';d
 const LEAFLET_CSS='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
 const LEAFLET_JS='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
 const ZOOMS={nizza:[[43.685,7.245],[43.712,7.300]]};
-let _map=null,mapInitPromise=null,routeLayer=null,fsBtn=null;
+let _map=null,mapInitPromise=null,fsBtn=null;
 let markers=[];
 let curMode={type:'top'};
 window._map=null;
 
+function warmOrigin(href){
+  if(document.querySelector('link[data-warm="'+href+'"]'))return;
+  const link=document.createElement('link');
+  link.rel='preconnect';
+  link.href=href;
+  link.dataset.warm=href;
+  document.head.appendChild(link);
+}
 function loadLeaflet(){
   if(window.L)return Promise.resolve();
+  warmOrigin('https://unpkg.com');
+  warmOrigin('https://mt0.google.com');
   if(!document.querySelector('link[data-leaflet]')){
     const css=document.createElement('link');
     css.rel='stylesheet';
@@ -1010,12 +1067,6 @@ function loadLeaflet(){
 }
 function mapPadding(){return matchMedia('(max-width:640px)').matches?[26,26]:[48,48];}
 function fitMaxZoom(){return matchMedia('(max-width:640px)').matches?13:15;}
-function distanceKm(a,b){
-  const R=6371,rad=Math.PI/180;
-  const dLat=(b.lat-a.lat)*rad,dLng=(b.lng-a.lng)*rad;
-  const s=Math.sin(dLat/2)**2+Math.cos(a.lat*rad)*Math.cos(b.lat*rad)*Math.sin(dLng/2)**2;
-  return 2*R*Math.asin(Math.sqrt(s));
-}
 function mkIcon(p,full,num){
   if(p.cat==='home'&&!num)return L.divIcon({className:'',html:'<div class="mk mk-home">⌂</div>',iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-14]});
   if(num)return L.divIcon({className:'',html:'<div class="mk2 mk2-num c-'+(p.cat==='home'?'homey':p.cat)+'">'+num+'</div>',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
@@ -1137,7 +1188,13 @@ function openMap(){
    ================================================================= */
 const _navEl=document.querySelector('.nav');
 addEventListener('scroll',()=>_navEl.classList.toggle('scrolled',scrollY>8),{passive:true});
+function ensureTabContent(id){
+  if(id==='paivat')ensureDays();
+  else if(id==='aktiviteetit')ensureActivities();
+  else if(id==='yleiskuva')ensureTips();
+}
 function showTab(id,push){
+  ensureTabContent(id);
   document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('on',p.id==='p-'+id));
   document.querySelectorAll('.tab').forEach(t=>{const on=t.dataset.tab===id;t.classList.toggle('on',on);t.setAttribute('aria-selected',on?'true':'false');});
   if(push!==false)history.replaceState(null,'','#'+id);
@@ -1163,40 +1220,62 @@ document.querySelector('.tabs').addEventListener('keydown',e=>{
   if(j!==null){e.preventDefault();ts[j].focus();showTab(ts[j].dataset.tab);}
 });
 if(matchMedia('(min-width:941px)').matches)document.querySelectorAll('.sec-acc').forEach(d=>d.open=true);
-document.querySelectorAll('.hero-toc a').forEach(t=>t.addEventListener('click',()=>{const sec=document.querySelector(t.getAttribute('href'));const det=sec&&sec.querySelector('.sec-acc');if(det)det.open=true;}));
+document.querySelectorAll('.hero-toc a').forEach(t=>t.addEventListener('click',()=>{
+  if(t.getAttribute('href')==='#kaytannot')ensureTips();
+  const sec=document.querySelector(t.getAttribute('href'));const det=sec&&sec.querySelector('.sec-acc');if(det)det.open=true;
+}));
 const initial=(location.hash||'#yleiskuva').slice(1);
 if(document.getElementById('p-'+initial))showTab(initial,false);
 
 /* reaaliaikainen meriveden lampotila (Open-Meteo Marine, ei avainta) */
-(function(){
+let weatherLoaded=false;
+const WEATHER_TTL=1000*60*30;
+function cachedJson(key,url,ttl){
+  const now=Date.now();
+  try{
+    const hit=JSON.parse(localStorage.getItem(key)||'null');
+    if(hit&&now-hit.t<ttl)return Promise.resolve(hit.d);
+  }catch(e){}
+  return fetch(url).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+    try{localStorage.setItem(key,JSON.stringify({t:now,d:d}));}catch(e){}
+    return d;
+  });
+}
+function loadWeather(){
+  if(weatherLoaded)return;
+  weatherLoaded=true;
   const el=document.getElementById('seatemp');if(!el)return;
-  fetch('https://marine-api.open-meteo.com/v1/marine?latitude=43.68&longitude=7.30&current=sea_surface_temperature')
-    .then(r=>r.ok?r.json():Promise.reject())
+  cachedJson('nizza:sea-temp','https://marine-api.open-meteo.com/v1/marine?latitude=43.68&longitude=7.30&current=sea_surface_temperature',WEATHER_TTL)
     .then(d=>{const t=d&&d.current&&d.current.sea_surface_temperature;
       if(typeof t==='number')el.textContent=Math.round(t)+' °C';})
     .catch(()=>{});
-})();
 
-/* reissuviikon lampotila-analyysi (Open-Meteo forecast, paivittyy reaaliajassa) */
-(function(){
-  const el=document.getElementById('airtemp');if(!el)return;
+  const airEl=document.getElementById('airtemp');
   const rng=a=>{const lo=Math.round(Math.min(...a)),hi=Math.round(Math.max(...a));return lo===hi?hi+' °C':lo+'-'+hi+' °C';};
-  fetch('https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=7.27&daily=temperature_2m_max,temperature_2m_min&start_date=2026-07-09&end_date=2026-07-15&timezone=Europe%2FParis')
-    .then(r=>r.ok?r.json():Promise.reject())
-    .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max,mn=d&&d.daily&&d.daily.temperature_2m_min;
-      if(mx&&mx.length&&mn&&mn.length)el.textContent='päivä '+rng(mx)+' · yö '+rng(mn);})
-    .catch(()=>{});
-})();
+  if(airEl){
+    cachedJson('nizza:air-temp','https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=7.27&daily=temperature_2m_max,temperature_2m_min&start_date=2026-07-09&end_date=2026-07-15&timezone=Europe%2FParis',WEATHER_TTL)
+      .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max,mn=d&&d.daily&&d.daily.temperature_2m_min;
+        if(mx&&mx.length&&mn&&mn.length)airEl.textContent='päivä '+rng(mx)+' · yö '+rng(mn);})
+      .catch(()=>{});
+  }
 
-/* vaelluspaivan vuoristolampotila 2 000 m (Open-Meteo forecast, paivittyy reaaliajassa) */
-(function(){
-  const el=document.getElementById('mountaintemp');if(!el)return;
-  fetch('https://api.open-meteo.com/v1/forecast?latitude=44.126&longitude=7.331&elevation=2090&daily=temperature_2m_max,temperature_2m_min&start_date=2026-07-12&end_date=2026-07-12&timezone=Europe%2FParis')
-    .then(r=>r.ok?r.json():Promise.reject())
-    .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max&&d.daily.temperature_2m_max[0],mn=d&&d.daily&&d.daily.temperature_2m_min&&d.daily.temperature_2m_min[0];
-      if(typeof mx==='number'&&typeof mn==='number')el.textContent='~'+Math.round(mn)+'-'+Math.round(mx)+' °C';})
-    .catch(()=>{});
-})();
+  const mountainEl=document.getElementById('mountaintemp');
+  if(mountainEl){
+    cachedJson('nizza:mountain-temp','https://api.open-meteo.com/v1/forecast?latitude=44.126&longitude=7.331&elevation=2090&daily=temperature_2m_max,temperature_2m_min&start_date=2026-07-12&end_date=2026-07-12&timezone=Europe%2FParis',WEATHER_TTL)
+      .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max&&d.daily.temperature_2m_max[0],mn=d&&d.daily&&d.daily.temperature_2m_min&&d.daily.temperature_2m_min[0];
+        if(typeof mx==='number'&&typeof mn==='number')mountainEl.textContent='~'+Math.round(mn)+'-'+Math.round(mx)+' °C';})
+      .catch(()=>{});
+  }
+}
+const weatherRoot=document.getElementById('kamppa');
+if('IntersectionObserver'in window&&weatherRoot){
+  const weatherObserver=new IntersectionObserver(entries=>{
+    if(entries.some(e=>e.isIntersecting)){weatherObserver.disconnect();loadWeather();}
+  },{threshold:.25});
+  weatherObserver.observe(weatherRoot);
+}else{
+  idle(loadWeather);
+}
 
 /* MM-katsomoiden Google Maps -linkit (samat kuin kartalla) */
 document.querySelectorAll('a.mlink[data-place]').forEach(a=>{
