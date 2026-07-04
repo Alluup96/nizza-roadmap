@@ -1043,16 +1043,7 @@ function visiblePoints(includeHome){
 function drawRoute(route){
   routeLayer.clearLayers();
   const routePlaces=route.map(n=>markers.find(m=>m._place.n===n)).filter(Boolean);
-  const ll=routePlaces.map(m=>m.getLatLng());
-  for(let i=0;i<routePlaces.length-1;i++){
-    const from=routePlaces[i],to=routePlaces[i+1],a=from.getLatLng(),b=to.getLatLng();
-    const km=distanceKm(a,b);
-    if(km>8)continue;
-    if((from._place.cat==='transit'||to._place.cat==='transit')&&km>1.5)continue;
-    L.polyline([a,b],{color:'#F2F0EA',weight:7,opacity:.95,lineCap:'round',lineJoin:'round',interactive:false}).addTo(routeLayer);
-    L.polyline([a,b],{color:'#5B7284',weight:3,opacity:.9,lineCap:'round',lineJoin:'round',interactive:false}).addTo(routeLayer);
-  }
-  return ll;
+  return routePlaces.map(m=>m.getLatLng());
 }
 function refresh(fit){
   if(!_map)return;
