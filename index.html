@@ -37,6 +37,8 @@
   .wrap{max-width:1120px;margin:0 auto;padding:0 var(--s6)}
   .mono{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums}
   a{color:var(--azur-deep)}
+  .mlink{color:var(--ink);font-weight:600;text-decoration:none;border-bottom:1.5px dotted rgba(91,114,132,.6)}
+  .mlink:hover{color:var(--azur-deep)}
   ::selection{background:rgba(99,82,65,.22)}
   h1,h2,h3,h4{font-optical-sizing:auto;text-wrap:balance}
   p{text-wrap:pretty}
@@ -490,8 +492,9 @@
         <div class="card">
           <h3>Sää</h3>
           <dl class="kv">
-            <dt>Meri</dt><dd><b id="seatemp">~24 °C</b> <span class="mono" style="font-size:11px;color:var(--faint)">juuri nyt</span></dd>
-            <dt>Vesi</dt><dd>Juomavesipisteitä pitkin kaupunkia, joten pullo kannattaa pitää aina mukana</dd>
+            <dt>Merivesi</dt><dd><b id="seatemp">~24 °C</b> <span class="mono" style="font-size:11px;color:var(--faint)">juuri nyt</span></dd>
+            <dt>Lämpötila</dt><dd><span id="airtemp">päivä ~28-29 °C · yö ~22 °C</span> <span class="mono" style="font-size:11px;color:var(--faint)">reissuviikko</span></dd>
+            <dt>Nesteytys</dt><dd>Juomavesipisteitä pitkin kaupunkia, joten pullo kannattaa pitää aina mukana</dd>
             <dt>Huom</dt><dd>Ranskassa on kesällä 2026 rajoitettu alkoholin juomista julkisilla paikoilla helleaaltojen aikana. Terassit ja rannat baareineen toimivat normaalisti</dd>
             <dt>Vuoristossa</dt><dd>Vaelluspäivänä 2 000 m korkeudessa on vain noin 12-20 °C, joten kerrospukeutuminen on tarpeen</dd>
           </dl>
@@ -522,7 +525,7 @@
             <dt>Ti 14.7 · 21:00</dt><dd>Välierä 1, mahdollinen <b>Ranskan peli</b></dd>
             <dt>Ke 15.7 · 21:00</dt><dd>Välierä 2 (ollaan jo kotona / lennolla)</dd>
           </dl>
-          <p class="ds" style="margin-top:10px">Katsomot: <b>Ma Nolan’s</b> ja <b>Wayne’s</b> näyttävät kaiken. Jos Ranska pelaa, tulkaa tuntia ennen. Jos Ranska voittaa, Vieux Nice räjähtää.</p>
+          <p class="ds" style="margin-top:10px">Katsomot: <a class="mlink" data-place="Ma Nolan’s">Ma Nolan’s</a> ja <a class="mlink" data-place="Wayne’s Bar">Wayne’s</a> näyttävät kaiken. Jos Ranska pelaa, tulkaa tuntia ennen. Jos Ranska voittaa, Vieux Nice räjähtää.</p>
         </div>
         <div class="card">
           <h3>🕯️ Bastille-päivä 14.7. 10-vuotismuistopäivä</h3>
@@ -1173,6 +1176,23 @@ if(document.getElementById('p-'+initial))showTab(initial,false);
       if(typeof t==='number')el.textContent=Math.round(t)+' °C';})
     .catch(()=>{});
 })();
+
+/* reissuviikon lampotila-analyysi (Open-Meteo forecast, paivittyy reaaliajassa) */
+(function(){
+  const el=document.getElementById('airtemp');if(!el)return;
+  const rng=a=>{const lo=Math.round(Math.min(...a)),hi=Math.round(Math.max(...a));return lo===hi?hi+' °C':lo+'-'+hi+' °C';};
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=7.27&daily=temperature_2m_max,temperature_2m_min&start_date=2026-07-09&end_date=2026-07-15&timezone=Europe%2FParis')
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max,mn=d&&d.daily&&d.daily.temperature_2m_min;
+      if(mx&&mx.length&&mn&&mn.length)el.textContent='päivä '+rng(mx)+' · yö '+rng(mn);})
+    .catch(()=>{});
+})();
+
+/* MM-katsomoiden Google Maps -linkit (samat kuin kartalla) */
+document.querySelectorAll('a.mlink[data-place]').forEach(a=>{
+  const pl=PLACES.find(p=>p.n===a.dataset.place);
+  if(pl){a.href=gq(pl.q||pl.n);a.target='_blank';a.rel='noopener';}
+});
 </script>
 </body>
 </html>
