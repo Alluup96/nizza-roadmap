@@ -151,7 +151,7 @@
   @media(max-width:900px){.g3{grid-template-columns:1fr 1fr}}
   @media(max-width:620px){.g2,.g3{grid-template-columns:1fr}}
   .card{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s5);box-shadow:var(--shadow)}
-  .card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;letter-spacing:-.01em;line-height:1.3}
+  .card h3{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:20px;letter-spacing:-.01em;line-height:1.3;margin-bottom:12px}
   .card .ds{font-size:15px;color:var(--muted);margin-top:4px}
   .pill{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.06em;padding:2px 8px;border-radius:99px;border:1px solid var(--rule2);color:var(--muted);text-transform:uppercase;white-space:nowrap}
   .pill.blue{color:var(--azur);border-color:rgba(99,82,65,.4);background:rgba(99,82,65,.08)}
@@ -434,7 +434,7 @@
       </figure>
       <nav class="hero-toc" aria-label="Sivun sisältö">
         <a href="#saapumiset"><span class="tn">01</span>Saapumiset &amp; lähdöt</a>
-        <a href="#kamppa"><span class="tn">02</span>Kämppä “Le Zen”</a>
+        <a href="#kamppa"><span class="tn">02</span>Le Zen &amp; Sää</a>
         <a href="#tapahtumat"><span class="tn">03</span>Tapahtumat</a>
         <a href="#kaytannot"><span class="tn">04</span>Käytännön asiat</a>
       </nav>
@@ -470,7 +470,7 @@
   <section id="kamppa" class="band">
     <div class="wrap">
       <details class="sec-acc">
-        <summary><div class="sec-head"><span class="n">02</span><h2>Kämppä “Le Zen”</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
+        <summary><div class="sec-head"><span class="n">02</span><h2>Le Zen &amp; Sää</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="sec-body">
       <div class="grid g2">
         <div class="card">
@@ -490,8 +490,8 @@
         <div class="card">
           <h3>Sää</h3>
           <dl class="kv">
-            <dt>Meriveden lämpötila</dt><dd><b id="seatemp">~24 °C</b> <span class="mono" style="font-size:11px;color:var(--faint)">juuri nyt</span> · ilma päivällä ~28-31 °C, yöllä ~21-23 °C. Rannikkotuuli pehmentää oloa, mutta sisämaassa on kuumempaa</dd>
-            <dt>Vesi</dt><dd>Juomavesipisteitä pitkin kaupunkia, joten pullo kannattaa pitää aina mukana. Rannat ovat <b>kivikkoisia</b>: uimatossut on pro-move</dd>
+            <dt>Meri</dt><dd><b id="seatemp">~24 °C</b> <span class="mono" style="font-size:11px;color:var(--faint)">juuri nyt</span></dd>
+            <dt>Vesi</dt><dd>Juomavesipisteitä pitkin kaupunkia, joten pullo kannattaa pitää aina mukana</dd>
             <dt>Huom</dt><dd>Ranskassa on kesällä 2026 rajoitettu alkoholin juomista julkisilla paikoilla helleaaltojen aikana. Terassit ja rannat baareineen toimivat normaalisti</dd>
             <dt>Vuoristossa</dt><dd>Vaelluspäivänä 2 000 m korkeudessa on vain noin 12-20 °C, joten kerrospukeutuminen on tarpeen</dd>
           </dl>
@@ -510,11 +510,10 @@
       <details class="sec-acc">
         <summary><div class="sec-head"><span class="n">03</span><h2>Tapahtumat</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="sec-body">
-      <p class="sec-sub">Kaksi isoa juttua osuu viikolle: <b>MM-kisojen ratkaisupelit</b> (Ranska yhä mukana 2.7. tilanteessa!) ja <b>14.7. Promenaden iskun 10-vuotismuistopäivä</b>, jota Nizza kunnioittaa poikkeuksellisin seremonioin.</p>
       <div class="grid g2">
         <div class="card">
           <h3>⚽ MM-kisat 2026, ottelut Ranskan aikaa</h3>
-          <p class="ds" style="margin:6px 0 10px">Pelit USA:ssa → myöhäisillan kickoffit. Jos Ranska etenee, se pelaa <b>to 9.7 klo 22</b> ja siitä voittajana <b>välierän ti 14.7 klo 21</b>.</p>
+          <p class="ds" style="margin:6px 0 10px">Jos Ranska etenee, se pelaa <b>to 9.7 klo 22</b> ja siitä voittajana <b>välierän ti 14.7 klo 21</b>.</p>
           <dl class="kv">
             <dt>To 9.7 · 22:00</dt><dd>Puolivälierä 1, mahdollinen <b>Ranskan peli</b></dd>
             <dt>Pe 10.7 · 21:00</dt><dd>Puolivälierä 2</dd>
@@ -734,15 +733,6 @@ const PLACES = [
 function gq(q){return 'https://www.google.com/maps/search/?api=1&query='+encodeURIComponent(q);}
 function G(name,label){const p=PLACES.find(x=>x.n===name);const url=p?gq(p.q||p.n):gq(name);return '<a href="'+url+'" target="_blank" rel="noopener">'+(label||name)+'</a>';}
 function GL(q,label){return '<a href="'+gq(q)+'" target="_blank" rel="noopener">'+label+'</a>';}
-const DAYROUTES={
- to:['Nizzan lentokenttä (NCE)','Kämppä Le Zen','Monoprix Jean Médecin','Plage du Centenaire','Place Masséna','Cours Saleya -tori','Vieux Nice, vanha kaupunki','Le Café de Turin','Lou Pilha Leva','Les Distilleries Idéales','Ma Nolan’s'],
- pe:['Mama Baker','Colline du Château, Linnavuori','#ILoveNice & Rauba-Capeu','Port Lympia','René Socca','Peixes','Castel Plage','La Rossettisserie','Ma Nolan’s','Wayne’s Bar'],
- la:['Monacon katedraali','Ruhtinaan palatsi','Marché de la Condamine','F1-radan kävely & hiuspinni','Port Hercule','Larvotto-ranta','Café de Paris','Casino Square ja autobongaus','Casino de Monte-Carlo','Tip Top'],
- su:['Grand Arénas -vaihtopysäkki','Saint-Martin-Vésubie','Vacherie du Boréon, lähtöpiste','Lac de Trécolpas','Refuge de la Cougourde','Chez Davia'],
- ma:['Marché Forville','Le Suquet & näköalaterassi','Quai Laubeuf, lauttalaituri','Île Sainte-Marguerite','Palais des Festivals & punaiset portaat','La Croisette & Carlton','Plage Macé','La Pizza Cresci'],
- ti:['Place Masséna','Sähköpyörät / pyörävuokra','Promenade des Anglais','Villefranche-sur-Mer','Plage Mala, Cap d’Ail','Marinette','Chez Pipo','Bistrot d’Antoine','Théâtre de Verdure','Moon Bar, Aston La Scala'],
- ke:['Kämppä Le Zen','Gare de Nice-Ville','Villefranche-sur-Mer','Fenocchio','Nizzan lentokenttä (NCE)']
-};
 
 
 
@@ -898,22 +888,26 @@ DAYS.forEach((D,i)=>{
 });
 const dpAll=document.createElement('button');dpAll.className='dp dp-all';dpAll.dataset.d='all';dpAll.textContent='Koko viikko';
 dpAll.addEventListener('click',()=>showDay('all'));dpEl.appendChild(dpAll);
+/* Rivipohjainen numerointi: jokainen aikajanan rivi jolla on >=1 kartalla oleva kohde
+   saa yhden juoksevan numeron. Saman rivin vaihtoehdot (esim. "A tai B") jakavat numeron
+   kartalla. DAY_NUM ohjaa kartan merkkinumerot samaksi kuin paivaohjelmassa. */
+const DAY_NUM={};
 (function(){
   const codes=['to','pe','la','su','ma','ti','ke'];
+  const decCache=new Map();
+  const placeForLink=href=>{const dec=decodeURIComponent(href);return PLACES.find(p=>{let d=decCache.get(p.n);if(d==null){d=decodeURIComponent(gq(p.q||p.n));decCache.set(p.n,d);}return d===dec;});};
   dayEls.forEach((el,i)=>{
-    const route=DAYROUTES[codes[i]]||[];
-    const lookup=route.map((n,j)=>{const pl=PLACES.find(x=>x.n===n);return pl?{href:gq(pl.q||pl.n),dec:decodeURIComponent(gq(pl.q||pl.n)),num:j+1,cat:pl.cat}:null;}).filter(Boolean);
+    const map={};let step=0;
     el.querySelectorAll('.tl-row').forEach(row=>{
-      const links=[...row.querySelectorAll('.tx a')];
-      for(const lk of links){
-        const hit=lookup.find(x=>x.dec===decodeURIComponent(lk.href));
-        if(hit){
-          const ln=row.querySelector('.ln');
-          ln.innerHTML='<a class="glnum c-'+hit.cat+'" href="'+hit.href+'" target="_blank" rel="noopener" aria-label="Avaa kartalla nro '+hit.num+'">'+hit.num+'</a>';
-          break;
-        }
-      }
+      const rowPlaces=[];
+      [...row.querySelectorAll('.tx a')].forEach(lk=>{const pl=placeForLink(lk.href);if(pl&&!rowPlaces.includes(pl))rowPlaces.push(pl);});
+      if(!rowPlaces.length)return;
+      step++;
+      const primary=rowPlaces[0];
+      row.querySelector('.ln').innerHTML='<a class="glnum c-'+primary.cat+'" href="'+gq(primary.q||primary.n)+'" target="_blank" rel="noopener" aria-label="Avaa kartalla nro '+step+'">'+step+'</a>';
+      rowPlaces.forEach(pl=>{if(map[pl.n]==null)map[pl.n]=step;});
     });
+    DAY_NUM[codes[i]]=map;
   });
 })();
 (function(){
@@ -1030,7 +1024,7 @@ function matches(p){
   if(curMode.type==='top')return !!p.star&&p.zone==='nizza';
   if(curMode.type==='all')return true;
   if(curMode.type==='cat')return p.cat===curMode.v;
-  if(curMode.type==='day')return DAYROUTES[curMode.v].indexOf(p.n)>=0;
+  if(curMode.type==='day')return !!(DAY_NUM[curMode.v]&&DAY_NUM[curMode.v][p.n]!=null);
   return true;
 }
 function tierFull(p){
@@ -1046,26 +1040,20 @@ function visiblePoints(includeHome){
     return matches(p)&&(includeHome||p.cat!=='home')&&p.cat!=='transit';
   }).map(m=>m.getLatLng());
 }
-function drawRoute(route){
-  routeLayer.clearLayers();
-  const routePlaces=route.map(n=>markers.find(m=>m._place.n===n)).filter(Boolean);
-  return routePlaces.map(m=>m.getLatLng());
-}
 function refresh(fit){
   if(!_map)return;
   const isDay=curMode.type==='day';
-  const route=isDay?DAYROUTES[curMode.v]:null;
+  const dmap=isDay?(DAY_NUM[curMode.v]||{}):null;
   markers.forEach(mk=>{
     const p=mk._place;
     if(matches(p)){
-      const num=isDay?route.indexOf(p.n)+1:0;
+      const num=isDay?(dmap[p.n]||0):0;
       mk.setIcon(mkIcon(p,tierFull(p),num>0?num:null));
       if(!_map.hasLayer(mk))mk.addTo(_map);
     }else if(_map.hasLayer(mk))_map.removeLayer(mk);
   });
-  routeLayer.clearLayers();
   if(isDay){
-    const ll=drawRoute(route);
+    const ll=Object.keys(dmap).map(n=>{const mk=markers.find(m=>m._place.n===n);return mk&&mk.getLatLng();}).filter(Boolean);
     if(fit&&ll.length)_map.fitBounds(L.latLngBounds(ll),{padding:mapPadding(),maxZoom:fitMaxZoom()});
   }else if(fit){
     const pts=curMode.type==='top'?visiblePoints(true):visiblePoints(false);
@@ -1100,7 +1088,6 @@ function initMap(){
       return fsBtn;
     }});
     _map.addControl(new FsCtl());
-    routeLayer=L.layerGroup().addTo(_map);
     markers=[];
     PLACES.forEach(p=>{
       if(typeof p.la!=='number'||typeof p.lo!=='number')return;
