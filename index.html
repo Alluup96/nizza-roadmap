@@ -54,7 +54,7 @@
   }
   @supports (animation-timeline: view()){
     @media(prefers-reduced-motion:no-preference){
-      .day,.arow,.tip{animation:rise-in linear both;animation-timeline:view();animation-range:entry 0% entry 38%}
+      .day,.arow{animation:rise-in linear both;animation-timeline:view();animation-range:entry 0% entry 38%}
     }
   }
   @keyframes rise-in{from{opacity:.3;transform:translateY(12px)}to{opacity:1;transform:none}}
@@ -324,10 +324,13 @@
   .arow-b .gl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--azur);font-weight:600;text-decoration:none}
 
   /* ===== tips / misc ===== */
-  .tips{columns:2;column-gap:28px}
-  @media(max-width:720px){.tips{columns:1}}
-  .tip{break-inside:avoid;margin-bottom:var(--s4);background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4);box-shadow:var(--shadow)}
-  .tip h3{font-size:17px;font-weight:700;margin-bottom:3px;line-height:1.3}
+  .quick-memo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 var(--s4);padding:var(--s3);border:1px solid var(--rule);border-radius:var(--r-md);background:rgba(251,250,246,.68)}
+  .quick-memo .qm-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-text);margin-right:4px}
+  .quick-memo .qm{display:inline-flex;align-items:center;min-height:30px;padding:5px 10px;border-radius:var(--r-pill);border:1px solid var(--rule2);background:var(--card);font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+  .tips{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+  @media(max-width:720px){.tips{grid-template-columns:1fr}.quick-memo{gap:6px}.quick-memo .qm{font-size:13px;white-space:normal}}
+  .tip{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4);box-shadow:var(--shadow)}
+  .tip h3{font-size:17px;font-weight:700;margin-bottom:6px;line-height:1.3}
   .tip p{font-size:15px;color:var(--muted)}
   .callout{border:1px solid rgba(176,138,79,.5);background:rgba(176,138,79,.08);border-radius:var(--r-md);padding:var(--s4) var(--s5);font-size:15px;color:var(--ink);margin:var(--s4) 0}
   .callout b{font-weight:700}
@@ -554,6 +557,14 @@
       <details class="sec-acc">
         <summary><div class="sec-head"><span class="n">04</span><h2>Käytännön asiat</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="sec-body">
+      <div class="quick-memo" aria-label="Tärkeimmät muistettavat asiat">
+        <span class="qm-label">Muista</span>
+        <span class="qm">Passi tai henkilökortti</span>
+        <span class="qm">Vesipullo</span>
+        <span class="qm">Uimatossut</span>
+        <span class="qm">Käteistä vaellukseen</span>
+        <span class="qm">SNCF Connect</span>
+      </div>
       <div class="tips" id="tips"></div>
         </div>
       </details>
@@ -999,15 +1010,13 @@ function ensureActivities(){
    RENDER: TIPS (Käytännön asiat)
    ================================================================= */
 const TIPS=[
-  ['Liput & apit','Lataa <b>SNCF Connect</b> (junat, e-liput) ja <b>Lignes d’Azur Tickets</b>. Huom: iPhonella appilippu vaatii NFC-kortin, joten automaatista ostaminen on helpompaa. Automaatit ottavat Apple Payn. Juniin: <b>ZOU Mini-Groupe</b> -ryhmälippu (3-9 hlö, jopa −50 %) tai koko päivän ryhmäreissuihin <b>Pass Journée</b> (30 € + kaverit ~5-10 €/hlö, rajaton TER). Vaunuissa EI voi leimata pankkikortilla.'],
-  ['Junat heinäkuussa','Klo 10-19 junat ovat täysiä. Varautukaa seisomaan ja menkää ajoissa. Ei paikkavarauksia. Tarkistakaa mahdolliset SNCF-lakkotiedotteet edellisiltana (SNCF Connect / TER Sud info trafic).'],
-  ['Helle & vesi','Heinäkuu 2026 on ollut ennätyskuuma. Aktiviteetit aamuun, siesta 12-16, illat ulkona. Juomavesipisteitä kaikkialla, pullo aina mukaan. Aurinkorasvaa kivikkorannoillakin.'],
-  ['Julkijuominen','Nizzassa alkoholin nauttiminen kadulla/rannalla on kielletty klo 20-05 (sakko ~150 €) ja helteillä valvonta on tiukentunut. Terassit ovat sitä varten. Lasipulloja ei rannalle. Tupakointi rannoilla kielletty koko Ranskassa.'],
-  ['Käteinen','Refuge de la Cougourde (vaellus) ja Aux Bons Enfants (Cannes) ottavat VAIN käteistä. Nostakaa ~50 €/hlö valmiiksi. Muuten kortti käy kaikkialla.'],
-  ['Rannat','Nizzan rannat ovat pyöreää kivikkoa, joten uimatossut (~10 €, Decathlon keskustassa) ovat viikon paras sijoitus. Hiekkaa löytyy Villefranchesta, Antibesista ja Cannesista.'],
-  ['Varaukset','La Rossettisserie & Chez Davia: varaa 1-2 pv etukäteen. Bistrot d’Antoine: soita heti (7 hengen pöytä!). Saarilautta & Castel Plage: netistä edellisenä päivänä. Acchiardo kiinni la-su.'],
-  ['Turvallisuus','Normaali taskuvarkausvarovaisuus ratikassa ja Cours Saleyalla. 14.7. Promilla suuret muistotilaisuudet ja turvatoimet. Kulkurajoituksia mahdollisesti. Hätänumero 112.'],
-  ['MM-futis','Puolivälierät ja välierät osuvat reissuviikolle. Pelit alkavat Ranskan aikaa tyypillisesti klo 21-02. Ma Nolan’s ja Wayne’s näyttävät kaiken; fan zone -tilanne kannattaa tsekata paikan päällä (nice.fr).']
+  ['Ennen lähtöä','Passi tai henkilökortti, matkavakuutus, eurooppalainen sairaanhoitokortti, lääkkeet, laturit ja powerbank. Pakkaa myös aurinkorasva, uimatossut ja pieni reppu päiväretkille.'],
+  ['Kaupunki & kenttä','Ratikka T2 kulkee kentältä keskustaan. Lignes d’Azur Tickets auttaa, mutta iPhonella automaatti voi olla helpoin. Kentältä ostettava Aéro-lippu on 10 €, mutta 7 € päivälippu toimii paremmin, jos liikutte samana päivänä lisää.'],
+  ['Junat & päiväretket','Lataa SNCF Connect. ZOU Mini-Groupe antaa 3-9 hengen ryhmälle 30-50 % alennuksen TER-junissa. TER-lippu käy valitulla reitillä saman päivän juniin. Klo 10-19 junissa voi olla täyttä, joten menkää ajoissa.'],
+  ['Helle, vesi & rannat','Rakentakaa päivät aamujen ja iltojen varaan. Pitäkää vesipullo mukana ja täyttäkää vain pisteistä, joissa lukee “eau potable”. Nizzan rannat ovat kivikkoa, joten uimatossut ovat viikon paras pieni ostos. Lasipulloja ei rannalle.'],
+  ['Säännöt & turvallisuus','Julkijuomista voidaan rajoittaa helteellä ja tapahtumien aikaan, joten terassit ovat varmin vaihtoehto. Tupakointi on kielletty rannoilla. Taskuvarkausvarovaisuus ratikassa ja Cours Saleyalla. Hätänumero on 112.'],
+  ['Rahat, varaukset & ravintolat','Refuge de la Cougourde ja Aux Bons Enfants ottavat vain käteistä. Nostakaa noin 50 €/hlö valmiiksi. La Rossettisserie, Chez Davia ja Bistrot d’Antoine kannattaa varata. Hanavesi on “carafe d’eau”, tippi on vapaaehtoinen.'],
+  ['Monaco, vaellus & lähtöpäivä','Monacoon passi mukaan kasinon takia. Kasinoon ei shortseja tai lenkkareita klo 14 jälkeen. Vaellukselle 1,5-2 l vettä, päähine, kerrospukeutuminen ja käteistä. Lähtöpäivänä Bagmobile Nice-Ville säilyttää laukkuja klo 8:15-21:00.']
 ];
 const tipsEl=document.getElementById('tips');
 let tipsRendered=false;
