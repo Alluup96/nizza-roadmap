@@ -302,7 +302,7 @@
   .act-jump a:hover{border-color:var(--azur);color:var(--azur)}
   .act-jump a:active{transform:scale(.96)}
   #acts{margin-top:var(--s4)}
-  .act-acc{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);box-shadow:var(--shadow);margin-bottom:var(--s3);overflow:hidden}
+  .act-acc{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);box-shadow:var(--shadow);margin-bottom:var(--s3);overflow:hidden;scroll-margin-top:76px}
   .act-acc summary{display:flex;align-items:center;gap:var(--s3);padding:var(--s4) var(--s5);cursor:pointer;list-style:none;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;line-height:1.25;-webkit-tap-highlight-color:transparent}
   .act-acc summary::-webkit-details-marker{display:none}
   @media(hover:hover){.act-acc summary:hover{background:rgba(99,82,65,.06)}}
@@ -635,7 +635,7 @@
 <div class="panel" id="p-aktiviteetit" role="tabpanel" aria-labelledby="tab-aktiviteetit">
   <section>
     <div class="wrap">
-      <div class="sec-head"><span class="n">07</span><h2>Aktiviteetit &amp; mestat</h2></div>
+      <div class="sec-head"><span class="n">07</span><h2>Aktiviteetit</h2></div>
       <div class="act-jump" aria-label="Aktiviteettiryhmät">
         <a href="#act-must">Tähtikohteet</a>
         <a href="#act-food">Ruoka</a>
@@ -1035,6 +1035,14 @@ function ensureActivities(){
   actsEl.appendChild(frag);
   actsRendered=true;
 }
+document.querySelectorAll('.act-jump a').forEach(a=>a.addEventListener('click',e=>{
+  e.preventDefault();
+  ensureActivities();
+  const target=document.querySelector(a.getAttribute('href'));
+  if(!target)return;
+  target.open=true;
+  target.scrollIntoView({block:'start',behavior:'smooth'});
+}));
 
 
 /* =================================================================
