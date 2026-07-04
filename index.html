@@ -124,6 +124,8 @@
   .hero-art .pulse{transform-origin:center;transform-box:fill-box;animation:npulse 2.8s ease-in-out infinite}
   @keyframes npulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.22);opacity:.7}}
   .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+  #kamppa .grid.g2>.card{display:flex;flex-direction:column}
+  #kamppa .grid.g2>.card .btnrow{margin-top:auto;padding-top:14px}
   .gbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule2)}
   .gbtn.ghost:hover{border-color:var(--azur);color:var(--azur);opacity:1}
 
@@ -486,10 +488,9 @@
           </div>
         </div>
         <div class="card">
-          <h3>Viikon sää &amp; helle</h3>
+          <h3>Sää</h3>
           <dl class="kv">
-            <dt>Lämpötila</dt><dd>Heinäkuun puoliväli Nizzassa: päivällä <b>~28-31 °C</b>, yöllä ~21-23 °C, meri ~24-26 °C. Rannikkotuuli pehmentää oloa, mutta sisämaassa on kuumempaa</dd>
-            <dt>Rytmi</dt><dd>Aktiviteetit aamuun, ranta/siesta iltapäivään, illat terasseilla. Kaupunki herää uudestaan klo 18 jälkeen</dd>
+            <dt>Meriveden lämpötila</dt><dd><b id="seatemp">~24 °C</b> <span class="mono" style="font-size:11px;color:var(--faint)">juuri nyt</span> · ilma päivällä ~28-31 °C, yöllä ~21-23 °C. Rannikkotuuli pehmentää oloa, mutta sisämaassa on kuumempaa</dd>
             <dt>Vesi</dt><dd>Juomavesipisteitä pitkin kaupunkia, joten pullo kannattaa pitää aina mukana. Rannat ovat <b>kivikkoisia</b>: uimatossut on pro-move</dd>
             <dt>Huom</dt><dd>Ranskassa on kesällä 2026 rajoitettu alkoholin juomista julkisilla paikoilla helleaaltojen aikana. Terassit ja rannat baareineen toimivat normaalisti</dd>
             <dt>Vuoristossa</dt><dd>Vaelluspäivänä 2 000 m korkeudessa on vain noin 12-20 °C, joten kerrospukeutuminen on tarpeen</dd>
@@ -1175,6 +1176,16 @@ if(matchMedia('(min-width:941px)').matches)document.querySelectorAll('.sec-acc')
 document.querySelectorAll('.hero-toc a').forEach(t=>t.addEventListener('click',()=>{const sec=document.querySelector(t.getAttribute('href'));const det=sec&&sec.querySelector('.sec-acc');if(det)det.open=true;}));
 const initial=(location.hash||'#yleiskuva').slice(1);
 if(document.getElementById('p-'+initial))showTab(initial,false);
+
+/* reaaliaikainen meriveden lampotila (Open-Meteo Marine, ei avainta) */
+(function(){
+  const el=document.getElementById('seatemp');if(!el)return;
+  fetch('https://marine-api.open-meteo.com/v1/marine?latitude=43.68&longitude=7.30&current=sea_surface_temperature')
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(d=>{const t=d&&d.current&&d.current.sea_surface_temperature;
+      if(typeof t==='number')el.textContent=Math.round(t)+' °C';})
+    .catch(()=>{});
+})();
 </script>
 </body>
 </html>
