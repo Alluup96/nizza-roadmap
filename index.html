@@ -297,6 +297,10 @@
 
   /* ===== activities ===== */
   .gdot{width:13px;height:13px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:inline-block;flex:0 0 auto}
+  .act-jump{display:flex;gap:var(--s2);flex-wrap:wrap;margin:0 0 var(--s4)}
+  .act-jump a{display:inline-flex;align-items:center;min-height:36px;padding:7px 13px;border-radius:var(--r-pill);border:1px solid var(--rule2);background:var(--card);color:var(--muted);text-decoration:none;font-size:13.5px;font-weight:600;transition:background .15s,color .15s,border-color .15s,transform .12s}
+  .act-jump a:hover{border-color:var(--azur);color:var(--azur)}
+  .act-jump a:active{transform:scale(.96)}
   #acts{margin-top:var(--s4)}
   .act-acc{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);box-shadow:var(--shadow);margin-bottom:var(--s3);overflow:hidden}
   .act-acc summary{display:flex;align-items:center;gap:var(--s3);padding:var(--s4) var(--s5);cursor:pointer;list-style:none;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;line-height:1.25;-webkit-tap-highlight-color:transparent}
@@ -315,6 +319,8 @@
   @media(hover:hover){.arow summary:hover{background:rgba(99,82,65,.06)}}
   .arow .nm{flex:1;min-width:0}
   .arow .st{color:var(--gold-text)}
+  .arow .meta{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex:0 0 auto;max-width:48%;flex-wrap:wrap}
+  .daytag{font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.08em;color:var(--azur-deep);border:1px solid rgba(91,114,132,.35);background:rgba(91,114,132,.07);border-radius:var(--r-xs);padding:0 4px;white-space:nowrap}
   .arow .pr{font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold-text);white-space:nowrap}
   .arow .chev{width:15px;height:15px;flex:0 0 auto;color:var(--faint);transition:transform .2s}
   .arow[open] .chev{transform:rotate(180deg)}
@@ -322,6 +328,7 @@
   .arow-b{padding:10px 14px 13px;font-size:14.5px;color:var(--muted);display:grid;gap:7px}
   .arow-b .tp{border-left:2px solid var(--rule2);padding-left:9px;font-size:12.5px}
   .arow-b .gl{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--azur);font-weight:600;text-decoration:none}
+  @media(max-width:520px){.act-jump{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-left:calc(-1*var(--s6));margin-right:calc(-1*var(--s6));padding:0 var(--s6) var(--s1)}.act-jump::-webkit-scrollbar{display:none}.act-jump a{flex:0 0 auto}.arow summary{align-items:flex-start}.arow .meta{max-width:42%;padding-top:2px}.arow .pr{white-space:normal;text-align:right}}
 
   /* ===== tips / misc ===== */
   .quick-memo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 var(--s4);padding:var(--s3);border:1px solid var(--rule);border-radius:var(--r-md);background:rgba(251,250,246,.68)}
@@ -629,6 +636,13 @@
   <section>
     <div class="wrap">
       <div class="sec-head"><span class="n">07</span><h2>Aktiviteetit &amp; mestat</h2></div>
+      <div class="act-jump" aria-label="Aktiviteettiryhmät">
+        <a href="#act-must">Tähtikohteet</a>
+        <a href="#act-food">Ruoka</a>
+        <a href="#act-beach">Rannat</a>
+        <a href="#act-bars">Baarit</a>
+        <a href="#act-monaco">Retket</a>
+      </div>
       <div id="acts"></div>
     </div>
   </section>
@@ -861,14 +875,14 @@ const DAYS = [
    AKTIVITEETTIRYHMÄT (Aktiviteetit-tab)
    ================================================================= */
 const ACT_GROUPS = [
-  {t:'Must-see Nizza',dot:'var(--azur)',cats:['sight'],zones:['nizza']},
-  {t:'Rannat & meri',dot:'var(--sea)',cats:['beach'],zones:['nizza']},
-  {t:'Ruoka',dot:'var(--coral)',cats:['food'],zones:['nizza']},
-  {t:'Baarit & illat',dot:'var(--lilac)',cats:['bar'],zones:['nizza']},
-  {t:'Monaco, päiväretki',dot:'var(--sun)',cats:['trip'],zones:['monaco']},
-  {t:'Cannes ja saaret, päiväretki',dot:'var(--sun)',cats:['trip'],zones:['cannes']},
-  {t:'Vaellus Le Boréonissa (su 12.7)',dot:'var(--palm)',cats:['hike'],zones:['hike']},
-  {t:'Extra-pooli, jos aikaa jää',dot:'var(--faint)',cats:['trip'],zones:['nizza']}
+  {id:'must',t:'Must-see Nizza',dot:'var(--azur)',cats:['sight'],zones:['nizza'],open:1},
+  {id:'beach',t:'Rannat & meri',dot:'var(--sea)',cats:['beach'],zones:['nizza']},
+  {id:'food',t:'Ruoka',dot:'var(--coral)',cats:['food'],zones:['nizza']},
+  {id:'bars',t:'Baarit & illat',dot:'var(--lilac)',cats:['bar'],zones:['nizza']},
+  {id:'monaco',t:'Monaco, päiväretki',dot:'var(--sun)',cats:['trip'],zones:['monaco']},
+  {id:'trips',t:'Cannes ja saaret, päiväretki',dot:'var(--sun)',cats:['trip'],zones:['cannes']},
+  {id:'hike',t:'Vaellus Le Boréonissa (su 12.7)',dot:'var(--palm)',cats:['hike'],zones:['hike']},
+  {id:'extra',t:'Jos jää aikaa',dot:'var(--faint)',cats:['trip'],zones:['nizza']}
 ];
 
 
@@ -967,13 +981,27 @@ function showDay(sel){ensureDays();applyDay(sel);}
    ================================================================= */
 const actsEl=document.getElementById('acts');
 const EXTRA_NAMES=['Villefranche-sur-Mer','Èze + Nietzschen polku','Plage Mala, Cap d’Ail','Villa Ephrussi de Rothschild','Vieux Antibes & vallit','Quai des Milliardaires','Plage de la Gravette','Absinthe Bar','Trans Côte d’Azur -risteily','Sähköpyörät / pyörävuokra','SUP ja kajakki, Nikaia Glisse'];
+const DAY_LABELS={to:'TO',pe:'PE',la:'LA',su:'SU',ma:'MA',ti:'TI',ke:'KE'};
 let actsRendered=false;
+function activityMeta(p){
+  if(p.pr)return p.pr==='VAIN KÄTEINEN'?'käteinen':p.pr;
+  if(p.n==='Vieux Nice, vanha kaupunki')return 'ilmainen';
+  if(p.cat==='hike')return p.n.includes('Vacherie')?'lähtöpiste':'siirtymä';
+  if(p.cat==='sight'||p.cat==='beach'||p.cat==='trip')return 'ilmainen';
+  return '';
+}
+function activityDayTags(p){
+  const dd=p.dd||[];
+  if(!dd.length)return '';
+  const shown=dd.slice(0,3).map(d=>'<span class="daytag">'+(DAY_LABELS[d]||d.toUpperCase())+'</span>').join('');
+  return shown+(dd.length>3?'<span class="daytag">+'+(dd.length-3)+'</span>':'');
+}
 function ensureActivities(){
   if(actsRendered)return;
   const frag=document.createDocumentFragment();
   ACT_GROUPS.forEach(gp=>{
     let items;
-    if(gp.t.startsWith('Extra')){
+    if(gp.id==='extra'){
       items=PLACES.filter(p=>EXTRA_NAMES.includes(p.n));
     }else if(gp.zones[0]==='cannes'){
       items=PLACES.filter(p=>p.zone==='cannes'&&!['Vieux Antibes & vallit','Quai des Milliardaires','Plage de la Gravette','Absinthe Bar'].includes(p.n));
@@ -987,12 +1015,15 @@ function ensureActivities(){
     if(!items.length)return;
     items=[...items].sort((a,b)=>(b.star||0)-(a.star||0));
     const det=document.createElement('details');det.className='act-acc';
+    det.id='act-'+gp.id;
+    if(gp.open)det.open=true;
     det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+items.length+' kohdetta</span>'+
       '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
     const grid=document.createElement('div');grid.className='arows';
     items.forEach(p=>{
       const d=document.createElement('details');d.className='arow';
-      d.innerHTML='<summary><span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+'</span>'+(p.pr?'<span class="pr">'+p.pr+'</span>':'')+
+      const meta=activityMeta(p);
+      d.innerHTML='<summary><span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+'</span><span class="meta">'+activityDayTags(p)+(meta?'<span class="pr">'+meta+'</span>':'')+'</span>'+
         '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>'+
         '<div class="arow-b"><div>'+p.d+'</div>'+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
         '<a class="gl" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a></div>';
