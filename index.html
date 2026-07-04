@@ -496,7 +496,7 @@
             <dt>Lämpötila</dt><dd><span id="airtemp">päivä ~28-29 °C · yö ~22 °C</span> <span class="mono" style="font-size:11px;color:var(--faint)">reissuviikko</span></dd>
             <dt>Nesteytys</dt><dd>Juomavesipisteitä pitkin kaupunkia, joten pullo kannattaa pitää aina mukana</dd>
             <dt>Huom</dt><dd>Ranskassa on kesällä 2026 rajoitettu alkoholin juomista julkisilla paikoilla helleaaltojen aikana. Terassit ja rannat baareineen toimivat normaalisti</dd>
-            <dt>Vuoristossa</dt><dd>Vaelluspäivänä 2 000 m korkeudessa on vain noin 12-20 °C, joten kerrospukeutuminen on tarpeen</dd>
+            <dt>Vuoristossa</dt><dd><b id="mountaintemp">~12-20 °C</b> <span class="mono" style="font-size:11px;color:var(--faint)">su, 2 000 m</span> · vaelluspäivänä, joten kerrospukeutuminen on tarpeen</dd>
           </dl>
           <div class="btnrow">
             <a class="gbtn" href="https://www.foreca.fi/France/Nice/10vrk" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="3.2"/><path d="M8 2.2V3.6M8 12.4v1.4M2.2 8H3.6M12.4 8h1.4M4 4l1 1M12 12l1 1M12 4l-1 1M4 12l1-1"/><path d="M17.5 21a3.5 3.5 0 0 0 .3-6.98A5 5 0 0 0 8.9 15.4 4 4 0 0 0 9 21z"/></svg> Foreca 10 vrk</a>
@@ -679,7 +679,7 @@ const PLACES = [
   {n:'Monoprix Jean Médecin',dd:['to'],cat:'food',zone:'nizza',la:43.7023990,lo:7.2671070,d:'Iso market kämpän ja keskustan välissä: aamiaiset, bisset, snacksit.',pr:'€',tip:'Ma-la ~8.30-21. Carrefour City (Av. Thiers) 200 m kämpältä, auki myöhempään + su.',q:'Monoprix Avenue Jean Medecin Nice'},
 
   /* ---- Nizza: baarit & illat ---- */
-  {n:'Moon Bar, Aston La Scala',dd:['ti'],cat:'bar',zone:'nizza',la:43.6980390,lo:7.2722045,star:1,d:'Allun toivepaikka ✓. Kattoterassi merinäkymin, vahvistettu auki 2026.',pr:'cocktail ~15-18 €',tip:'Auki päivittäin 10-00.30. Tulkaa sunsetiksi (~21).',q:'Moon Bar Hotel Aston La Scala Nice'},
+  {n:'Moon Bar, Aston La Scala',dd:['ti'],cat:'bar',zone:'nizza',la:43.6980390,lo:7.2722045,star:1,d:'Kattoterassi merinäkymin, vahvistettu auki 2026.',pr:'cocktail ~15-18 €',tip:'Auki päivittäin 10-00.30. Tulkaa sunsetiksi (~21).',q:'Moon Bar Hotel Aston La Scala Nice'},
   {n:'Les Distilleries Idéales',dd:['to'],cat:'bar',zone:'nizza',la:43.6962309,lo:7.2767818,star:1,d:'Vanhan kaupungin baari-instituutio, jossa on 18 hanaa, aina täynnä, aito meininki.',pr:'tuoppi ~4-7 €',tip:'Happy hour 18-20. Tänne ekana iltana.',q:'Les Distilleries Ideales Nice'},
   {n:'Ma Nolan’s',dd:['to','pe'],cat:'bar',zone:'nizza',la:43.6952,lo:7.2719,star:1,d:'Irkkupubi, jossa näkyy kaikki urheilu isoilta screeneiltä. MM-pelien ykköspaikka.',pr:'tuoppi ~7,5-8 €',tip:'Peleihin paikalle 45-60 min ennen. Toinen pubi satamassa.',q:'Ma Nolan\'s Irish Pub Vieux Nice'},
   {n:'Wayne’s Bar',dd:['pe'],cat:'bar',zone:'nizza',la:43.6967660,lo:7.2746110,d:'Legendaarinen bilepubi: sportti, livebändit ja pöydillä tanssiminen.',pr:'tuoppi ~8 €',tip:'Happy hour 16-20, illalla täysi show. Auki 12-02.',q:'Wayne\'s Bar Nice'},
@@ -1185,6 +1185,16 @@ if(document.getElementById('p-'+initial))showTab(initial,false);
     .then(r=>r.ok?r.json():Promise.reject())
     .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max,mn=d&&d.daily&&d.daily.temperature_2m_min;
       if(mx&&mx.length&&mn&&mn.length)el.textContent='päivä '+rng(mx)+' · yö '+rng(mn);})
+    .catch(()=>{});
+})();
+
+/* vaelluspaivan vuoristolampotila 2 000 m (Open-Meteo forecast, paivittyy reaaliajassa) */
+(function(){
+  const el=document.getElementById('mountaintemp');if(!el)return;
+  fetch('https://api.open-meteo.com/v1/forecast?latitude=44.126&longitude=7.331&elevation=2090&daily=temperature_2m_max,temperature_2m_min&start_date=2026-07-12&end_date=2026-07-12&timezone=Europe%2FParis')
+    .then(r=>r.ok?r.json():Promise.reject())
+    .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max&&d.daily.temperature_2m_max[0],mn=d&&d.daily&&d.daily.temperature_2m_min&&d.daily.temperature_2m_min[0];
+      if(typeof mx==='number'&&typeof mn==='number')el.textContent='~'+Math.round(mn)+'-'+Math.round(mx)+' °C';})
     .catch(()=>{});
 })();
 
