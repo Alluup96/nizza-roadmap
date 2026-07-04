@@ -123,6 +123,7 @@
   @keyframes drawline{to{stroke-dashoffset:0}}
   .hero-art .pulse{transform-origin:center;transform-box:fill-box;animation:npulse 2.8s ease-in-out infinite}
   @keyframes npulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.22);opacity:.7}}
+  .btnrow{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
   .gbtn.ghost{background:transparent;color:var(--ink);border:1px solid var(--rule2)}
   .gbtn.ghost:hover{border-color:var(--azur);color:var(--azur);opacity:1}
 
@@ -354,7 +355,7 @@
     <div class="wrap">
       <div class="hero-inner">
       <div class="hero-copy">
-      <div class="kicker">IV · Côte d’Azur · 9.7.-15.7.2026 · DD TEHTY ✓</div>
+      <div class="kicker">IV · Côte d’Azur · 9.7.-15.7.2026</div>
       <h1>Nizzan reissu<br/><em>spontaanisti suunniteltuna</em></h1>
       <div class="hero-cta">
         <a class="gbtn" href="#paivat" data-tab="paivat">Katso päiväohjelma →</a>
@@ -472,7 +473,6 @@
       <div class="grid g2">
         <div class="card">
           <h3>Le Zen #4 · EnjoyNice.com</h3>
-          <p class="ds" style="margin-bottom:12px">3 makkaria · 3 kylppäriä · 7 nukkujaa · <b>ilmastointi ✓</b></p>
           <dl class="kv">
             <dt>Osoite</dt><dd><b>18 Rue d’Angleterre, 06000 Nice</b> · summeri “Cosmo K” · 1. krs, ovi oikealla</dd>
             <dt>Check-in</dt><dd>to 9.7 klo <b>14:00</b> alkaen (klo 19:45 jälkeen +30 €). Ilmoita saapumisaika Amandinelle</dd>
@@ -480,17 +480,23 @@
             <dt>Yhteyshenkilö</dt><dd>Amandine / Kevin · <span class="mono">+33 6 19 72 72 59</span> (WhatsApp/SMS, nimi + “apartment #4”)</dd>
             <dt>Sijainti</dt><dd>200 m juna-asemalle · 900 m vanhaan kaupunkiin · 900 m rannalle</dd>
           </dl>
-          <a class="gbtn" style="margin-top:14px" href="https://www.google.com/maps/search/?api=1&query=18+Rue+d%27Angleterre%2C+06000+Nice%2C+France" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-5.6-7-11a7 7 0 1 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Avaa Google Mapsissa</a>
+          <div class="btnrow">
+            <a class="gbtn" href="https://www.google.com/maps/search/?api=1&query=18+Rue+d%27Angleterre%2C+06000+Nice%2C+France" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-5.6-7-11a7 7 0 1 1 14 0c0 5.4-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg> Avaa Google Mapsissa</a>
+            <a class="gbtn ghost" href="https://www.airbnb.fi/rooms/6501288?source_impression_id=p3_1783150838_P3DMaMSMbZAokqzv" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 4l9 6.5"/><path d="M5.5 9.5V20h13V9.5"/></svg> Avaa Airbnbssä</a>
+          </div>
         </div>
         <div class="card">
           <h3>Viikon sää &amp; helle</h3>
-          <p class="ds" style="margin-bottom:12px">Heinäkuun puoliväli Nizzassa: päivällä <b>~28-31 °C</b>, yöllä ~21-23 °C, meri ~24-26 °C. Rannikkotuuli pehmentää oloa, mutta sisämaassa on kuumempaa.</p>
           <dl class="kv">
+            <dt>Lämpötila</dt><dd>Heinäkuun puoliväli Nizzassa: päivällä <b>~28-31 °C</b>, yöllä ~21-23 °C, meri ~24-26 °C. Rannikkotuuli pehmentää oloa, mutta sisämaassa on kuumempaa</dd>
             <dt>Rytmi</dt><dd>Aktiviteetit aamuun, ranta/siesta iltapäivään, illat terasseilla. Kaupunki herää uudestaan klo 18 jälkeen</dd>
             <dt>Vesi</dt><dd>Juomavesipisteitä pitkin kaupunkia, joten pullo kannattaa pitää aina mukana. Rannat ovat <b>kivikkoisia</b>: uimatossut on pro-move</dd>
             <dt>Huom</dt><dd>Ranskassa on kesällä 2026 rajoitettu alkoholin juomista julkisilla paikoilla helleaaltojen aikana. Terassit ja rannat baareineen toimivat normaalisti</dd>
             <dt>Vuoristossa</dt><dd>Vaelluspäivänä 2 000 m korkeudessa on vain noin 12-20 °C, joten kerrospukeutuminen on tarpeen</dd>
           </dl>
+          <div class="btnrow">
+            <a class="gbtn" href="https://www.foreca.fi/France/Nice/10vrk" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="3.2"/><path d="M8 2.2V3.6M8 12.4v1.4M2.2 8H3.6M12.4 8h1.4M4 4l1 1M12 12l1 1M12 4l-1 1M4 12l1-1"/><path d="M17.5 21a3.5 3.5 0 0 0 .3-6.98A5 5 0 0 0 8.9 15.4 4 4 0 0 0 9 21z"/></svg> Foreca 10 vrk</a>
+          </div>
         </div>
       </div>
         </div>
@@ -531,7 +537,6 @@
           <p class="ds" style="margin-top:10px">Ilotulitukset lähistöllä: <b>Villefranche ti 22:00</b> (15 min junalla) ja <b>Cannes ti 23:00</b>. Molemmat on omistettu Nizzan uhreille. Promilla on kulkurajoituksia 12.-14.7.</p>
         </div>
       </div>
-      <div class="callout" style="margin-top:16px">📅 <b>Muut tapahtumat:</b> Nice Jazz Festival on vasta 23.-25.7. (Sting jää harmillisesti väliin) ja Cannesin Plages Électroniques elokuussa. Monacossa la 11.7. Monte-Carlo Summer Festivalin Queen-tribuuttigaala (€€€). OGC Nicellä ei kotipelejä. Ironman peruttiin helteen takia, joten siitä ei tule katusulkuja.</div>
         </div>
       </details>
     </div>
