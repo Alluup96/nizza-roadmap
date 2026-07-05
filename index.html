@@ -205,8 +205,14 @@
   #daybar{margin:var(--s3) 0 var(--s1)}
   #extrabar{margin:0 0 var(--s3);padding-left:calc(91px + var(--s2))}
   #daybar .chip-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:6px 10px;min-height:34px;letter-spacing:.04em}
-  #extrabar .chip-btn{font-size:13px;padding:6px 14px;min-height:34px}
-  @media(max-width:640px){#daybar .chip-btn,#extrabar .chip-btn{min-height:36px}#extrabar{padding-left:var(--s6)}}
+  #extrabar .extra-map{display:inline-flex;align-items:center;gap:10px;min-height:42px;padding:8px 15px 8px 12px;border-color:rgba(99,82,65,.28);background:linear-gradient(180deg,rgba(251,250,246,.96),rgba(233,228,218,.72));box-shadow:var(--shadow);font-size:13px}
+  #extrabar .extra-map::before{content:'+';width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--ink);color:var(--on-ink);font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;line-height:1}
+  #extrabar .extra-map .extra-title{font-weight:600;color:var(--ink)}
+  #extrabar .extra-map .extra-sub{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);letter-spacing:.04em}
+  #extrabar .extra-map.on{background:var(--ink);border-color:var(--ink);color:var(--on-ink)}
+  #extrabar .extra-map.on::before{background:var(--on-ink);color:var(--ink)}
+  #extrabar .extra-map.on .extra-title,#extrabar .extra-map.on .extra-sub{color:var(--on-ink)}
+  @media(max-width:640px){#daybar .chip-btn,#extrabar .chip-btn{min-height:36px}#extrabar{padding-left:var(--s6)}#extrabar .extra-map{min-height:40px}}
   .gbtn{display:inline-flex;align-items:center;gap:7px;background:var(--btn);color:var(--on-ink);font-weight:600;font-size:15px;padding:10px 16px;border-radius:99px;text-decoration:none;transition:opacity .15s;border:none;cursor:pointer}
   .gbtn:hover{background:var(--btn-hover)}
   .gbtn:active{transform:translateY(1px)}
@@ -243,7 +249,7 @@
   .mk-home{border-color:var(--ink);background:var(--ink);color:#fff;font-size:13px}
   .mk2{width:100%;height:100%;border-radius:50%;background:#fff;border:3px solid var(--azur);box-shadow:0 1px 6px rgba(30,43,54,.3)}
   .mk2-dot{border-width:2.5px;box-shadow:0 1px 4px rgba(30,43,54,.26)}
-  .mk2-num{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;color:var(--ink);background:var(--sand);border-color:var(--rule2)}
+  .mk2-num{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;color:var(--ink);background:var(--sand);border-color:var(--ink);box-shadow:0 0 0 2px rgba(251,250,246,.96),0 2px 9px rgba(30,43,54,.35)}
   .c-homey{border-color:var(--ink)}
   .c-sight{border-color:var(--azur)}.c-food{border-color:var(--coral)}.c-bar{border-color:var(--lilac)}
   .c-beach{border-color:var(--sea)}.c-trip{border-color:var(--sun)}.c-hike{border-color:var(--palm)}.c-transit{border-color:var(--transit)}
@@ -305,7 +311,7 @@
   /* ===== activities ===== */
   #acts{margin-top:var(--s4)}
   .arows{display:grid;gap:8px;padding:0}
-  @media(min-width:820px){.arows{grid-template-columns:1fr;gap:8px;align-items:start}}
+  .arows{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 12px;align-items:start}
   .arow{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid var(--rule);border-radius:var(--r-sm);background:var(--card);text-decoration:none;color:var(--ink);transition:border-color .14s,background .14s}
   @media(hover:hover){.arow:hover{border-color:var(--azur);background:rgba(99,82,65,.05)}}
   .arow:active{transform:scale(.995)}
@@ -317,6 +323,16 @@
   .arow .go{flex:0 0 auto;width:14px;height:14px;color:var(--faint);margin-top:3px}
   .extra-num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--sand);border:2px solid var(--rule2);box-shadow:0 1px 4px rgba(38,32,26,.16);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:10px;color:var(--ink);margin-top:1px}
   @media(hover:hover){.arow:hover .go{color:var(--azur)}}
+  @media(max-width:640px){
+    .arows{gap:8px}
+    .arow{position:relative;display:grid;grid-template-columns:20px minmax(0,1fr);gap:4px 7px;padding:10px 24px 10px 9px;align-items:start}
+    .arow .nm{font-size:13.5px;line-height:1.2}
+    .arow .ad{font-size:11.5px;line-height:1.3;margin-top:3px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .arow .atip{display:none}
+    .arow .pr{grid-column:2;font-size:9.5px;white-space:normal;text-align:left;padding-top:0}
+    .arow .go{position:absolute;right:8px;top:10px;width:13px;height:13px}
+    .extra-num{width:20px;height:20px;font-size:9.5px}
+  }
 
   /* ===== tips / misc ===== */
   .quick-memo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 var(--s4);padding:var(--s3);border:1px solid var(--rule);border-radius:var(--r-md);background:rgba(251,250,246,.68)}
@@ -598,7 +614,7 @@
         <button class="chip-btn" data-df="ke">KE 15</button>
       </div>
       <div class="gbar" id="extrabar">
-        <button class="chip-btn extra-map" data-extra="1">Extrat</button>
+        <button class="chip-btn extra-map" data-extra="1"><span class="extra-title">Extrat kartalla</span><span class="extra-sub">17 kohdetta</span></button>
       </div>
       <div id="map" class="map-loading" role="region" aria-label="Kartta reissun kohteista"></div>
       <div class="legend">
@@ -1107,6 +1123,9 @@ function loadLeaflet(){
 }
 function mapPadding(){return matchMedia('(max-width:640px)').matches?[26,26]:[48,48];}
 function fitMaxZoom(){return matchMedia('(max-width:640px)').matches?13:15;}
+function extraMapView(){
+  return matchMedia('(max-width:640px)').matches?{center:[43.697,7.277],zoom:14}:{center:[43.697,7.277],zoom:14.5};
+}
 function mkIcon(p,full,num){
   if(p.cat==='home'&&!num)return L.divIcon({className:'',html:'<div class="mk mk-home">⌂</div>',iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-14]});
   if(num)return L.divIcon({className:'',html:'<div class="mk2 mk2-num">'+num+'</div>',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
@@ -1149,7 +1168,8 @@ function refresh(fit){
     const ll=Object.keys(dmap).map(n=>{const mk=markers.find(m=>m._place.n===n);return mk&&mk.getLatLng();}).filter(Boolean);
     if(fit&&ll.length)_map.fitBounds(L.latLngBounds(ll),{padding:mapPadding(),maxZoom:fitMaxZoom()});
   }else if(isExtra&&fit){
-    _map.fitBounds(ZOOMS.nizza,{padding:mapPadding(),maxZoom:15});
+    const v=extraMapView();
+    _map.setView(v.center,v.zoom);
   }else if(fit){
     const pts=visiblePoints(false);
     if(pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:mapPadding(),maxZoom:fitMaxZoom()});
@@ -1157,7 +1177,7 @@ function refresh(fit){
   }
 }
 function setChip(el){
-  document.querySelectorAll('#daybar .chip-btn').forEach(x=>x.classList.toggle('on',x===el));
+  document.querySelectorAll('#daybar .chip-btn,#extrabar .chip-btn').forEach(x=>x.classList.toggle('on',x===el));
 }
 function setMapFullscreen(on){
   document.body.classList.toggle('map-fullscreen',on);
