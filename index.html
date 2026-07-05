@@ -304,6 +304,8 @@
 
   /* ===== activities ===== */
   .gdot{width:13px;height:13px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:inline-block;flex:0 0 auto}
+  .act-lede{font-size:14.5px;line-height:1.55;color:var(--muted);margin:0 0 var(--s4);max-width:62ch}
+  .act-lede b{color:var(--ink);font-weight:600}
   #acts{margin-top:var(--s4)}
   .act-acc{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);box-shadow:var(--shadow);margin-bottom:var(--s3);overflow:hidden;scroll-margin-top:76px}
   .act-acc summary{display:flex;align-items:center;gap:var(--s3);padding:var(--s4) var(--s5);cursor:pointer;list-style:none;font-family:'Cormorant Garamond',serif;font-weight:600;font-size:21px;line-height:1.25;-webkit-tap-highlight-color:transparent}
@@ -330,6 +332,7 @@
   .arow .nm{flex:1;min-width:0;font-weight:600;font-size:15.5px;line-height:1.3}
   .arow .st{color:var(--gold-text)}
   .arow .ad{display:block;font-weight:400;font-size:13px;color:var(--muted);line-height:1.4;margin-top:2px}
+  .arow .atip{display:block;font-weight:400;font-style:italic;font-size:12px;color:var(--faint);line-height:1.45;margin-top:4px}
   .arow .pr{flex:0 0 auto;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold-text);white-space:nowrap;padding-top:2px}
   .arow .go{flex:0 0 auto;width:14px;height:14px;color:var(--faint);margin-top:3px}
   @media(hover:hover){.arow:hover .go{color:var(--azur)}}
@@ -655,6 +658,7 @@
   <section>
     <div class="wrap">
       <div class="sec-head"><span class="n">07</span><h2>Aktiviteetit</h2></div>
+      <p class="act-lede">Valmis tuntisuunnitelma on <b>Päivät</b>-välilehdellä. Täällä ovat päiväretket pilkottuina sekä varasuunnitelmat vapaan hetken, sateen tai illanjatkojen varalle.</p>
       <div id="acts"></div>
     </div>
   </section>
@@ -884,18 +888,6 @@ const DAYS = [
 ];
 
 /* =================================================================
-   AKTIVITEETTIRYHMÄT (Aktiviteetit-tab)
-   ================================================================= */
-const ACT_GROUPS = [
-  {id:'routes',t:'Päiväretket',dot:'var(--sun)',routes:1,open:1},
-  {id:'sights',t:'Nähtävyydet & tekeminen',dot:'var(--azur)',kind:'sight'},
-  {id:'food',t:'Ruoka',dot:'var(--coral)',kind:'food'},
-  {id:'beach',t:'Rannat & meri',dot:'var(--sea)',kind:'beach'},
-  {id:'bars',t:'Baarit & illat',dot:'var(--lilac)',kind:'bar'}
-];
-
-
-/* =================================================================
    RENDER: DAYS
    ================================================================= */
 const daysEl=document.getElementById('days');
@@ -1049,7 +1041,9 @@ function renderActivityRow(p){
   const a=document.createElement('a');a.className='arow';
   a.href=gq(p.q||p.n);a.target='_blank';a.rel='noopener';
   const meta=activityMeta(p);
-  a.innerHTML='<span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+(p.d?'<span class="ad">'+p.d+'</span>':'')+'</span>'+
+  a.innerHTML='<span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+
+    (p.d?'<span class="ad">'+p.d+'</span>':'')+
+    (p.tip?'<span class="atip">'+p.tip+'</span>':'')+'</span>'+
     (meta?'<span class="pr">'+meta+'</span>':'')+
     '<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
   return a;
@@ -1063,31 +1057,34 @@ function renderRouteCard(route){
   card.innerHTML='<h4>'+route.title+'</h4><div class="route-meta"><span class="daytag">'+(DAY_LABELS[route.day]||'')+'</span><span>'+route.meta+'</span></div><div class="route-steps">'+steps+'</div>';
   return card;
 }
+const EXTRA_KIND_ORDER={sight:0,food:1,beach:2,bar:3};
+function actChevron(){return '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>';}
 function ensureActivities(){
   if(actsRendered)return;
+  ensureDayNumbers();
   const routeStepNames=new Set(ROUTE_CARDS.flatMap(r=>r.steps));
   const frag=document.createDocumentFragment();
-  ACT_GROUPS.forEach(gp=>{
-    const det=document.createElement('details');det.className='act-acc';det.id='act-'+gp.id;
-    if(gp.routes){
-      det.open=true;
-      det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+ROUTE_CARDS.length+' reittiä</span>'+
-        '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
-      const routes=document.createElement('div');routes.className='route-grid';
-      ROUTE_CARDS.forEach(r=>routes.appendChild(renderRouteCard(r)));
-      det.appendChild(routes);
-      frag.appendChild(det);
-      return;
-    }
-    const items=sortActivities(PLACES.filter(p=>isActivityPlace(p)&&actKind(p)===gp.kind&&!routeStepNames.has(p.n)));
-    if(!items.length)return;
-    det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+items.length+' kohdetta</span>'+
-      '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
+
+  // Päiväretket — suunnitellut reissupäivät pilkottuina askeliin
+  const rDet=document.createElement('details');rDet.className='act-acc';rDet.id='act-routes';rDet.open=true;
+  rDet.innerHTML='<summary><span class="gdot" style="border-color:var(--sun)"></span>Päiväretket<span class="cnt">'+ROUTE_CARDS.length+' reittiä</span>'+actChevron()+'</summary>';
+  const routes=document.createElement('div');routes.className='route-grid';
+  ROUTE_CARDS.forEach(r=>routes.appendChild(renderRouteCard(r)));
+  rDet.appendChild(routes);
+  frag.appendChild(rDet);
+
+  // Varasuunnitelmat & extrat — kohteet joita ei ole kiinnitetty mihinkään päivään
+  const extras=PLACES.filter(p=>isActivityPlace(p)&&!routeStepNames.has(p.n)&&activityDays(p).length===0)
+    .sort((a,b)=>((EXTRA_KIND_ORDER[actKind(a)]??9)-(EXTRA_KIND_ORDER[actKind(b)]??9))||a.n.localeCompare(b.n,'fi'));
+  if(extras.length){
+    const eDet=document.createElement('details');eDet.className='act-acc';eDet.id='act-extras';
+    eDet.innerHTML='<summary><span class="gdot" style="border-color:var(--muted)"></span>Varasuunnitelmat &amp; extrat<span class="cnt">'+extras.length+' kohdetta</span>'+actChevron()+'</summary>';
     const list=document.createElement('div');list.className='arows';
-    items.forEach(p=>list.appendChild(renderActivityRow(p)));
-    det.appendChild(list);
-    frag.appendChild(det);
-  });
+    extras.forEach(p=>list.appendChild(renderActivityRow(p)));
+    eDet.appendChild(list);
+    frag.appendChild(eDet);
+  }
+
   actsEl.appendChild(frag);
   actsRendered=true;
 }
