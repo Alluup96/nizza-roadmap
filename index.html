@@ -191,9 +191,9 @@
   /* ===== map ===== */
   .gbar{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;margin:var(--s4) 0}
   @media(max-width:640px){
-    #daybar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:var(--s2) calc(-1*var(--s6)) ;padding:2px var(--s6)}
-    #daybar::-webkit-scrollbar{display:none}
-    #daybar .chip-btn{flex:0 0 auto}
+    #daybar,#extrabar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:var(--s2) calc(-1*var(--s6));padding:2px var(--s6)}
+    #daybar::-webkit-scrollbar,#extrabar::-webkit-scrollbar{display:none}
+    #daybar .chip-btn,#extrabar .chip-btn{flex:0 0 auto}
     #daybar .gbtn{flex:0 0 auto}
   }
   .chip-btn{font-size:14px;font-weight:600;padding:9px 16px;min-height:40px;border-radius:99px;border:1px solid var(--rule2);background:var(--card);color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .12s;font-family:'EB Garamond',serif}
@@ -202,10 +202,11 @@
   .chip-btn.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
   .gbar .spacer{flex:1}
   .dblbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-right:2px;white-space:nowrap}
-  #daybar{margin:var(--s3) 0 var(--s3)}
+  #daybar{margin:var(--s3) 0 var(--s1)}
+  #extrabar{margin:0 0 var(--s3);padding-left:calc(91px + var(--s2))}
   #daybar .chip-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:6px 10px;min-height:34px;letter-spacing:.04em}
-  #daybar .chip-btn.extra-map{font-family:'EB Garamond',serif;font-size:13px;letter-spacing:0}
-  @media(max-width:640px){#daybar .chip-btn{min-height:36px}}
+  #extrabar .chip-btn{font-size:13px;padding:6px 14px;min-height:34px}
+  @media(max-width:640px){#daybar .chip-btn,#extrabar .chip-btn{min-height:36px}#extrabar{padding-left:var(--s6)}}
   .gbtn{display:inline-flex;align-items:center;gap:7px;background:var(--btn);color:var(--on-ink);font-weight:600;font-size:15px;padding:10px 16px;border-radius:99px;text-decoration:none;transition:opacity .15s;border:none;cursor:pointer}
   .gbtn:hover{background:var(--btn-hover)}
   .gbtn:active{transform:translateY(1px)}
@@ -242,7 +243,7 @@
   .mk-home{border-color:var(--ink);background:var(--ink);color:#fff;font-size:13px}
   .mk2{width:100%;height:100%;border-radius:50%;background:#fff;border:3px solid var(--azur);box-shadow:0 1px 6px rgba(30,43,54,.3)}
   .mk2-dot{border-width:2.5px;box-shadow:0 1px 4px rgba(30,43,54,.26)}
-  .mk2-num{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;color:var(--ink)}
+  .mk2-num{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-weight:600;font-size:11px;color:var(--ink);background:var(--sand);border-color:var(--rule2)}
   .c-homey{border-color:var(--ink)}
   .c-sight{border-color:var(--azur)}.c-food{border-color:var(--coral)}.c-bar{border-color:var(--lilac)}
   .c-beach{border-color:var(--sea)}.c-trip{border-color:var(--sun)}.c-hike{border-color:var(--palm)}.c-transit{border-color:var(--transit)}
@@ -304,7 +305,7 @@
   /* ===== activities ===== */
   #acts{margin-top:var(--s4)}
   .arows{display:grid;gap:8px;padding:0}
-  @media(min-width:820px){.arows{grid-template-columns:1fr 1fr;gap:8px 14px;align-items:start}}
+  @media(min-width:820px){.arows{grid-template-columns:1fr;gap:8px;align-items:start}}
   .arow{display:flex;align-items:flex-start;gap:10px;padding:11px 14px;border:1px solid var(--rule);border-radius:var(--r-sm);background:var(--card);text-decoration:none;color:var(--ink);transition:border-color .14s,background .14s}
   @media(hover:hover){.arow:hover{border-color:var(--azur);background:rgba(99,82,65,.05)}}
   .arow:active{transform:scale(.995)}
@@ -595,6 +596,8 @@
         <button class="chip-btn" data-df="ma">MA 13</button>
         <button class="chip-btn" data-df="ti">TI 14</button>
         <button class="chip-btn" data-df="ke">KE 15</button>
+      </div>
+      <div class="gbar" id="extrabar">
         <button class="chip-btn extra-map" data-extra="1">Extrat</button>
       </div>
       <div id="map" class="map-loading" role="region" aria-label="Kartta reissun kohteista"></div>
@@ -1106,7 +1109,7 @@ function mapPadding(){return matchMedia('(max-width:640px)').matches?[26,26]:[48
 function fitMaxZoom(){return matchMedia('(max-width:640px)').matches?13:15;}
 function mkIcon(p,full,num){
   if(p.cat==='home'&&!num)return L.divIcon({className:'',html:'<div class="mk mk-home">⌂</div>',iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-14]});
-  if(num)return L.divIcon({className:'',html:'<div class="mk2 mk2-num c-'+(p.cat==='home'?'homey':p.cat)+'">'+num+'</div>',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
+  if(num)return L.divIcon({className:'',html:'<div class="mk2 mk2-num">'+num+'</div>',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
   const sz=full?22:12,a=sz/2;
   return L.divIcon({className:'',html:'<div class="mk2 c-'+p.cat+(full?'':' mk2-dot')+'"></div>',iconSize:[sz,sz],iconAnchor:[a,a],popupAnchor:[0,-a]});
 }
@@ -1145,6 +1148,8 @@ function refresh(fit){
   if(isDay){
     const ll=Object.keys(dmap).map(n=>{const mk=markers.find(m=>m._place.n===n);return mk&&mk.getLatLng();}).filter(Boolean);
     if(fit&&ll.length)_map.fitBounds(L.latLngBounds(ll),{padding:mapPadding(),maxZoom:fitMaxZoom()});
+  }else if(isExtra&&fit){
+    _map.fitBounds(ZOOMS.nizza,{padding:mapPadding(),maxZoom:15});
   }else if(fit){
     const pts=visiblePoints(false);
     if(pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:mapPadding(),maxZoom:fitMaxZoom()});
