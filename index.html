@@ -319,6 +319,7 @@
   .act-acc[open] .chev{transform:rotate(180deg)}
   .act-acc .arows{padding:var(--s1) var(--s4) var(--s4)}
   .arows{display:grid;gap:8px}
+  .arows-col{display:grid;gap:8px}
   @media(min-width:820px){.arows{grid-template-columns:1fr 1fr;gap:8px 14px;align-items:start}}
   .arow{border:1px solid var(--rule);border-radius:var(--r-sm);background:var(--card)}
   .arow summary{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;list-style:none;font-weight:600;font-size:16px;line-height:1.35;-webkit-tap-highlight-color:transparent}
@@ -1064,7 +1065,11 @@ function ensureActivities(){
     det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+items.length+' kohdetta</span>'+
       '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
     const grid=document.createElement('div');grid.className='arows';
-    items.forEach(p=>grid.appendChild(renderActivityRow(p)));
+    const cols=[document.createElement('div'),document.createElement('div')];
+    cols.forEach(c=>{c.className='arows-col';});
+    const split=Math.ceil(items.length/2);
+    items.forEach((p,i)=>cols[i<split?0:1].appendChild(renderActivityRow(p)));
+    cols.forEach(c=>{if(c.children.length)grid.appendChild(c);});
     det.appendChild(grid);
     frag.appendChild(det);
   });
