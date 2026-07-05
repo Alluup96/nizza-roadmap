@@ -318,9 +318,11 @@
   .act-acc .chev{width:19px;height:19px;flex:0 0 auto;transition:transform .2s;color:var(--faint)}
   .act-acc[open] .chev{transform:rotate(180deg)}
   .act-acc .arows{padding:var(--s1) var(--s4) var(--s4)}
-  .arows{display:grid;gap:8px}
-  .arows-col{display:grid;gap:8px}
-  @media(min-width:820px){.arows{grid-template-columns:1fr 1fr;gap:8px 14px;align-items:start}}
+  .arows{display:grid;gap:14px}
+  .arows-day{display:grid;gap:8px}
+  .arows-day-title{font-family:'JetBrains Mono',monospace;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:2px 4px 0}
+  .arows-day-items{display:grid;gap:8px}
+  @media(min-width:820px){.arows-day-items{grid-template-columns:1fr 1fr;gap:8px 14px;align-items:start}}
   .arow{border:1px solid var(--rule);border-radius:var(--r-sm);background:var(--card)}
   .arow summary{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;list-style:none;font-weight:600;font-size:16px;line-height:1.35;-webkit-tap-highlight-color:transparent}
   .arow summary::-webkit-details-marker{display:none}
@@ -1005,6 +1007,7 @@ function showDay(sel){ensureDays();applyDay(sel);}
 const actsEl=document.getElementById('acts');
 const EXTRA_NAMES=['Villefranche-sur-Mer','Èze + Nietzschen polku','Plage Mala, Cap d’Ail','Villa Ephrussi de Rothschild','Vieux Antibes & vallit','Quai des Milliardaires','Plage de la Gravette','Absinthe Bar','Trans Côte d’Azur -risteily','Sähköpyörät / pyörävuokra','SUP ja kajakki, Nikaia Glisse'];
 const DAY_LABELS={to:'TO',pe:'PE',la:'LA',su:'SU',ma:'MA',ti:'TI',ke:'KE'};
+const DAY_TITLES={to:'Torstai',pe:'Perjantai',la:'Lauantai',su:'Sunnuntai',ma:'Maanantai',ti:'Tiistai',ke:'Keskiviikko'};
 const DAY_ORDER={to:0,pe:1,la:2,su:3,ma:4,ti:5,ke:6};
 let actsRendered=false;
 function activityMeta(p){
@@ -1032,6 +1035,20 @@ function sortActivities(items){
     return a.n.localeCompare(b.n,'fi',{sensitivity:'base'});
   });
 }
+function activityGroupKey(p){
+  const dd=p.dd||[];
+  if(!dd.length)return 'none';
+  return [...dd].sort((a,b)=>(DAY_ORDER[a]??99)-(DAY_ORDER[b]??99))[0]||'none';
+}
+function renderActivityRow(p){
+  const d=document.createElement('details');d.className='arow';
+  const meta=activityMeta(p);
+  d.innerHTML='<summary><span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+'</span><span class="meta">'+activityDayTags(p)+(meta?'<span class="pr">'+meta+'</span>':'')+'</span>'+
+    '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>'+
+    '<div class="arow-b"><div>'+p.d+'</div>'+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
+    '<a class="gl" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a></div>';
+  return d;
+}
 function ensureActivities(){
   if(actsRendered)return;
   const frag=document.createDocumentFragment();
@@ -1056,19 +1073,26 @@ function ensureActivities(){
     det.innerHTML='<summary><span class="gdot" style="border-color:'+gp.dot+'"></span>'+gp.t+'<span class="cnt">'+items.length+' kohdetta</span>'+
       '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>';
     const grid=document.createElement('div');grid.className='arows';
-    const cols=[document.createElement('div'),document.createElement('div')];
-    cols.forEach(c=>{c.className='arows-col';});
-    const split=Math.ceil(items.length/2);
-    items.forEach((p,i)=>{
-      const d=document.createElement('details');d.className='arow';
-      const meta=activityMeta(p);
-      d.innerHTML='<summary><span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+'</span><span class="meta">'+activityDayTags(p)+(meta?'<span class="pr">'+meta+'</span>':'')+'</span>'+
-        '<svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>'+
-        '<div class="arow-b"><div>'+p.d+'</div>'+(p.tip?'<div class="tp">'+p.tip+'</div>':'')+
-        '<a class="gl" href="'+gq(p.q||p.n)+'" target="_blank" rel="noopener">Avaa Google Mapsissa →</a></div>';
-      cols[i<split?0:1].appendChild(d);
+    const dayGroups=new Map();
+    items.forEach(p=>{
+      const key=activityGroupKey(p);
+      if(!dayGroups.has(key))dayGroups.set(key,[]);
+      dayGroups.get(key).push(p);
     });
-    cols.forEach(c=>{if(c.children.length)grid.appendChild(c);});
+    [...dayGroups.entries()].sort((a,b)=>{
+      const ra=a[0]==='none'?99:DAY_ORDER[a[0]]??99;
+      const rb=b[0]==='none'?99:DAY_ORDER[b[0]]??99;
+      return ra-rb;
+    }).forEach(([key,groupItems])=>{
+      const block=document.createElement('div');block.className='arows-day';
+      const title=document.createElement('div');title.className='arows-day-title';
+      title.textContent=key==='none'?'Muut':(DAY_LABELS[key]+' · '+DAY_TITLES[key]);
+      const list=document.createElement('div');list.className='arows-day-items';
+      groupItems.forEach(p=>list.appendChild(renderActivityRow(p)));
+      block.appendChild(title);
+      block.appendChild(list);
+      grid.appendChild(block);
+    });
     det.appendChild(grid);
     frag.appendChild(det);
   });
