@@ -1007,6 +1007,9 @@ const EXTRA_NAMES=['Villefranche-sur-Mer','Èze + Nietzschen polku','Plage Mala,
 const DAY_LABELS={to:'TO',pe:'PE',la:'LA',su:'SU',ma:'MA',ti:'TI',ke:'KE'};
 const DAY_ORDER={to:0,pe:1,la:2,su:3,ma:4,ti:5,ke:6};
 let actsRendered=false;
+function isFlexibleActivity(p){
+  return EXTRA_NAMES.includes(p.n)||(['sight','beach','food','bar','trip'].includes(p.cat)&&!(p.dd&&p.dd.length));
+}
 function activityMeta(p){
   if(p.pr)return p.pr==='VAIN KÄTEINEN'?'käteinen':p.pr;
   if(p.n==='Vieux Nice, vanha kaupunki')return 'ilmainen';
@@ -1047,15 +1050,15 @@ function ensureActivities(){
   ACT_GROUPS.forEach(gp=>{
     let items;
     if(gp.id==='extra'){
-      items=PLACES.filter(p=>EXTRA_NAMES.includes(p.n));
+      items=PLACES.filter(p=>isFlexibleActivity(p));
     }else if(gp.zones[0]==='cannes'){
-      items=PLACES.filter(p=>p.zone==='cannes'&&!['Vieux Antibes & vallit','Quai des Milliardaires','Plage de la Gravette','Absinthe Bar'].includes(p.n));
+      items=PLACES.filter(p=>p.zone==='cannes'&&!isFlexibleActivity(p));
     }else if(gp.zones[0]==='nizza'&&gp.cats[0]==='sight'){
-      items=PLACES.filter(p=>p.cat==='sight'&&p.zone==='nizza'&&!EXTRA_NAMES.includes(p.n));
+      items=PLACES.filter(p=>p.cat==='sight'&&p.zone==='nizza'&&!isFlexibleActivity(p));
     }else if(gp.zones[0]==='nizza'&&gp.cats[0]==='beach'){
-      items=PLACES.filter(p=>p.cat==='beach'&&p.zone==='nizza'&&!EXTRA_NAMES.includes(p.n));
+      items=PLACES.filter(p=>p.cat==='beach'&&p.zone==='nizza'&&!isFlexibleActivity(p));
     }else{
-      items=PLACES.filter(p=>gp.cats.includes(p.cat)&&gp.zones.includes(p.zone)&&!EXTRA_NAMES.includes(p.n));
+      items=PLACES.filter(p=>gp.cats.includes(p.cat)&&gp.zones.includes(p.zone)&&!isFlexibleActivity(p));
     }
     if(!items.length)return;
     items=sortActivities(items);
