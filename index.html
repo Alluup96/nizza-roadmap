@@ -191,9 +191,9 @@
   /* ===== map ===== */
   .gbar{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;margin:var(--s4) 0}
   @media(max-width:640px){
-    #filterbar,#daybar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:var(--s2) calc(-1*var(--s6)) ;padding:2px var(--s6)}
-    #filterbar::-webkit-scrollbar,#daybar::-webkit-scrollbar{display:none}
-    #filterbar .chip-btn,#daybar .chip-btn{flex:0 0 auto}
+    #daybar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;margin:var(--s2) calc(-1*var(--s6)) ;padding:2px var(--s6)}
+    #daybar::-webkit-scrollbar{display:none}
+    #daybar .chip-btn{flex:0 0 auto}
     #daybar .gbtn{flex:0 0 auto}
   }
   .chip-btn{font-size:14px;font-weight:600;padding:9px 16px;min-height:40px;border-radius:99px;border:1px solid var(--rule2);background:var(--card);color:var(--muted);cursor:pointer;transition:background .15s,color .15s,border-color .15s,transform .12s;font-family:'EB Garamond',serif}
@@ -202,11 +202,10 @@
   .chip-btn.on{background:var(--ink);color:var(--on-ink);border-color:var(--ink)}
   .gbar .spacer{flex:1}
   .dblbl{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-right:2px;white-space:nowrap}
-  #filterbar{margin:var(--s3) 0 var(--s1)}
-  #daybar{margin:var(--s1) 0 var(--s3)}
-  #filterbar .chip-btn{font-size:12px;padding:6px 12px;min-height:34px}
+  #daybar{margin:var(--s3) 0 var(--s3)}
   #daybar .chip-btn{font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;padding:6px 10px;min-height:34px;letter-spacing:.04em}
-  @media(max-width:640px){#filterbar .chip-btn{min-height:36px}#daybar .chip-btn{min-height:36px}}
+  #daybar .chip-btn.extra-map{font-family:'EB Garamond',serif;font-size:13px;letter-spacing:0}
+  @media(max-width:640px){#daybar .chip-btn{min-height:36px}}
   .gbtn{display:inline-flex;align-items:center;gap:7px;background:var(--btn);color:var(--on-ink);font-weight:600;font-size:15px;padding:10px 16px;border-radius:99px;text-decoration:none;transition:opacity .15s;border:none;cursor:pointer}
   .gbtn:hover{background:var(--btn-hover)}
   .gbtn:active{transform:translateY(1px)}
@@ -315,6 +314,7 @@
   .arow .atip{display:block;font-weight:400;font-style:italic;font-size:12px;color:var(--faint);line-height:1.45;margin-top:4px}
   .arow .pr{flex:0 0 auto;font-family:'JetBrains Mono',monospace;font-size:10.5px;color:var(--gold-text);white-space:nowrap;padding-top:2px}
   .arow .go{flex:0 0 auto;width:14px;height:14px;color:var(--faint);margin-top:3px}
+  .extra-num{flex:0 0 auto;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--sand);border:2px solid var(--rule2);box-shadow:0 1px 4px rgba(38,32,26,.16);font-family:'JetBrains Mono',monospace;font-weight:600;font-size:10px;color:var(--ink);margin-top:1px}
   @media(hover:hover){.arow:hover .go{color:var(--azur)}}
 
   /* ===== tips / misc ===== */
@@ -586,19 +586,8 @@
   <section>
     <div class="wrap">
       <div class="sec-head"><span class="n">05</span><h2>Kartta ja kaikki kohteet</h2></div>
-      <div class="gbar" id="filterbar">
-        <span class="dblbl">Kerrokset</span>
-        <button class="chip-btn on" data-f="top">★ Tähtipoiminnat</button>
-        <button class="chip-btn" data-f="all">Kaikki</button>
-        <button class="chip-btn" data-f="sight">Nähtävyydet</button>
-        <button class="chip-btn" data-f="food">Ruoka</button>
-        <button class="chip-btn" data-f="bar">Baarit &amp; illat</button>
-        <button class="chip-btn" data-f="beach">Rannat</button>
-        <button class="chip-btn" data-f="trip">Päiväretket</button>
-        <button class="chip-btn" data-f="hike">Vaellus</button>
-      </div>
       <div class="gbar" id="daybar">
-        <span class="dblbl">Päivän reitti</span>
+        <span class="dblbl">Päivän ohjelma</span>
         <button class="chip-btn" data-df="to">TO 9</button>
         <button class="chip-btn" data-df="pe">PE 10</button>
         <button class="chip-btn" data-df="la">LA 11</button>
@@ -606,6 +595,7 @@
         <button class="chip-btn" data-df="ma">MA 13</button>
         <button class="chip-btn" data-df="ti">TI 14</button>
         <button class="chip-btn" data-df="ke">KE 15</button>
+        <button class="chip-btn extra-map" data-extra="1">Extrat</button>
       </div>
       <div id="map" class="map-loading" role="region" aria-label="Kartta reissun kohteista"></div>
       <div class="legend">
@@ -617,7 +607,7 @@
         <span class="leg"><i style="border-color:var(--sun)"></i> Päiväretki</span>
         <span class="leg"><i style="border-color:var(--palm)"></i> Vaellus</span>
       </div>
-      <p class="map-hint"><span class="mono">43.70°N 7.27°E</span> · valitse päivä nähdäksesi reitin · numerot kertovat järjestyksen.</p>
+      <p class="map-hint"><span class="mono">43.70°N 7.27°E</span> · valitse päivän ohjelma tai Extrat · numerot kertovat järjestyksen.</p>
     </div>
   </section>
 </div>
@@ -670,14 +660,14 @@ const PLACES = [
   {n:'Place Masséna',dd:['to','ti'],cat:'sight',zone:'nizza',la:43.6972050,lo:7.2705956,d:'Punainen pääaukio ja Promenade du Paillon -puisto suihkulähteineen.',pr:'ilmainen',tip:'Illalla valaistut “istuvat miehet” -patsaat.',q:'Place Massena Nice'},
   {n:'#ILoveNice & Rauba-Capeu',dd:['pe'],cat:'sight',zone:'nizza',la:43.6936158,lo:7.2790130,d:'Niemenkärjen näköalakaide sataman ja Promin välissä. Klassinen ryhmäkuvapaikka.',pr:'ilmainen',tip:'Kyltillä on jonoa päivällä. Aamulla on tyhjempää. IG-stoori ✓.',q:'#ILoveNICE sign Quai Rauba Capeu Nice'},
   {n:'Port Lympia',dd:['pe'],cat:'sight',zone:'nizza',la:43.6953903,lo:7.2851385,d:'Värikäs vanha satama, veneitä ja aperitiivibaareja itärannalla.',pr:'ilmainen',tip:'Ilmainen sähkövene Lou Passagin ylittää sataman klo 10-19.',q:'Port Lympia Nice'},
-  {n:'Fort du Mont Alban',cat:'sight',zone:'nizza',la:43.7013214,lo:7.3001550,d:'1500-luvun linnake 220 m korkeudella, josta avautuvat näkymät Villefranchen lahdelle ja Cap Ferrat’lle.',pr:'ilmainen',tip:'Bussi 15 ylös tai ~40 min kävely satamasta. Aamulenkiksi.',q:'Fort du Mont Alban Nice'},
-  {n:'Musée Masséna',cat:'sight',zone:'nizza',la:43.6954101,lo:7.2589290,d:'Belle Époque -huvila Promilla: Rivieran historia ja hieno puutarha.',pr:'10 €',tip:'Ke-ma 10-18 (ti kiinni). Paras “kevyt” museo porukalle.',q:'Musee Massena Nice'},
-  {n:'Musée Marc Chagall',cat:'sight',zone:'nizza',la:43.7094754,lo:7.2701651,d:'Chagallin raamattusarja. Tunnelmallisin taidepysäkki Cimiez’n kukkulalla.',pr:'8-10 €',tip:'Ti kiinni; heinäkuussa 2026 keskipäivän sulkuja. Tarkista aukiolo.',q:'Musee Marc Chagall Nice'},
+  {n:'Fort du Mont Alban',cat:'sight',zone:'nizza',la:43.7013260,lo:7.3002966,d:'1500-luvun linnake 220 m korkeudella, josta avautuvat näkymät Villefranchen lahdelle ja Cap Ferrat’lle.',pr:'ilmainen',tip:'Bussi 15 ylös tai ~40 min kävely satamasta. Aamulenkiksi.',q:'Fort du Mont Alban Nice'},
+  {n:'Musée Masséna',cat:'sight',zone:'nizza',la:43.6952360,lo:7.2589535,d:'Belle Époque -huvila Promilla: Rivieran historia ja hieno puutarha.',pr:'10 €',tip:'Ke-ma 10-18 (ti kiinni). Paras “kevyt” museo porukalle.',q:'Musee Massena Nice'},
+  {n:'Musée Marc Chagall',cat:'sight',zone:'nizza',la:43.7091360,lo:7.2695270,d:'Chagallin raamattusarja. Tunnelmallisin taidepysäkki Cimiez’n kukkulalla.',pr:'8-10 €',tip:'Ti kiinni; heinäkuussa 2026 keskipäivän sulkuja. Tarkista aukiolo.',q:'Musee Marc Chagall Nice'},
 
   /* ---- Nizza: rannat ---- */
   {n:'Plage du Centenaire',dd:['to'],cat:'beach',zone:'nizza',la:43.6945996,lo:7.2671923,d:'Keskeinen julkinen ranta Promilla, suihkut ja valvonta kesällä.',pr:'ilmainen',tip:'Kivikko kuumenee, joten uimatossut (~10 € Decathlon) on pro-move.',q:'Plage du Centenaire Nice'},
   {n:'Castel Plage',dd:['pe'],cat:'beach',zone:'nizza',la:43.6943897,lo:7.2784284,star:1,d:'Suosituin rantaklubi Linnavuoren alla, kirkas vesi. Julkinen kaistale vieressä ilmaiseksi.',pr:'tuoli ~30-45 €',tip:'Klubipäivänä varaa netistä etukäteen; sunset-drinkit ilman varausta.',q:'Castel Plage Nice'},
-  {n:'Coco Beach / La Réserve',cat:'beach',zone:'nizza',la:43.6883347,lo:7.2942268,d:'Paikallisten kallioranta: kirkkain vesi, snorklausta, vähemmän turisteja.',pr:'ilmainen',tip:'Ei palveluita, joten kengät, maski ja vesipullo mukaan.',q:'Coco Beach Nice'},
+  {n:'Coco Beach / La Réserve',cat:'beach',zone:'nizza',la:43.6880754,lo:7.2941626,d:'Paikallisten kallioranta: kirkkain vesi, snorklausta, vähemmän turisteja.',pr:'ilmainen',tip:'Ei palveluita, joten kengät, maski ja vesipullo mukaan.',q:'Coco Beach Nice'},
   {n:'Sentier du littoral Cap de Nice',cat:'beach',zone:'nizza',la:43.6863810,lo:7.2992050,d:'Rantakalliopolku Cap de Nicen ympäri. Reitillä on uimapaikkoja ja upeat näkymät.',pr:'ilmainen',tip:'Aamulla; kalliot liukkaita, uimakengät mukaan.',q:'Sentier du littoral Cap de Nice'},
 
   /* ---- Nizza: aktiviteetit ---- */
@@ -691,7 +681,7 @@ const PLACES = [
   {n:'René Socca',dd:['pe'],cat:'food',zone:'nizza',la:43.7000215,lo:7.2789192,d:'Katuruokainstituutio: socca, petits farcis, pissaladière.',pr:'3-8 €',tip:'Ti-su 9-21. Juomat baaritiskiltä, ulkopöytiin.',q:'Rene Socca Nice'},
   {n:'Le Café de Turin',dd:['to'],cat:'food',zone:'nizza',la:43.7005556,lo:7.2794444,star:1,d:'Yli 100-vuotias äyriäisinstituutio Place Garibaldilla. Tilatkaa jaettavat plateau’t.',pr:'€€-€€€',tip:'Iso paikka. Walk-in onnistuu 7 hengelläkin.',q:'Cafe de Turin Nice'},
   {n:'La Rossettisserie',dd:['pe'],cat:'food',zone:'nizza',la:43.6975658,lo:7.2764535,star:1,d:'Vain paahdettua lihaa: broileri, karitsa, possu, nauta + muusi. Lihamiesten valinta.',pr:'~17-20 €',tip:'Varaa 1-2 pv etukäteen, pyydä holvikellaripöytä.',q:'La Rossettisserie Nice'},
-  {n:'Acchiardo',cat:'food',zone:'nizza',la:43.6964685,lo:7.2771309,d:'Perheravintola vuodesta 1927. Aitoa nizzalaista huippumaineella.',pr:'~15-25 €',tip:'Huom: kiinni la-su. Varaa puhelimitse pari päivää etukäteen.',q:'Acchiardo Nice'},
+  {n:'Acchiardo',cat:'food',zone:'nizza',la:43.6965124,lo:7.2771436,d:'Perheravintola vuodesta 1927. Aitoa nizzalaista huippumaineella.',pr:'~15-25 €',tip:'Huom: kiinni la-su. Varaa puhelimitse pari päivää etukäteen.',q:'Acchiardo Nice'},
   {n:'Chez Davia',dd:['su'],cat:'food',zone:'nizza',la:43.6990499,lo:7.2648322,d:'Nizzalaisklassikot vuodesta 1953. Michelin Bib Gourmand 2026, 300 m kämpältä.',pr:'€€',tip:'Varaa. Tilatkaa daube niçoise ja sitruunatorttu.',q:'Chez Davia Nice'},
   {n:'Le Chantecler',cat:'food',zone:'nizza',la:43.6944349,lo:7.2580579,star:1,d:'Negrescon kaksi Michelin-tähteä. Rivieran klassikko-fine-dining suoraan Promilla.',pr:'€€€€',tip:'Menut ~150-230 €. Varaa viikkoja etukäteen; smart casual ei riitä. Pukeutukaa kunnolla.',q:'Le Chantecler Nice Negresco'},
   {n:'Marinette',cat:'food',zone:'nizza',la:43.6969727,lo:7.2754332,d:'Rakastettu brunssi-kahvila sataman kupeessa. Listalla on munakokkelit, leivokset ja kunnon kahvi.',pr:'€€',tip:'Viikonloppuna on jonoa. Arkiaamu on rauhallisin.',q:'Marinette Nice'},
@@ -707,10 +697,10 @@ const PLACES = [
   {n:'Les Distilleries Idéales',dd:['to'],cat:'bar',zone:'nizza',la:43.6962309,lo:7.2767818,star:1,d:'Vanhan kaupungin baari-instituutio, jossa on 18 hanaa, aina täynnä, aito meininki.',pr:'tuoppi ~4-7 €',tip:'Happy hour 18-20. Tänne ekana iltana.',q:'Les Distilleries Ideales Nice'},
   {n:'Ma Nolan’s',dd:['to','pe'],cat:'bar',zone:'nizza',la:43.6952,lo:7.2719,star:1,d:'Irkkupubi, jossa näkyy kaikki urheilu isoilta screeneiltä. MM-pelien ykköspaikka.',pr:'tuoppi ~7,5-8 €',tip:'Peleihin paikalle 45-60 min ennen. Toinen pubi satamassa.',q:'Ma Nolan\'s Irish Pub Vieux Nice'},
   {n:'Wayne’s Bar',dd:['pe'],cat:'bar',zone:'nizza',la:43.6967660,lo:7.2746110,d:'Legendaarinen bilepubi: sportti, livebändit ja pöydillä tanssiminen.',pr:'tuoppi ~8 €',tip:'Happy hour 16-20, illalla täysi show. Auki 12-02.',q:'Wayne\'s Bar Nice'},
-  {n:'Beer District',cat:'bar',zone:'nizza',la:43.7082123,lo:7.2613228,d:'Nizzan paras craft-baari, jossa on 16 hanaa, 50 pulloa, Libérationin kulmilla.',pr:'craft ~7-8 €',tip:'Auki ~18-01, su kiinni. Saa maistaa ennen tilausta.',q:'Beer District Liberation Nice'},
-  {n:'Shapko',cat:'bar',zone:'nizza',la:43.6971979,lo:7.2769253,d:'Livemusiikkia joka ilta (jazz/funk/blues), eikä sisäänpääsymaksua ole.',pr:'drinkit ~10-12 €',tip:'Bändi lavalle ~22.30, auki 04.30 asti.',q:'Shapko Bar Nice'},
-  {n:'High Club',cat:'bar',zone:'nizza',la:43.6940817,lo:7.2559405,d:'Nizzan pääklubi Promenadella silloin, jos yökerhofiilis iskee.',pr:'entry ~10-20 €',tip:'Vain to-la 00-05. Menkää ~01.',q:'High Club Nice'},
-  {n:'Babel Babel',cat:'bar',zone:'nizza',la:43.6951943,lo:7.2757177,d:'Välimeri-baari suoraan rantaa vastapäätä. Hyvä paikka sunset-aperitiiveille.',pr:'drinkit ~12-14 €',tip:'Auki 7/7, ei varausta.',q:'Babel Babel Nice'},
+  {n:'Beer District',cat:'bar',zone:'nizza',la:43.7082309,lo:7.2613329,d:'Nizzan paras craft-baari, jossa on 16 hanaa, 50 pulloa, Libérationin kulmilla.',pr:'craft ~7-8 €',tip:'Auki ~18-01, su kiinni. Saa maistaa ennen tilausta.',q:'Beer District Liberation Nice'},
+  {n:'Shapko',cat:'bar',zone:'nizza',la:43.6971728,lo:7.2769079,d:'Livemusiikkia joka ilta (jazz/funk/blues), eikä sisäänpääsymaksua ole.',pr:'drinkit ~10-12 €',tip:'Bändi lavalle ~22.30, auki 04.30 asti.',q:'Shapko Bar Nice'},
+  {n:'High Club',cat:'bar',zone:'nizza',la:43.6940025,lo:7.2559561,d:'Nizzan pääklubi Promenadella silloin, jos yökerhofiilis iskee.',pr:'entry ~10-20 €',tip:'Vain to-la 00-05. Menkää ~01.',q:'High Club Nice'},
+  {n:'Babel Babel',cat:'bar',zone:'nizza',la:43.6951499,lo:7.2758402,d:'Välimeri-baari suoraan rantaa vastapäätä. Hyvä paikka sunset-aperitiiveille.',pr:'drinkit ~12-14 €',tip:'Auki 7/7, ei varausta.',q:'Babel Babel Nice'},
 
   /* ---- Päiväretket: lähikohteet ---- */
   {n:'Villefranche-sur-Mer',dd:['ti','ke'],cat:'trip',zone:'nizza',la:43.7040256,lo:7.3120920,star:1,d:'Värikäs satamakylä ja Nizzaa hiekkaisempi Plage des Marinières heti asemalla.',pr:'juna ~2,10 € · 6 min',tip:'Vanha kaupunki + Rue Obscure + uinti = täydellinen puolikas päivä.',q:'Rue Obscure Villefranche-sur-Mer'},
@@ -1008,26 +998,37 @@ function sortActivities(items){
     return a.n.localeCompare(b.n,'fi',{sensitivity:'base'});
   });
 }
-function renderActivityRow(p){
+const EXTRA_KIND_ORDER={sight:0,food:1,beach:2,bar:3};
+let extraPlacesCache=null;
+function extraPlaces(){
+  if(extraPlacesCache)return extraPlacesCache;
+  ensureDayNumbers();
+  extraPlacesCache=PLACES.filter(p=>isActivityPlace(p)&&activityDays(p).length===0)
+    .sort((a,b)=>((EXTRA_KIND_ORDER[actKind(a)]??9)-(EXTRA_KIND_ORDER[actKind(b)]??9))||a.n.localeCompare(b.n,'fi'));
+  return extraPlacesCache;
+}
+function extraNumber(p){
+  const idx=extraPlaces().findIndex(x=>x.n===p.n);
+  return idx>=0?idx+1:0;
+}
+function renderActivityRow(p,num){
   const a=document.createElement('a');a.className='arow';
   a.href=gq(p.q||p.n);a.target='_blank';a.rel='noopener';
   const meta=activityMeta(p);
-  a.innerHTML='<span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+
+  a.innerHTML=(num?'<span class="extra-num c-'+p.cat+'">'+num+'</span>':'')+
+    '<span class="nm">'+(p.star?'<span class="st">★</span> ':'')+p.n+
     (p.d?'<span class="ad">'+p.d+'</span>':'')+
     (p.tip?'<span class="atip">'+p.tip+'</span>':'')+'</span>'+
     (meta?'<span class="pr">'+meta+'</span>':'')+
     '<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7M8 7h9v9"/></svg>';
   return a;
 }
-const EXTRA_KIND_ORDER={sight:0,food:1,beach:2,bar:3};
 function ensureActivities(){
   if(actsRendered)return;
-  ensureDayNumbers();
-  // Vain kohteet joita ei ole kiinnitetty mihinkään päivään — varasuunnitelmat.
-  const extras=PLACES.filter(p=>isActivityPlace(p)&&activityDays(p).length===0)
-    .sort((a,b)=>((EXTRA_KIND_ORDER[actKind(a)]??9)-(EXTRA_KIND_ORDER[actKind(b)]??9))||a.n.localeCompare(b.n,'fi'));
+  // Vain kohteet joita ei ole kiinnitetty mihinkään päivään: varasuunnitelmat.
+  const extras=extraPlaces();
   const list=document.createElement('div');list.className='arows';
-  extras.forEach(p=>list.appendChild(renderActivityRow(p)));
+  extras.forEach((p,i)=>list.appendChild(renderActivityRow(p,i+1)));
   actsEl.appendChild(list);
   actsRendered=true;
 }
@@ -1064,7 +1065,7 @@ const LEAFLET_JS='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
 const ZOOMS={nizza:[[43.685,7.245],[43.712,7.300]]};
 let _map=null,mapInitPromise=null,fsBtn=null;
 let markers=[];
-let curMode={type:'top'};
+let curMode={type:'day',v:DAY_CODES[defaultDay()]||'to'};
 window._map=null;
 
 function warmOrigin(href){
@@ -1110,17 +1111,15 @@ function mkIcon(p,full,num){
   return L.divIcon({className:'',html:'<div class="mk2 c-'+p.cat+(full?'':' mk2-dot')+'"></div>',iconSize:[sz,sz],iconAnchor:[a,a],popupAnchor:[0,-a]});
 }
 function matches(p){
-  if(p.cat==='home')return true;
-  if(curMode.type==='top')return !!p.star&&p.zone==='nizza';
-  if(curMode.type==='all')return true;
-  if(curMode.type==='cat')return p.cat===curMode.v;
+  if(p.cat==='home')return curMode.type!=='extra';
   if(curMode.type==='day')return !!(DAY_NUM[curMode.v]&&DAY_NUM[curMode.v][p.n]!=null);
+  if(curMode.type==='extra')return extraNumber(p)>0;
   return true;
 }
 function tierFull(p){
   if(!_map)return true;
   if(p.cat==='home'||p.star)return true;
-  if(curMode.type==='day'||curMode.type==='top')return true;
+  if(curMode.type==='day'||curMode.type==='extra')return true;
   if(p.cat==='transit')return false;
   return _map.getZoom()>=15;
 }
@@ -1133,11 +1132,12 @@ function visiblePoints(includeHome){
 function refresh(fit){
   if(!_map)return;
   const isDay=curMode.type==='day';
+  const isExtra=curMode.type==='extra';
   const dmap=isDay?(DAY_NUM[curMode.v]||{}):null;
   markers.forEach(mk=>{
     const p=mk._place;
     if(matches(p)){
-      const num=isDay?(dmap[p.n]||0):0;
+      const num=isDay?(dmap[p.n]||0):isExtra?extraNumber(p):0;
       mk.setIcon(mkIcon(p,tierFull(p),num>0?num:null));
       if(!_map.hasLayer(mk))mk.addTo(_map);
     }else if(_map.hasLayer(mk))_map.removeLayer(mk);
@@ -1146,13 +1146,13 @@ function refresh(fit){
     const ll=Object.keys(dmap).map(n=>{const mk=markers.find(m=>m._place.n===n);return mk&&mk.getLatLng();}).filter(Boolean);
     if(fit&&ll.length)_map.fitBounds(L.latLngBounds(ll),{padding:mapPadding(),maxZoom:fitMaxZoom()});
   }else if(fit){
-    const pts=curMode.type==='top'?visiblePoints(true):visiblePoints(false);
+    const pts=visiblePoints(false);
     if(pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:mapPadding(),maxZoom:fitMaxZoom()});
     else _map.fitBounds(ZOOMS.nizza,{padding:mapPadding()});
   }
 }
 function setChip(el){
-  document.querySelectorAll('#filterbar .chip-btn,#daybar .chip-btn').forEach(x=>x.classList.toggle('on',x===el));
+  document.querySelectorAll('#daybar .chip-btn').forEach(x=>x.classList.toggle('on',x===el));
 }
 function setMapFullscreen(on){
   document.body.classList.toggle('map-fullscreen',on);
@@ -1192,18 +1192,17 @@ function initMap(){
     _map.on('zoomend',()=>refresh(false));
     _map.on('click',()=>_map.scrollWheelZoom.enable());
     _map.on('mouseout',()=>_map.scrollWheelZoom.disable());
-    document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click',()=>{
-      const f=b.dataset.f;
-      curMode=f==='top'?{type:'top'}:f==='all'?{type:'all'}:{type:'cat',v:f};
-      setChip(b);refresh(true);
-    }));
     document.querySelectorAll('[data-df]').forEach(b=>b.addEventListener('click',()=>{
       curMode={type:'day',v:b.dataset.df};setChip(b);refresh(true);
     }));
+    document.querySelectorAll('[data-extra]').forEach(b=>b.addEventListener('click',()=>{
+      curMode={type:'extra'};setChip(b);refresh(true);
+    }));
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('map-fullscreen'))setMapFullscreen(false);});
     el.classList.remove('map-loading');
-    _map.fitBounds(ZOOMS.nizza,{padding:mapPadding()});
-    refresh(false);
+    const initialChip=document.querySelector('[data-df="'+curMode.v+'"]')||document.querySelector('[data-df="to"]');
+    if(initialChip)setChip(initialChip);
+    refresh(true);
     return _map;
   }).catch(err=>{
     document.getElementById('map').classList.remove('map-loading');
@@ -1215,7 +1214,7 @@ function openMap(){
   initMap().then(()=>{
     if(!_map)return;
     _map.invalidateSize();
-    if(curMode.type==='top')refresh(true);
+    refresh(true);
   });
 }
 
