@@ -180,6 +180,13 @@
   .kv dd{color:var(--ink)}
   .kv dd b{font-weight:600}
   @media(max-width:520px){.kv{grid-template-columns:1fr}.kv dt{margin-top:6px}}
+  .weather-list{display:grid;gap:11px;font-size:15.5px}
+  .weather-row{display:grid;grid-template-columns:130px 1fr;gap:4px 14px;align-items:baseline}
+  .weather-row dt{color:var(--faint);font-size:12px;text-transform:uppercase;letter-spacing:.08em;padding-top:2px}
+  .weather-row dd{color:var(--ink);font-size:15.5px;line-height:1.45}
+  .weather-main{font-weight:600;color:var(--ink)}
+  .weather-note{font:inherit;color:var(--muted)}
+  @media(max-width:520px){.weather-row{grid-template-columns:1fr;gap:2px}.weather-row dt{padding-top:0}}
 
   /* ===== map ===== */
   .gbar{display:flex;flex-wrap:wrap;gap:var(--s2);align-items:center;margin:var(--s4) 0}
@@ -503,14 +510,29 @@
             <a class="gbtn ghost" href="https://www.airbnb.fi/rooms/6501288?source_impression_id=p3_1783150838_P3DMaMSMbZAokqzv" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 4l9 6.5"/><path d="M5.5 9.5V20h13V9.5"/></svg> Avaa Airbnbssä</a>
           </div>
         </div>
-        <div class="card">
+        <div class="card weather-card">
           <h3>Sää</h3>
-          <dl class="kv">
-            <dt>Merivesi</dt><dd><b id="seatemp">~24 °C</b> <span class="mono" style="font-size:11px;color:var(--faint)">juuri nyt</span></dd>
-            <dt>Lämpötila</dt><dd><span id="airtemp">päivä ~28-29 °C · yö ~22 °C</span> <span class="mono" style="font-size:11px;color:var(--faint)">reissuviikko</span></dd>
-            <dt>Nesteytys</dt><dd>Juomavesipisteitä pitkin kaupunkia, joten pullo kannattaa pitää aina mukana</dd>
-            <dt>Huom</dt><dd>Ranskassa on kesällä 2026 rajoitettu alkoholin juomista julkisilla paikoilla helleaaltojen aikana. Terassit ja rannat baareineen toimivat normaalisti</dd>
-            <dt>Vuoristossa</dt><dd><b id="mountaintemp">~12-20 °C</b> <span class="mono" style="font-size:11px;color:var(--faint)">su, 2 000 m</span> · vaelluspäivänä, joten kerrospukeutuminen on tarpeen</dd>
+          <dl class="weather-list">
+            <div class="weather-row">
+              <dt>Merivesi</dt>
+              <dd><span class="weather-main" id="seatemp">~24 °C</span> <span class="weather-note">juuri nyt</span></dd>
+            </div>
+            <div class="weather-row">
+              <dt>Lämpötila</dt>
+              <dd><span class="weather-main" id="airtemp">päivä ~28-29 °C · yö ~22 °C</span> <span class="weather-note">reissuviikko</span></dd>
+            </div>
+            <div class="weather-row">
+              <dt>Vuori</dt>
+              <dd><span class="weather-main" id="mountaintemp">~12-20 °C</span> <span class="weather-note">su, 2 000 m</span> · vaelluspäivänä kerrospukeutuminen on tarpeen</dd>
+            </div>
+            <div class="weather-row">
+              <dt>Nesteytys</dt>
+              <dd>Juomavesipisteitä on pitkin kaupunkia, joten pullo kannattaa pitää mukana</dd>
+            </div>
+            <div class="weather-row">
+              <dt>Huom</dt>
+              <dd>Ranskassa voidaan rajoittaa alkoholin juomista julkisilla paikoilla helleaaltojen aikana. Terassit ja rantabaarit toimivat normaalisti</dd>
+            </div>
           </dl>
           <div class="btnrow">
             <a class="gbtn" href="https://www.foreca.fi/France/Nice/10vrk" target="_blank" rel="noopener"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="8" cy="8" r="3.2"/><path d="M8 2.2V3.6M8 12.4v1.4M2.2 8H3.6M12.4 8h1.4M4 4l1 1M12 12l1 1M12 4l-1 1M4 12l1-1"/><path d="M17.5 21a3.5 3.5 0 0 0 .3-6.98A5 5 0 0 0 8.9 15.4 4 4 0 0 0 9 21z"/></svg> Foreca 10 vrk</a>
@@ -880,8 +902,8 @@ const ACT_GROUPS = [
   {id:'food',t:'Ruoka',dot:'var(--coral)',cats:['food'],zones:['nizza']},
   {id:'bars',t:'Baarit & illat',dot:'var(--lilac)',cats:['bar'],zones:['nizza']},
   {id:'monaco',t:'Monaco, päiväretki',dot:'var(--sun)',cats:['trip'],zones:['monaco']},
-  {id:'trips',t:'Cannes ja saaret, päiväretki',dot:'var(--sun)',cats:['trip'],zones:['cannes']},
   {id:'hike',t:'Vaellus Le Boréonissa (su 12.7)',dot:'var(--palm)',cats:['hike'],zones:['hike']},
+  {id:'trips',t:'Cannes ja saaret, päiväretki',dot:'var(--sun)',cats:['trip'],zones:['cannes']},
   {id:'extra',t:'Jos jää aikaa',dot:'var(--faint)',cats:['trip'],zones:['nizza']}
 ];
 
@@ -982,6 +1004,7 @@ function showDay(sel){ensureDays();applyDay(sel);}
 const actsEl=document.getElementById('acts');
 const EXTRA_NAMES=['Villefranche-sur-Mer','Èze + Nietzschen polku','Plage Mala, Cap d’Ail','Villa Ephrussi de Rothschild','Vieux Antibes & vallit','Quai des Milliardaires','Plage de la Gravette','Absinthe Bar','Trans Côte d’Azur -risteily','Sähköpyörät / pyörävuokra','SUP ja kajakki, Nikaia Glisse'];
 const DAY_LABELS={to:'TO',pe:'PE',la:'LA',su:'SU',ma:'MA',ti:'TI',ke:'KE'};
+const DAY_ORDER={to:0,pe:1,la:2,su:3,ma:4,ti:5,ke:6};
 let actsRendered=false;
 function activityMeta(p){
   if(p.pr)return p.pr==='VAIN KÄTEINEN'?'käteinen':p.pr;
@@ -995,6 +1018,18 @@ function activityDayTags(p){
   if(!dd.length)return '';
   const shown=dd.slice(0,3).map(d=>'<span class="daytag">'+(DAY_LABELS[d]||d.toUpperCase())+'</span>').join('');
   return shown+(dd.length>3?'<span class="daytag">+'+(dd.length-3)+'</span>':'');
+}
+function activityDayRank(p){
+  const dd=p.dd||[];
+  if(!dd.length)return 99;
+  return Math.min(...dd.map(d=>DAY_ORDER[d]??99));
+}
+function sortActivities(items){
+  return [...items].sort((a,b)=>{
+    const dayDiff=activityDayRank(a)-activityDayRank(b);
+    if(dayDiff)return dayDiff;
+    return a.n.localeCompare(b.n,'fi',{sensitivity:'base'});
+  });
 }
 function ensureActivities(){
   if(actsRendered)return;
@@ -1013,7 +1048,7 @@ function ensureActivities(){
       items=PLACES.filter(p=>gp.cats.includes(p.cat)&&gp.zones.includes(p.zone)&&!EXTRA_NAMES.includes(p.n));
     }
     if(!items.length)return;
-    items=[...items].sort((a,b)=>(b.star||0)-(a.star||0));
+    items=sortActivities(items);
     const det=document.createElement('details');det.className='act-acc';
     det.id='act-'+gp.id;
     if(gp.open)det.open=true;
