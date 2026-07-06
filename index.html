@@ -1060,7 +1060,7 @@ function ensureActivities(){
    RENDER: TIPS (Käytännön asiat)
    ================================================================= */
 const TIPS=[
-  ['Pakkauslista','<b>Paperit & raha</b>Passi tai henkilökortti, matkavakuutus, eurooppalainen sairaanhoitokortti, lääkkeet, käteistä ~50 €<b>Kengät</b>Vaelluskengät (su), siistit kengät + pitkät housut (Monaco-kasino), mukavat kävelykengät, sandaalit<b>Ranta & aurinko</b>Uikkarit, uimatossut (kivikkorannat), rantapyyhe, snorkkeli, aurinkorasva, aurinkolasit, päähine<b>Viihde</b>Bluetooth-kaiutin, pelikortit, Apple TV (kämpän telkkariin), rantapallo<b>Muut</b>Kerrospukeutuminen vuoristoon, laturit + powerbank, jatkojohto, rakkolaastarit, juomapullo, pieni reppu','tip-pack'],
+  ['Pakkauslista','<b>Paperit & raha</b>Passi tai henkilökortti, matkavakuutus, eurooppalainen sairaanhoitokortti, lääkkeet, käteistä ~50 €<b>Kengät</b>Vaelluskengät (su), siistit kengät + pitkät housut (Monaco-kasino), mukavat kävelykengät<b>Ranta & aurinko</b>Uikkarit, uimatossut (kivikkorannat), rantapyyhe, aurinkorasva, aurinkolasit, päähine<b>Viihde</b>Bluetooth-kaiutin, pelikortit, Apple TV<b>Muut</b>Kerrospukeutuminen vuoristoon, laturit + powerbank, rakkolaastarit, juomapullo, pieni reppu','tip-pack'],
   ['Kaupunki & kenttä','Ratikka T2 vie lentokentältä keskustaan ~26 min. Kentän Aéro-lippu on 10 €, mutta 7 € päivälippu kannattaa jos liikutte samana päivänä lisää. Osta Lignes d’Azur -sovelluksella (yllä) tai automaatista. Lähimaksu käy, ja sama lippu käy ratikassa ja bussissa vaihtoineen.'],
   ['Junat & päiväretket','Osta junaliput SNCF Connect -sovelluksella (yllä). ZOU Mini-Groupe -ryhmälippu antaa 3-9 hengelle 30-50 % alennuksen TER-junissa; lippu käy saman päivän juniin valitulla reitillä. Klo 10-19 junat voivat olla täynnä, joten liikkeelle ajoissa.'],
   ['Helle, vesi & rannat','Rakentakaa päivät aamujen ja iltojen varaan, sillä keskipäivä klo 12-16 on kuumin. Kantakaa vesipulloa ja täyttäkää vain “eau potable” -pisteistä. Rannat ovat kivikkoa, joten uimatossut ovat viikon paras pieni ostos. Ei lasipulloja rannalle.'],
@@ -1099,7 +1099,7 @@ idle(ensureTips);
     {d:'2026-07-11',day:'La 11.7',time:'23:00',round:'Puolivälierä'},
     {d:'2026-07-12',day:'Su 12.7',time:'03:00',round:'Puolivälierä'},
     {d:'2026-07-14',day:'Ti 14.7',time:'21:00',round:'Välierä'},
-    {d:'2026-07-15',day:'Ke 15.7',time:'21:00',round:'Välierä',note:'kotimatka'}
+    {d:'2026-07-15',day:'Ke 15.7',time:'21:00',round:'Välierä'}
   ];
   const FI={France:'Ranska',Morocco:'Marokko',Norway:'Norja',England:'Englanti',Spain:'Espanja',Portugal:'Portugali',Brazil:'Brasilia',Argentina:'Argentiina',Germany:'Saksa',Netherlands:'Alankomaat',Italy:'Italia',Belgium:'Belgia',Croatia:'Kroatia',Denmark:'Tanska',Switzerland:'Sveitsi',Mexico:'Meksiko',Canada:'Kanada','United States':'Yhdysvallat',Uruguay:'Uruguay',Colombia:'Kolumbia',Japan:'Japani','South Korea':'Etelä-Korea',Senegal:'Senegal',Ecuador:'Ecuador',Austria:'Itävalta',Poland:'Puola',Sweden:'Ruotsi',Serbia:'Serbia',Turkey:'Turkki','Ivory Coast':'Norsunluurannikko',Nigeria:'Nigeria',Ghana:'Ghana',Australia:'Australia',Egypt:'Egypti',Algeria:'Algeria',Cameroon:'Kamerun',Ukraine:'Ukraina',Wales:'Wales',Scotland:'Skotlanti',Peru:'Peru',Chile:'Chile',Paraguay:'Paraguay',Iran:'Iran','Saudi Arabia':'Saudi-Arabia',Qatar:'Qatar',Tunisia:'Tunisia'};
   const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
