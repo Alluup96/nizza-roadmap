@@ -1365,24 +1365,9 @@ document.querySelector('.tabs').addEventListener('keydown',e=>{
   if(j!==null){e.preventDefault();ts[j].focus();showTab(ts[j].dataset.tab);}
 });
 if(matchMedia('(min-width:941px)').matches)document.querySelectorAll('.sec-acc').forEach(d=>d.open=true);
-document.querySelectorAll('.hero-toc a').forEach(t=>t.addEventListener('click',e=>{
-  e.preventDefault();
-  const href=t.getAttribute('href');
-  const sec=document.querySelector(href);
-  if(!sec)return;
-  if(href==='#kaytannot')ensureTips();
-  const det=sec.querySelector('.sec-acc');
-  if(det)det.open=true;
-  history.replaceState(null,'',href);
-  const scrollToSection=()=>{
-    const navH=_navEl?_navEl.getBoundingClientRect().height:0;
-    const top=sec.getBoundingClientRect().top+scrollY-navH-10;
-    window.scrollTo({top:Math.max(0,top),behavior:'auto'});
-  };
-  requestAnimationFrame(()=>requestAnimationFrame(()=>{
-    scrollToSection();
-    setTimeout(scrollToSection,120);
-  }));
+document.querySelectorAll('.hero-toc a').forEach(t=>t.addEventListener('click',()=>{
+  if(t.getAttribute('href')==='#kaytannot')ensureTips();
+  const sec=document.querySelector(t.getAttribute('href'));const det=sec&&sec.querySelector('.sec-acc');if(det)det.open=true;
 }));
 const initial=(location.hash||'#yleiskuva').slice(1);
 if(document.getElementById('p-'+initial))showTab(initial,false);
