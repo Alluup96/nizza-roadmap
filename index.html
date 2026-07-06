@@ -1112,9 +1112,6 @@ function loadLeaflet(){
 }
 function mapPadding(){return matchMedia('(max-width:640px)').matches?[26,26]:[48,48];}
 function fitMaxZoom(){return matchMedia('(max-width:640px)').matches?13:15;}
-function extraMapView(){
-  return matchMedia('(max-width:640px)').matches?{center:[43.697,7.277],zoom:14}:{center:[43.697,7.277],zoom:14.5};
-}
 function mkIcon(p,full,num){
   if(p.cat==='home'&&!num)return L.divIcon({className:'',html:'<div class="mk mk-home">⌂</div>',iconSize:[28,28],iconAnchor:[14,14],popupAnchor:[0,-14]});
   if(num)return L.divIcon({className:'',html:'<div class="mk2 mk2-num">'+num+'</div>',iconSize:[24,24],iconAnchor:[12,12],popupAnchor:[0,-12]});
@@ -1157,8 +1154,7 @@ function refresh(fit){
     const ll=Object.keys(dmap).map(n=>{const mk=markers.find(m=>m._place.n===n);return mk&&mk.getLatLng();}).filter(Boolean);
     if(fit&&ll.length)_map.fitBounds(L.latLngBounds(ll),{padding:mapPadding(),maxZoom:fitMaxZoom()});
   }else if(isExtra&&fit){
-    const v=extraMapView();
-    _map.setView(v.center,v.zoom);
+    _map.fitBounds(ZOOMS.nizza,{padding:mapPadding()});
   }else if(fit){
     const pts=visiblePoints(false);
     if(pts.length)_map.fitBounds(L.latLngBounds(pts),{padding:mapPadding(),maxZoom:fitMaxZoom()});
