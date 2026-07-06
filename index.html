@@ -226,6 +226,7 @@
   @media(max-width:640px){#map{height:66vh;min-height:420px}}
   #map:fullscreen,#map:-webkit-full-screen{width:100%!important;height:100%!important;border-radius:0;border:0}
   #map.map-loading::after{content:'Kartta latautuu';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);background:linear-gradient(135deg,rgba(251,250,246,.92),rgba(233,228,218,.82));z-index:1}
+  #map.map-error::after{content:'Karttaa ei voitu ladata. Tarkista yhteys ja yritä uudelleen.';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:var(--s6);font-size:15px;color:var(--muted);background:linear-gradient(135deg,rgba(251,250,246,.96),rgba(233,228,218,.9));z-index:1}
   body.map-fullscreen{overflow:hidden}
   body.map-fullscreen .nav{display:none}
   body.map-fullscreen .panel section{content-visibility:visible;contain:none}
@@ -916,7 +917,6 @@ function ensureDayNumbers(){
   });
   dayNumbersReady=true;
 }
-ensureDayNumbers();
 function applyDay(sel){
   dayEls.forEach((el,i)=>{el.style.display=(sel==='all'||sel===i)?'':'none';});
   [...dpEl.children].forEach(c=>c.classList.toggle('on',c.dataset.d===String(sel)));
@@ -1183,12 +1183,13 @@ function setMapFullscreen(on){
 }
 function initMap(){
   if(mapInitPromise)return mapInitPromise;
+  ensureDayNumbers();
   mapInitPromise=loadLeaflet().then(()=>{
     const el=document.getElementById('map');
     _map=L.map(el,{preferCanvas:true,scrollWheelZoom:false,zoomControl:true,zoomSnap:.5,wheelPxPerZoomLevel:90,tap:true});
     window._map=_map;
     L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=fi&apistyle=s.t%3A2%7Cs.e%3Al%7Cp.v%3Aoff',{
-      maxZoom:20,subdomains:['mt0','mt1','mt2','mt3'],attribution:'&copy; Google Maps',updateWhenIdle:true,keepBuffer:1
+      maxZoom:20,subdomains:['mt0'],attribution:'&copy; Google Maps',updateWhenIdle:true,updateWhenZooming:false,keepBuffer:1
     }).addTo(_map);
     const FsCtl=L.Control.extend({options:{position:'topleft'},onAdd:function(){
       fsBtn=L.DomUtil.create('a','leaflet-bar fs-btn');
@@ -1227,8 +1228,9 @@ function initMap(){
     refresh(true);
     return _map;
   }).catch(err=>{
-    document.getElementById('map').classList.remove('map-loading');
-    console.error('Karttaa ei voitu ladata',err);
+    const el=document.getElementById('map');
+    el.classList.remove('map-loading');
+    el.classList.add('map-error');
   });
   return mapInitPromise;
 }
@@ -1287,13 +1289,19 @@ if(document.getElementById('p-'+initial))showTab(initial,false);
 /* reaaliaikainen meriveden lampotila (Open-Meteo Marine, ei avainta) */
 let weatherLoaded=false;
 const WEATHER_TTL=1000*60*30;
+function fetchJson(url,timeout){
+  if(!('AbortController'in window))return fetch(url).then(r=>r.ok?r.json():Promise.reject());
+  const ctrl=new AbortController();
+  const timer=setTimeout(()=>ctrl.abort(),timeout);
+  return fetch(url,{signal:ctrl.signal}).then(r=>r.ok?r.json():Promise.reject()).finally(()=>clearTimeout(timer));
+}
 function cachedJson(key,url,ttl){
   const now=Date.now();
   try{
     const hit=JSON.parse(localStorage.getItem(key)||'null');
     if(hit&&now-hit.t<ttl)return Promise.resolve(hit.d);
   }catch(e){}
-  return fetch(url).then(r=>r.ok?r.json():Promise.reject()).then(d=>{
+  return fetchJson(url,4500).then(d=>{
     try{localStorage.setItem(key,JSON.stringify({t:now,d:d}));}catch(e){}
     return d;
   });
