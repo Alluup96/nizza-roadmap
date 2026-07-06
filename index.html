@@ -1120,13 +1120,15 @@ idle(ensureTips);
     return live;
   }
   let cache=null; try{cache=JSON.parse(sessionStorage.getItem('wc26')||'null');}catch(e){}
-  render(cache&&cache.map);
+  render(cache&&Date.now()-cache.t<1000*60*15&&cache.map);
   let timer=null, busy=false;
   async function load(){
     if(busy)return; busy=true;
+    let to=null;
     try{
-      const ctrl=new AbortController(), to=setTimeout(()=>ctrl.abort(),6000);
-      const r=await fetch(API,{signal:ctrl.signal}); clearTimeout(to);
+      const ctrl=new AbortController();
+      to=setTimeout(()=>ctrl.abort(),6000);
+      const r=await fetch(API,{signal:ctrl.signal});
       if(!r.ok)throw 0;
       const j=await r.json(), map={};
       (j.events||[]).forEach(ev=>{
@@ -1139,7 +1141,7 @@ idle(ensureTips);
       if(timer)clearTimeout(timer);
       if(live)timer=setTimeout(load,60000);
     }catch(e){/* säilytä aikataulu/välimuisti — ei kaadu */}
-    finally{busy=false;}
+    finally{if(to)clearTimeout(to);busy=false;}
   }
   let started=false;
   const start=()=>{if(started)return;started=true;idle(load);};
@@ -1191,7 +1193,7 @@ function loadLeaflet(){
     js.crossOrigin='';
     js.dataset.leaflet='1';
     js.onload=resolve;
-    js.onerror=reject;
+    js.onerror=()=>{js.remove();reject();};
     document.head.appendChild(js);
   });
 }
@@ -1259,11 +1261,21 @@ function initMap(){
   ensureDayNumbers();
   mapInitPromise=loadLeaflet().then(()=>{
     const el=document.getElementById('map');
+    el.classList.remove('map-error');
     _map=L.map(el,{preferCanvas:true,scrollWheelZoom:false,zoomControl:true,zoomSnap:.5,wheelPxPerZoomLevel:90,tap:true});
     window._map=_map;
-    L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=fi&apistyle=s.t%3A2%7Cs.e%3Al%7Cp.v%3Aoff',{
+    const googleTiles=L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}&hl=fi&apistyle=s.t%3A2%7Cs.e%3Al%7Cp.v%3Aoff',{
       maxZoom:20,subdomains:['mt0'],attribution:'&copy; Google Maps',updateWhenIdle:true,updateWhenZooming:false,keepBuffer:1
     }).addTo(_map);
+    let tileErrors=0,osmTiles=null;
+    googleTiles.on('tileerror',()=>{
+      tileErrors++;
+      if(tileErrors<3||osmTiles)return;
+      osmTiles=L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+        maxZoom:19,attribution:'&copy; OpenStreetMap',updateWhenIdle:true,updateWhenZooming:false,keepBuffer:1
+      }).addTo(_map);
+      _map.removeLayer(googleTiles);
+    });
     const FsCtl=L.Control.extend({options:{position:'topleft'},onAdd:function(){
       fsBtn=L.DomUtil.create('a','leaflet-bar fs-btn');
       fsBtn.href='#';
@@ -1304,6 +1316,7 @@ function initMap(){
     const el=document.getElementById('map');
     el.classList.remove('map-loading');
     el.classList.add('map-error');
+    mapInitPromise=null;
   });
   return mapInitPromise;
 }
