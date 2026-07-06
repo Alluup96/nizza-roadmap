@@ -351,6 +351,21 @@
   .quick-memo a.qm .qm-dl{width:13px;height:13px;margin-right:5px;color:var(--azur);flex:0 0 auto}
   @media(hover:hover){.quick-memo a.qm:hover{border-color:var(--azur);color:var(--azur)}}
   .quick-memo a.qm:active{transform:scale(.97)}
+  .wc-live{display:inline-flex;align-items:center;gap:5px;vertical-align:middle;margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;color:var(--coral-text)}
+  .wc-dot{width:7px;height:7px;border-radius:50%;background:var(--coral-text);animation:wc-pulse 2s ease-in-out infinite}
+  @keyframes wc-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.65)}}
+  @media(prefers-reduced-motion:reduce){.wc-dot{animation:none}}
+  .wc{display:flex;flex-direction:column;margin:8px 0 10px}
+  .wc-row{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:6px 12px;padding:8px 0;border-top:1px solid var(--rule)}
+  .wc-row:first-child{border-top:0}
+  .wc-when{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
+  .wc-teams{font-size:14.5px;font-weight:600;color:var(--ink);min-width:0}
+  .wc-teams.tbd{font-weight:400;font-style:italic;color:var(--faint)}
+  .wc-row.wc-fr .wc-teams{color:var(--azur)}
+  .wc-note{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:400;font-style:normal;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
+  .wc-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);white-space:nowrap;text-transform:uppercase;letter-spacing:.04em;text-align:right}
+  .wc-tag.live{color:#b83227;font-weight:700}
+  @media(max-width:400px){.wc-row{grid-template-columns:auto 1fr}.wc-tag{grid-column:2;text-align:left}}
   .callout{border:1px solid rgba(176,138,79,.5);background:rgba(176,138,79,.08);border-radius:var(--r-md);padding:var(--s4) var(--s5);font-size:15px;color:var(--ink);margin:var(--s4) 0}
   .callout b{font-weight:700}
   .callout.blue{border-color:rgba(18,115,184,.4);background:rgba(99,82,65,.08)}
@@ -556,16 +571,9 @@
         <div class="sec-body">
       <div class="grid g2">
         <div class="card">
-          <h3>⚽ MM-kisat 2026, ottelut Ranskan aikaa</h3>
-          <p class="ds" style="margin:6px 0 10px">Jos Ranska etenee, se pelaa <b>to 9.7 klo 22</b> ja siitä voittajana <b>välierän ti 14.7 klo 21</b>.</p>
-          <dl class="kv">
-            <dt>To 9.7 · 22:00</dt><dd>Puolivälierä 1, mahdollinen <b>Ranskan peli</b></dd>
-            <dt>Pe 10.7 · 21:00</dt><dd>Puolivälierä 2</dd>
-            <dt>La 11.7 · 23:00</dt><dd>Puolivälierä 3</dd>
-            <dt>Su 12.7 · 03:00</dt><dd>Puolivälierä 4. Yöpeli skipataan.</dd>
-            <dt>Ti 14.7 · 21:00</dt><dd>Välierä 1, mahdollinen <b>Ranskan peli</b></dd>
-            <dt>Ke 15.7 · 21:00</dt><dd>Välierä 2 (ollaan jo kotona / lennolla)</dd>
-          </dl>
+          <h3>⚽ MM 2026 — ottelut Ranskan aikaa <span class="wc-live" id="wc-live"><span class="wc-dot" aria-hidden="true"></span>Päivittyy</span></h3>
+          <p class="ds" style="margin:6px 0 10px">Parit ja tulokset päivittyvät livenä turnauksen edetessä.</p>
+          <div class="wc" id="wc-list" aria-live="polite"></div>
           <p class="ds" style="margin-top:10px">Katsomot: <a class="mlink" data-place="Ma Nolan’s">Ma Nolan’s</a> ja <a class="mlink" data-place="Wayne’s Bar">Wayne’s</a> näyttävät kaiken. Jos Ranska pelaa, tulkaa tuntia ennen. Jos Ranska voittaa, Vieux Nice räjähtää.</p>
         </div>
         <div class="card">
@@ -1078,6 +1086,71 @@ idle(ensureTips);
   const ua=navigator.userAgent||'';
   const isAndroid=/Android/i.test(ua);
   document.querySelectorAll('.qm-app').forEach(a=>{a.href=isAndroid?a.dataset.android:a.dataset.ios;});
+})();
+
+/* =================================================================
+   MM 2026 — live-ottelut (ESPN, lazy + timeout + graceful fallback)
+   ================================================================= */
+(function(){
+  const wcList=document.getElementById('wc-list');
+  if(!wcList)return;
+  const API='https://site.api.espn.com/apis/site/v2/sports/soccer/fifa.world/scoreboard?dates=20260709-20260715';
+  const WC=[
+    {d:'2026-07-09',day:'To 9.7',time:'22:00',round:'Puolivälierä'},
+    {d:'2026-07-10',day:'Pe 10.7',time:'21:00',round:'Puolivälierä'},
+    {d:'2026-07-11',day:'La 11.7',time:'23:00',round:'Puolivälierä'},
+    {d:'2026-07-12',day:'Su 12.7',time:'03:00',round:'Puolivälierä',note:'yöpeli'},
+    {d:'2026-07-14',day:'Ti 14.7',time:'21:00',round:'Välierä'},
+    {d:'2026-07-15',day:'Ke 15.7',time:'21:00',round:'Välierä',note:'kotimatka'}
+  ];
+  const FI={France:'Ranska',Morocco:'Marokko',Norway:'Norja',England:'Englanti',Spain:'Espanja',Portugal:'Portugali',Brazil:'Brasilia',Argentina:'Argentiina',Germany:'Saksa',Netherlands:'Alankomaat',Italy:'Italia',Belgium:'Belgia',Croatia:'Kroatia',Denmark:'Tanska',Switzerland:'Sveitsi',Mexico:'Meksiko',Canada:'Kanada','United States':'Yhdysvallat',Uruguay:'Uruguay',Colombia:'Kolumbia',Japan:'Japani','South Korea':'Etelä-Korea',Senegal:'Senegal',Ecuador:'Ecuador',Austria:'Itävalta',Poland:'Puola',Sweden:'Ruotsi',Serbia:'Serbia',Turkey:'Turkki','Ivory Coast':'Norsunluurannikko',Nigeria:'Nigeria',Ghana:'Ghana',Australia:'Australia',Egypt:'Egypti',Algeria:'Algeria',Cameroon:'Kamerun',Ukraine:'Ukraina',Wales:'Wales',Scotland:'Skotlanti',Peru:'Peru',Chile:'Chile',Paraguay:'Paraguay',Iran:'Iran','Saudi Arabia':'Saudi-Arabia',Qatar:'Qatar',Tunisia:'Tunisia'};
+  const esc=s=>String(s==null?'':s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+  const tbdName=n=>!n||/winner|round of|quarterfinal|semi-?final|tbd|to be determined/i.test(n);
+  const fi=n=>tbdName(n)?null:(FI[n]||n);
+  function render(map){
+    let live=false;
+    wcList.innerHTML=WC.map(m=>{
+      const e=map&&map[m.d];
+      const hn=e?fi(e.home):null, an=e?fi(e.away):null, tbd=!hn&&!an;
+      const isFr=!!(e&&(e.home==='France'||e.away==='France'));
+      let tag=m.round, tcls='';
+      if(e&&e.state==='in'){tag='Live '+esc(e.hs)+'–'+esc(e.as);tcls=' live';live=true;}
+      else if(e&&e.state==='post'){tag='päättyi '+esc(e.hs)+'–'+esc(e.as);}
+      const teams=tbd?'ratkeaa':esc((hn||'ratkeaa')+' – '+(an||'ratkeaa'));
+      const note=m.note?'<span class="wc-note">'+m.note+'</span>':'';
+      return '<div class="wc-row'+(isFr&&!tbd?' wc-fr':'')+'"><span class="wc-when">'+m.day+' · '+m.time+'</span><span class="wc-teams'+(tbd?' tbd':'')+'">'+teams+note+'</span><span class="wc-tag'+tcls+'">'+tag+'</span></div>';
+    }).join('');
+    return live;
+  }
+  let cache=null; try{cache=JSON.parse(sessionStorage.getItem('wc26')||'null');}catch(e){}
+  render(cache&&cache.map);
+  let timer=null, busy=false;
+  async function load(){
+    if(busy)return; busy=true;
+    try{
+      const ctrl=new AbortController(), to=setTimeout(()=>ctrl.abort(),6000);
+      const r=await fetch(API,{signal:ctrl.signal}); clearTimeout(to);
+      if(!r.ok)throw 0;
+      const j=await r.json(), map={};
+      (j.events||[]).forEach(ev=>{
+        const c=(ev.competitions&&ev.competitions[0])||{}, cs=c.competitors||[];
+        const h=cs.find(x=>x.homeAway==='home')||cs[0]||{}, a=cs.find(x=>x.homeAway==='away')||cs[1]||{};
+        map[(ev.date||'').slice(0,10)]={home:h.team&&h.team.displayName, away:a.team&&a.team.displayName, hs:h.score, as:a.score, state:ev.status&&ev.status.type&&ev.status.type.state};
+      });
+      try{sessionStorage.setItem('wc26',JSON.stringify({t:Date.now(),map}));}catch(e){}
+      const live=render(map);
+      if(timer)clearTimeout(timer);
+      if(live)timer=setTimeout(load,60000);
+    }catch(e){/* säilytä aikataulu/välimuisti — ei kaadu */}
+    finally{busy=false;}
+  }
+  let started=false;
+  const start=()=>{if(started)return;started=true;idle(load);};
+  if('IntersectionObserver'in window){
+    const io=new IntersectionObserver(es=>{es.forEach(x=>{if(x.isIntersecting){start();io.disconnect();}});},{rootMargin:'200px'});
+    io.observe(wcList);
+  }else start();
+  const det=wcList.closest('details'); if(det)det.addEventListener('toggle',()=>{if(det.open)start();});
 })();
 
 /* =================================================================
