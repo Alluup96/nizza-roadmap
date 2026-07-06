@@ -334,11 +334,15 @@
   }
 
   /* ===== tips / misc ===== */
-  .quick-memo{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 var(--s4);padding:var(--s3);border:1px solid var(--rule);border-radius:var(--r-md);background:rgba(251,250,246,.68)}
-  .quick-memo .qm-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-text);margin-right:4px}
-  .quick-memo .qm{display:inline-flex;align-items:center;min-height:30px;padding:5px 10px;border-radius:var(--r-pill);border:1px solid var(--rule2);background:var(--card);font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+  .quick-memo{display:flex;flex-direction:column;gap:var(--s3);margin:0 0 var(--s4);padding:var(--s4);border:1px solid var(--rule);border-radius:var(--r-md);background:rgba(251,250,246,.68)}
+  .qm-group{display:grid;grid-template-columns:56px 1fr;align-items:start;gap:var(--s2) var(--s4)}
+  .qm-group+.qm-group{padding-top:var(--s3);border-top:1px solid var(--rule)}
+  .quick-memo .qm-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-text);padding-top:9px}
+  .qm-chips{display:flex;flex-wrap:wrap;gap:8px}
+  .quick-memo .qm{display:inline-flex;align-items:center;min-height:30px;padding:5px 12px;border-radius:var(--r-pill);border:1px solid var(--rule2);background:var(--card);font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
   .tips{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
-  @media(max-width:720px){.tips{grid-template-columns:1fr}.quick-memo{gap:6px}.quick-memo .qm{font-size:13px;white-space:normal}}
+  @media(max-width:520px){.qm-group{grid-template-columns:1fr;gap:7px}.quick-memo .qm-label{padding-top:0}}
+  @media(max-width:720px){.tips{grid-template-columns:1fr}.quick-memo .qm{font-size:13px;white-space:normal}}
   .tip{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4);box-shadow:var(--shadow)}
   .tip h3{font-size:17px;font-weight:700;margin-bottom:6px;line-height:1.3}
   .tip p{font-size:15px;color:var(--muted)}
@@ -586,14 +590,23 @@
       <details class="sec-acc">
         <summary><div class="sec-head"><span class="n">04</span><h2>Käytännön asiat</h2></div><svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></summary>
         <div class="sec-body">
-      <div class="quick-memo" aria-label="Tärkeimmät muistettavat asiat">
-        <span class="qm-label">Muista</span>
-        <span class="qm">Passi tai henkilökortti</span>
-        <span class="qm">Vesipullo</span>
-        <span class="qm">Uimatossut</span>
-        <span class="qm">Käteistä vaellukseen</span>
-        <a class="qm qm-app" href="https://apps.apple.com/app/id343889987" target="_blank" rel="noopener" data-ios="https://apps.apple.com/app/id343889987" data-android="https://play.google.com/store/apps/details?id=com.vsct.vsc.mobile.horaireetresa.android" aria-label="Lataa SNCF Connect -sovellus"><svg class="qm-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>SNCF Connect</a>
-        <a class="qm qm-app" href="https://apps.apple.com/app/id423316741" target="_blank" rel="noopener" data-ios="https://apps.apple.com/app/id423316741" data-android="https://play.google.com/store/apps/details?id=fr.cityway.android.st2n" aria-label="Lataa Lignes d’Azur -sovellus"><svg class="qm-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>Lignes d’Azur</a>
+      <div class="quick-memo" aria-label="Muistilista ja sovellukset">
+        <div class="qm-group">
+          <span class="qm-label">Muista</span>
+          <div class="qm-chips">
+            <span class="qm">Passi tai henkilökortti</span>
+            <span class="qm">Vesipullo</span>
+            <span class="qm">Uimatossut</span>
+            <span class="qm">Käteistä vaellukseen</span>
+          </div>
+        </div>
+        <div class="qm-group">
+          <span class="qm-label">Lataa</span>
+          <div class="qm-chips">
+            <a class="qm qm-app" href="https://apps.apple.com/app/id343889987" target="_blank" rel="noopener" data-ios="https://apps.apple.com/app/id343889987" data-android="https://play.google.com/store/apps/details?id=com.vsct.vsc.mobile.horaireetresa.android" aria-label="Lataa SNCF Connect -sovellus"><svg class="qm-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>SNCF Connect</a>
+            <a class="qm qm-app" href="https://apps.apple.com/app/id423316741" target="_blank" rel="noopener" data-ios="https://apps.apple.com/app/id423316741" data-android="https://play.google.com/store/apps/details?id=fr.cityway.android.st2n" aria-label="Lataa Lignes d’Azur -sovellus"><svg class="qm-dl" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12M7 11l5 5 5-5M5 21h14"/></svg>Lignes d’Azur</a>
+          </div>
+        </div>
       </div>
       <div class="tips" id="tips"></div>
         </div>
