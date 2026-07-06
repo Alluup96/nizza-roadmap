@@ -571,7 +571,6 @@
       <div class="grid g2">
         <div class="card">
           <h3>⚽ MM 2026, ottelut Ranskan aikaa <span class="wc-live" id="wc-live"><span class="wc-dot" aria-hidden="true"></span>Päivittyy</span></h3>
-          <p class="ds" style="margin:6px 0 10px">Parit ja tulokset päivittyvät livenä turnauksen edetessä.</p>
           <div class="wc" id="wc-list" aria-live="polite"></div>
           <p class="ds" style="margin-top:10px">Katsomot: <a class="mlink" data-place="Ma Nolan’s">Ma Nolan’s</a> ja <a class="mlink" data-place="Wayne’s Bar">Wayne’s</a> näyttävät kaiken. Jos Ranska pelaa, tulkaa tuntia ennen. Jos Ranska voittaa, Vieux Nice räjähtää.</p>
         </div>
@@ -1061,7 +1060,7 @@ function ensureActivities(){
    RENDER: TIPS (Käytännön asiat)
    ================================================================= */
 const TIPS=[
-  ['Pakkauslista','<b>Paperit & raha</b>passi tai henkilökortti, matkavakuutus, eurooppalainen sairaanhoitokortti, lääkkeet, käteistä ~50 €<b>Kengät</b>vaelluskengät (su), siistit kengät + pitkät housut (Monaco-kasino), mukavat kävelykengät<b>Ranta & aurinko</b>uikkarit, uimatossut (kivikkorannat), aurinkorasva, aurinkolasit, päähine<b>Muut</b>kerrospukeutuminen vuoristoon, laturit + powerbank, juomapullo, pieni reppu','tip-pack'],
+  ['Pakkauslista','<b>Paperit & raha</b>Passi tai henkilökortti, matkavakuutus, eurooppalainen sairaanhoitokortti, lääkkeet, käteistä ~50 €<b>Kengät</b>Vaelluskengät (su), siistit kengät + pitkät housut (Monaco-kasino), mukavat kävelykengät<b>Ranta & aurinko</b>Uikkarit, uimatossut (kivikkorannat), aurinkorasva, aurinkolasit, päähine<b>Viihde</b>Bluetooth-kaiutin, pelikortit, HDMI-piuha tai Chromecast (kämpän telkkariin), rantapallo<b>Muut</b>Kerrospukeutuminen vuoristoon, laturit + powerbank, juomapullo, pieni reppu','tip-pack'],
   ['Kaupunki & kenttä','Ratikka T2 vie lentokentältä keskustaan ~26 min. Kentän Aéro-lippu on 10 €, mutta 7 € päivälippu kannattaa jos liikutte samana päivänä lisää. Osta Lignes d’Azur -sovelluksella (yllä) tai automaatista. Lähimaksu käy, ja sama lippu käy ratikassa ja bussissa vaihtoineen.'],
   ['Junat & päiväretket','Osta junaliput SNCF Connect -sovelluksella (yllä). ZOU Mini-Groupe -ryhmälippu antaa 3-9 hengelle 30-50 % alennuksen TER-junissa; lippu käy saman päivän juniin valitulla reitillä. Klo 10-19 junat voivat olla täynnä, joten liikkeelle ajoissa.'],
   ['Helle, vesi & rannat','Rakentakaa päivät aamujen ja iltojen varaan, sillä keskipäivä klo 12-16 on kuumin. Kantakaa vesipulloa ja täyttäkää vain “eau potable” -pisteistä. Rannat ovat kivikkoa, joten uimatossut ovat viikon paras pieni ostos. Ei lasipulloja rannalle.'],
@@ -1114,7 +1113,7 @@ idle(ensureTips);
       let tag=m.round, tcls='';
       if(e&&e.state==='in'){tag='Live '+esc(e.hs)+'–'+esc(e.as);tcls=' live';live=true;}
       else if(e&&e.state==='post'){tag='päättyi '+esc(e.hs)+'–'+esc(e.as);}
-      const teams=tbd?'ratkeaa':esc((hn||'ratkeaa')+' – '+(an||'ratkeaa'));
+      const teams=tbd?'Ratkeamatta':esc((hn||'Ratkeamatta')+' – '+(an||'Ratkeamatta'));
       const note=m.note?'<span class="wc-note">'+m.note+'</span>':'';
       return '<div class="wc-row"><span class="wc-when">'+m.day+' · '+m.time+'</span><span class="wc-teams'+(tbd?' tbd':'')+'">'+teams+note+'</span><span class="wc-tag'+tcls+'">'+tag+'</span></div>';
     }).join('');
