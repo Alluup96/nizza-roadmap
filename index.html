@@ -334,11 +334,11 @@
   }
 
   /* ===== tips / misc ===== */
-  .quick-memo{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:0 0 var(--s4);padding:var(--s3) var(--s4);border:1px solid var(--rule);border-radius:var(--r-md);background:rgba(251,250,246,.68)}
+  .quick-memo{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;width:fit-content;max-width:100%;margin:0 0 var(--s4);padding:var(--s3) var(--s4);border:1px solid var(--rule);border-radius:var(--r-md);background:rgba(251,250,246,.68)}
   .quick-memo .qm-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-text);flex:0 0 auto}
   .qm-chips{display:flex;flex-wrap:wrap;gap:8px}
   .quick-memo .qm{display:inline-flex;align-items:center;min-height:32px;padding:6px 13px;border-radius:var(--r-pill);border:1px solid var(--rule2);background:var(--card);font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
-  .tips{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+  .tips{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4);align-items:start}
   @media(max-width:720px){.tips{grid-template-columns:1fr}}
   .tip{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4);box-shadow:var(--shadow)}
   .tip h3{font-size:17px;font-weight:700;margin-bottom:6px;line-height:1.3}
@@ -361,7 +361,6 @@
   .wc-when{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);white-space:nowrap}
   .wc-teams{font-size:14.5px;font-weight:600;color:var(--ink);min-width:0}
   .wc-teams.tbd{font-weight:400;font-style:italic;color:var(--faint)}
-  .wc-row.wc-fr .wc-teams{color:var(--azur)}
   .wc-note{margin-left:8px;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:400;font-style:normal;letter-spacing:.06em;text-transform:uppercase;color:var(--faint)}
   .wc-tag{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--faint);white-space:nowrap;text-transform:uppercase;letter-spacing:.04em;text-align:right}
   .wc-tag.live{color:#b83227;font-weight:700}
@@ -571,7 +570,7 @@
         <div class="sec-body">
       <div class="grid g2">
         <div class="card">
-          <h3>⚽ MM 2026 — ottelut Ranskan aikaa <span class="wc-live" id="wc-live"><span class="wc-dot" aria-hidden="true"></span>Päivittyy</span></h3>
+          <h3>⚽ MM 2026, ottelut Ranskan aikaa <span class="wc-live" id="wc-live"><span class="wc-dot" aria-hidden="true"></span>Päivittyy</span></h3>
           <p class="ds" style="margin:6px 0 10px">Parit ja tulokset päivittyvät livenä turnauksen edetessä.</p>
           <div class="wc" id="wc-list" aria-live="polite"></div>
           <p class="ds" style="margin-top:10px">Katsomot: <a class="mlink" data-place="Ma Nolan’s">Ma Nolan’s</a> ja <a class="mlink" data-place="Wayne’s Bar">Wayne’s</a> näyttävät kaiken. Jos Ranska pelaa, tulkaa tuntia ennen. Jos Ranska voittaa, Vieux Nice räjähtää.</p>
@@ -1063,11 +1062,11 @@ function ensureActivities(){
    ================================================================= */
 const TIPS=[
   ['Pakkauslista','<b>Paperit & raha</b>passi tai henkilökortti, matkavakuutus, eurooppalainen sairaanhoitokortti, lääkkeet, käteistä ~50 €<b>Kengät</b>vaelluskengät (su), siistit kengät + pitkät housut (Monaco-kasino), mukavat kävelykengät<b>Ranta & aurinko</b>uikkarit, uimatossut (kivikkorannat), aurinkorasva, aurinkolasit, päähine<b>Muut</b>kerrospukeutuminen vuoristoon, laturit + powerbank, juomapullo, pieni reppu','tip-pack'],
-  ['Kaupunki & kenttä','Ratikka T2 vie lentokentältä keskustaan ~26 min. Kentän Aéro-lippu on 10 €, mutta 7 € päivälippu kannattaa jos liikutte samana päivänä lisää. Osta Lignes d’Azur -sovelluksella (yllä) tai automaatista — lähimaksu käy. Sama lippu käy ratikassa ja bussissa vaihtoineen.'],
+  ['Kaupunki & kenttä','Ratikka T2 vie lentokentältä keskustaan ~26 min. Kentän Aéro-lippu on 10 €, mutta 7 € päivälippu kannattaa jos liikutte samana päivänä lisää. Osta Lignes d’Azur -sovelluksella (yllä) tai automaatista. Lähimaksu käy, ja sama lippu käy ratikassa ja bussissa vaihtoineen.'],
   ['Junat & päiväretket','Osta junaliput SNCF Connect -sovelluksella (yllä). ZOU Mini-Groupe -ryhmälippu antaa 3-9 hengelle 30-50 % alennuksen TER-junissa; lippu käy saman päivän juniin valitulla reitillä. Klo 10-19 junat voivat olla täynnä, joten liikkeelle ajoissa.'],
-  ['Helle, vesi & rannat','Rakentakaa päivät aamujen ja iltojen varaan — keskipäivä (12-16) on kuumin. Kantakaa vesipulloa ja täyttäkää vain “eau potable” -pisteistä. Rannat ovat kivikkoa, joten uimatossut ovat viikon paras pieni ostos. Ei lasipulloja rannalle.'],
-  ['Säännöt & turvallisuus','Hätänumerot: 112 (yleinen), 15 (ambulanssi), 17 (poliisi). Julkijuomista voidaan rajoittaa helteellä ja tapahtumissa — terassit ovat varmin vaihtoehto. Tupakointi kielletty rannoilla. Varo taskuvarkaita ratikassa ja Cours Saleyalla.'],
-  ['Rahat, varaukset & ravintolat','Refuge de la Cougourde ja Aux Bons Enfants ottavat vain käteistä — nostakaa ~50 €/hlö valmiiksi. La Rossettisserie, Chez Davia ja Bistrot d’Antoine kannattaa varata etukäteen. Hanavesi on “carafe d’eau” (ilmainen), tippi vapaaehtoinen.'],
+  ['Helle, vesi & rannat','Rakentakaa päivät aamujen ja iltojen varaan, sillä keskipäivä klo 12-16 on kuumin. Kantakaa vesipulloa ja täyttäkää vain “eau potable” -pisteistä. Rannat ovat kivikkoa, joten uimatossut ovat viikon paras pieni ostos. Ei lasipulloja rannalle.'],
+  ['Säännöt & turvallisuus','Hätänumerot: 112 (yleinen), 15 (ambulanssi), 17 (poliisi). Julkijuomista voidaan rajoittaa helteellä ja tapahtumissa, joten terassit ovat varmin vaihtoehto. Tupakointi kielletty rannoilla. Varo taskuvarkaita ratikassa ja Cours Saleyalla.'],
+  ['Rahat, varaukset & ravintolat','Refuge de la Cougourde ja Aux Bons Enfants ottavat vain käteistä, joten nostakaa ~50 €/hlö valmiiksi. La Rossettisserie, Chez Davia ja Bistrot d’Antoine kannattaa varata etukäteen. Hanavesi on “carafe d’eau” (ilmainen), tippi vapaaehtoinen.'],
   ['Monaco, vaellus & lähtöpäivä','Monaco: passi mukaan, kasino 18+, klo 14 jälkeen ei shortseja tai lenkkareita. Vaellus: 1,5-2 l vettä/hlö, refuge vain käteistä, iltapäiväukkosten takia alhaalla viim. klo 16:30. Lähtöpäivänä Bagmobile Nice-Ville säilyttää laukut klo 8:15-21.']
 ];
 const tipsEl=document.getElementById('tips');
@@ -1099,7 +1098,7 @@ idle(ensureTips);
     {d:'2026-07-09',day:'To 9.7',time:'22:00',round:'Puolivälierä'},
     {d:'2026-07-10',day:'Pe 10.7',time:'21:00',round:'Puolivälierä'},
     {d:'2026-07-11',day:'La 11.7',time:'23:00',round:'Puolivälierä'},
-    {d:'2026-07-12',day:'Su 12.7',time:'03:00',round:'Puolivälierä',note:'yöpeli'},
+    {d:'2026-07-12',day:'Su 12.7',time:'03:00',round:'Puolivälierä'},
     {d:'2026-07-14',day:'Ti 14.7',time:'21:00',round:'Välierä'},
     {d:'2026-07-15',day:'Ke 15.7',time:'21:00',round:'Välierä',note:'kotimatka'}
   ];
@@ -1112,13 +1111,12 @@ idle(ensureTips);
     wcList.innerHTML=WC.map(m=>{
       const e=map&&map[m.d];
       const hn=e?fi(e.home):null, an=e?fi(e.away):null, tbd=!hn&&!an;
-      const isFr=!!(e&&(e.home==='France'||e.away==='France'));
       let tag=m.round, tcls='';
       if(e&&e.state==='in'){tag='Live '+esc(e.hs)+'–'+esc(e.as);tcls=' live';live=true;}
       else if(e&&e.state==='post'){tag='päättyi '+esc(e.hs)+'–'+esc(e.as);}
       const teams=tbd?'ratkeaa':esc((hn||'ratkeaa')+' – '+(an||'ratkeaa'));
       const note=m.note?'<span class="wc-note">'+m.note+'</span>':'';
-      return '<div class="wc-row'+(isFr&&!tbd?' wc-fr':'')+'"><span class="wc-when">'+m.day+' · '+m.time+'</span><span class="wc-teams'+(tbd?' tbd':'')+'">'+teams+note+'</span><span class="wc-tag'+tcls+'">'+tag+'</span></div>';
+      return '<div class="wc-row"><span class="wc-when">'+m.day+' · '+m.time+'</span><span class="wc-teams'+(tbd?' tbd':'')+'">'+teams+note+'</span><span class="wc-tag'+tcls+'">'+tag+'</span></div>';
     }).join('');
     return live;
   }
