@@ -338,9 +338,9 @@
   .quick-memo .qm-label{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--coral-text);flex:0 0 auto}
   .qm-chips{display:flex;flex-wrap:wrap;gap:8px}
   .quick-memo .qm{display:inline-flex;align-items:center;min-height:32px;padding:6px 13px;border-radius:var(--r-pill);border:1px solid var(--rule2);background:var(--card);font-size:13.5px;font-weight:600;color:var(--muted);white-space:nowrap}
-  .tips{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4);align-items:start}
-  @media(max-width:720px){.tips{grid-template-columns:1fr}}
-  .tip{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4);box-shadow:var(--shadow)}
+  .tips{column-count:2;column-gap:var(--s4)}
+  @media(max-width:720px){.tips{column-count:1}}
+  .tip{background:var(--card);border:1px solid var(--rule);border-radius:var(--r-md);padding:var(--s4);box-shadow:var(--shadow);break-inside:avoid;margin-bottom:var(--s4)}
   .tip h3{font-size:17px;font-weight:700;margin-bottom:6px;line-height:1.3}
   .tip p{font-size:15px;color:var(--muted);line-height:1.55}
   .tip p b{color:var(--ink);font-weight:700}
@@ -1060,7 +1060,7 @@ function ensureActivities(){
    RENDER: TIPS (Käytännön asiat)
    ================================================================= */
 const TIPS=[
-  ['Pakkauslista','<b>Paperit & raha</b>Passi tai henkilökortti, matkavakuutus, eurooppalainen sairaanhoitokortti, lääkkeet, käteistä ~50 €<b>Kengät</b>Vaelluskengät (su), siistit kengät + pitkät housut (Monaco-kasino), mukavat kävelykengät<b>Ranta & aurinko</b>Uikkarit, uimatossut (kivikkorannat), aurinkorasva, aurinkolasit, päähine<b>Viihde</b>Bluetooth-kaiutin, pelikortit, HDMI-piuha tai Chromecast (kämpän telkkariin), rantapallo<b>Muut</b>Kerrospukeutuminen vuoristoon, laturit + powerbank, juomapullo, pieni reppu','tip-pack'],
+  ['Pakkauslista','<b>Paperit & raha</b>Passi tai henkilökortti, matkavakuutus, eurooppalainen sairaanhoitokortti, lääkkeet, käteistä ~50 €<b>Kengät</b>Vaelluskengät (su), siistit kengät + pitkät housut (Monaco-kasino), mukavat kävelykengät, sandaalit<b>Ranta & aurinko</b>Uikkarit, uimatossut (kivikkorannat), rantapyyhe, snorkkeli, aurinkorasva, aurinkolasit, päähine<b>Viihde</b>Bluetooth-kaiutin, pelikortit, Apple TV (kämpän telkkariin), rantapallo<b>Muut</b>Kerrospukeutuminen vuoristoon, laturit + powerbank, jatkojohto, rakkolaastarit, juomapullo, pieni reppu','tip-pack'],
   ['Kaupunki & kenttä','Ratikka T2 vie lentokentältä keskustaan ~26 min. Kentän Aéro-lippu on 10 €, mutta 7 € päivälippu kannattaa jos liikutte samana päivänä lisää. Osta Lignes d’Azur -sovelluksella (yllä) tai automaatista. Lähimaksu käy, ja sama lippu käy ratikassa ja bussissa vaihtoineen.'],
   ['Junat & päiväretket','Osta junaliput SNCF Connect -sovelluksella (yllä). ZOU Mini-Groupe -ryhmälippu antaa 3-9 hengelle 30-50 % alennuksen TER-junissa; lippu käy saman päivän juniin valitulla reitillä. Klo 10-19 junat voivat olla täynnä, joten liikkeelle ajoissa.'],
   ['Helle, vesi & rannat','Rakentakaa päivät aamujen ja iltojen varaan, sillä keskipäivä klo 12-16 on kuumin. Kantakaa vesipulloa ja täyttäkää vain “eau potable” -pisteistä. Rannat ovat kivikkoa, joten uimatossut ovat viikon paras pieni ostos. Ei lasipulloja rannalle.'],
