@@ -1404,11 +1404,11 @@ function loadWeather(){
     .catch(()=>{});
 
   const airEl=document.getElementById('airtemp');
-  const rng=a=>{const lo=Math.round(Math.min(...a)),hi=Math.round(Math.max(...a));return lo===hi?hi+' °C':lo+'-'+hi+' °C';};
+  const rng=a=>{const nums=(a||[]).filter(x=>typeof x==='number');if(!nums.length)return null;const lo=Math.round(Math.min(...nums)),hi=Math.round(Math.max(...nums));return lo===hi?hi+' °C':lo+'-'+hi+' °C';};
   if(airEl){
     cachedJson('nizza:air-temp','https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=7.27&daily=temperature_2m_max,temperature_2m_min&start_date=2026-07-09&end_date=2026-07-15&timezone=Europe%2FParis',WEATHER_TTL)
-      .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max,mn=d&&d.daily&&d.daily.temperature_2m_min;
-        if(mx&&mx.length&&mn&&mn.length)airEl.textContent='päivä '+rng(mx)+' · yö '+rng(mn);})
+      .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max,mn=d&&d.daily&&d.daily.temperature_2m_min;const dr=rng(mx),nr=rng(mn);
+        if(dr&&nr)airEl.textContent='päivä '+dr+' · yö '+nr;})
       .catch(()=>{});
   }
 
