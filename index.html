@@ -538,7 +538,7 @@
             </div>
             <div class="weather-row">
               <dt>Lämpötila</dt>
-              <dd><span class="weather-main" id="airtemp">päivä ~28-29 °C · yö ~22 °C</span> <span class="weather-note">reissuviikko</span></dd>
+              <dd><span class="weather-main" id="airtemp">Päivä ~28-29 °C · yö ~22 °C</span> <span class="weather-note">reissuviikko</span></dd>
             </div>
             <div class="weather-row">
               <dt>Vuori</dt>
@@ -1408,7 +1408,7 @@ function loadWeather(){
   if(airEl){
     cachedJson('nizza:air-temp','https://api.open-meteo.com/v1/forecast?latitude=43.70&longitude=7.27&daily=temperature_2m_max,temperature_2m_min&start_date=2026-07-09&end_date=2026-07-15&timezone=Europe%2FParis',WEATHER_TTL)
       .then(d=>{const mx=d&&d.daily&&d.daily.temperature_2m_max,mn=d&&d.daily&&d.daily.temperature_2m_min;const dr=rng(mx),nr=rng(mn);
-        if(dr&&nr)airEl.textContent='päivä '+dr+' · yö '+nr;})
+        if(dr&&nr)airEl.textContent='Päivä '+dr+' · yö '+nr;})
       .catch(()=>{});
   }
 
